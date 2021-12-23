@@ -7,6 +7,20 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\reems\\key.jks')
+            storePassword '1234567'
+            keyAlias 'key0'
+            keyPassword '1234567'
+        }
+        release {
+            storeFile file('C:\\Users\\reems\\key.jks')
+            storePassword '1234567'
+            keyAlias 'key0'
+            keyPassword '1234567'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
