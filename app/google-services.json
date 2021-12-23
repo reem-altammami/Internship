@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "689955236073",
+    "project_id": "internship-407c0",
+    "storage_bucket": "internship-407c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689955236073:android:62b1868eb1189defcd6878",
+        "android_client_info": {
+          "package_name": "com.reem.internship"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689955236073-1h59nitchogoto1k3o50apcga6bg6pkj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIYzQ8570xYagu4x8VLq0CEo8R7v8a-Wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689955236073-1h59nitchogoto1k3o50apcga6bg6pkj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
