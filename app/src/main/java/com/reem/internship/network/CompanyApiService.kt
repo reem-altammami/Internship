@@ -1,8 +1,8 @@
-package network
+package com.reem.internship.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import data.CompanyResponse
+import com.reem.internship.data.CompanyResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -38,6 +38,6 @@ object CompanyApi {
 
 interface CompanyApiService {
 
-    @GET("data/companies.json")
-    suspend fun getCompanyApi(): CompanyResponse
+    @GET("com/reem/internship/data/companies.json")
+    suspend fun getCompanyApi(): List<CompanyResponse>
 }
