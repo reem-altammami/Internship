@@ -29,8 +29,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:backgroundTint="#685787"
-        app:itemIconTint="#685787"
+        android:backgroundTint="#463860"
+        app:itemIconTint="#463860"
         app:menu="@menu/nav_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

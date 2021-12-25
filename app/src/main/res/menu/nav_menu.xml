@@ -9,10 +9,10 @@
     <item
         android:id="@+id/bookMarkFragment"
         android:icon="@drawable/ic_bookmark"
-        android:title="search"/>
+        android:title="BookMark"/>
 
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_person"
-        android:title="profile"/>
+        android:title="Profile"/>
 </menu>
