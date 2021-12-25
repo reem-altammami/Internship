@@ -11,16 +11,17 @@ import com.reem.internship.databinding.FragmentSignUpBinding
 
 
 class ProfileFragment : Fragment() {
-//  lateinit var name : String
-//  lateinit var email: String
+  lateinit var name : String
+  lateinit var email: String
     private var _binding : FragmentProfileBinding? = null
     private val  binding get() = _binding!!
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-//            name = it.getString(name).toString()
-//            email = it.getString(email).toString()
+            name = it.getString("name").toString()
+            email = it.getString("email").toString()
         }
     }
 
@@ -34,7 +35,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.name.setText(name)
+        binding.name.setText(email)
     }
 
 

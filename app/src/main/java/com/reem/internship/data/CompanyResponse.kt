@@ -1,4 +1,4 @@
-package data
+package com.reem.internship.data
 
 import com.squareup.moshi.Json
 
