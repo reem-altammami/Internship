@@ -37,6 +37,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     buildFeatures {
@@ -70,6 +74,12 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+// Retrofit with Moshi Converter
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.9.3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
 // Retrofit with Moshi Converter
