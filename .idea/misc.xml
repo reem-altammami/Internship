@@ -3,12 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Internship/app/src/main/res/drawable/ic_broken_image.xml" value="0.1" />
+        <entry key="..\:/Internship/app/src/main/res/drawable/loading_img.xml" value="0.1" />
         <entry key="..\:/Internship/app/src/main/res/layout/activity_main.xml" value="0.11322188449848024" />
+        <entry key="..\:/Internship/app/src/main/res/layout/companies_item.xml" value="0.1" />
         <entry key="..\:/Internship/app/src/main/res/layout/fragment_book_mark.xml" value="0.13360507246376813" />
         <entry key="..\:/Internship/app/src/main/res/layout/fragment_home_page.xml" value="0.1" />
         <entry key="..\:/Internship/app/src/main/res/layout/fragment_profile.xml" value="0.18857142857142858" />
         <entry key="..\:/Internship/app/src/main/res/layout/fragment_sign_up.xml" value="0.5142857142857143" />
-        <entry key="..\:/Internship/app/src/main/res/layout/training_item.xml" value="0.18857142857142858" />
+        <entry key="..\:/Internship/app/src/main/res/layout/training_item.xml" value="0.1" />
         <entry key="..\:/Internship/app/src/main/res/menu/nav_menu.xml" value="0.11614583333333334" />
       </map>
     </option>
