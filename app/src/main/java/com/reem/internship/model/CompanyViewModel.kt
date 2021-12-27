@@ -29,7 +29,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
         getCompany()
     }
 
-    private fun getCompany() {
+     fun getCompany() {
         viewModelScope.launch {
             try {
                 val listResult = companiesRepo.getCompanies()
@@ -73,8 +73,13 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
 
     }
 
-    fun getTrainingFiltered(filterBy: String) {
-        var filteredList = uiState.value.trainingItemList.filter { it.major.equals(filterBy) }
+    fun getTrainingFilteredByMajor(filterByMajor: String) {
+        var filteredList = uiState.value.trainingItemList.filter { it.major.equals(filterByMajor) }
+        _uiState.update { it.copy(trainingItemList = filteredList) }
+    }
+
+    fun getTrainingFilteredByCity(filterByCity: String){
+        var filteredList = uiState.value.trainingItemList.filter { it.city.equals(filterByCity) }
         _uiState.update { it.copy(trainingItemList = filteredList) }
     }
 

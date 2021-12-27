@@ -60,17 +60,22 @@ binding.lifecycleOwner = this@HomePageFragment
 
                 R.id.filter_is -> {
                     binding.filterMajor.text = getString(R.string.information_systems)
-                    viewModel.getTrainingFiltered(getString(R.string.information_systems))
+                    viewModel.getTrainingFilteredByMajor(getString(R.string.information_systems))
                 }
                 R.id.filter_cs -> {
                     binding.filterMajor.text = getString(R.string.computer_sciences)
+                    viewModel.getTrainingFilteredByMajor(getString(R.string.computer_sciences))
+
                 }
                 R.id.filter_se -> {
                     binding.filterMajor.text = getString(R.string.software_engineering)
+                    viewModel.getTrainingFilteredByMajor(getString(R.string.software_engineering))
+
                 }
 
                 R.id.show_all -> {
                     binding.filterMajor.text = getString(R.string.major)
+                    viewModel.getCompany()
                 }
 
             }
@@ -91,16 +96,21 @@ binding.lifecycleOwner = this@HomePageFragment
 
                 R.id.filter_riyadh -> {
                     binding.filterCity.text=getString(R.string.riyadh)
+                    viewModel.getTrainingFilteredByCity(getString(R.string.riyadh))
                 }
                 R.id.filter_dammam -> {
                     binding.filterCity.text=getString(R.string.dammam)
+                    viewModel.getTrainingFilteredByCity(getString(R.string.dammam))
+
                 }
                 R.id.filter_jeddah -> {
                     binding.filterCity.text=getString(R.string.jeddah)
+                    viewModel.getTrainingFilteredByCity(getString(R.string.jeddah))
                 }
 
                 R.id.show_all -> {
                     binding.filterCity.text=getString(R.string.city)
+                    viewModel.getCompany()
                 }
 
             }
