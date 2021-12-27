@@ -12,7 +12,7 @@ import com.reem.internship.data.CompanyResponse
 
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView,data:List<CompanyResponse>?){
+fun bindRecyclerView(recyclerView: RecyclerView,data:List<TrainingItemUiState>?){
     val adapter =recyclerView.adapter as TrainingAdapter
     adapter.submitList(data)
 }

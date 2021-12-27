@@ -53,20 +53,24 @@ private var _binding : FragmentSignUpBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-FirebaseAuth.getInstance().signOut()
-        var user=FirebaseAuth.getInstance().currentUser
-        user?.let{
-          var user=FirebaseAuth.getInstance().currentUser
-            val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(email= user?.email!!, name = user.displayName!!)
-            findNavController().navigate(action)
-        }
+//FirebaseAuth.getInstance().signOut()
+//        var user=FirebaseAuth.getInstance().currentUser
+//        user?.let{
+//          var user=FirebaseAuth.getInstance().currentUser
+//            val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(email= it?.email!!, name = it.displayName!!)
+//            findNavController().navigate(action)
+//        }
 
 
         binding.signup.setOnClickListener {
 
             signInLauncher.launch(signInIntent)
 
-
+            var user=FirebaseAuth.getInstance().currentUser
+            user?.let{
+                val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(email= it?.email!!, name = it.displayName!!)
+                findNavController().navigate(action)
+            }
         }
     }
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {

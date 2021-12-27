@@ -41,5 +41,18 @@
         android:id="@+id/homePageFragment"
         android:name="com.reem.internship.HomePageFragment"
         android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" />
+        tools:layout="@layout/fragment_home_page" >
+        <action
+            android:id="@+id/action_homePageFragment_to_trainingDetailsFragment"
+            app:destination="@id/trainingDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingDetailsFragment"
+        android:name="com.reem.internship.TrainingDetailsFragment"
+        android:label="fragment_training_details"
+        tools:layout="@layout/fragment_training_details" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

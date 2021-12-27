@@ -3,8 +3,10 @@ package com.reem.internship
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
 import com.reem.internship.databinding.FragmentProfileBinding
 import com.reem.internship.databinding.FragmentSignUpBinding
@@ -35,7 +37,71 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.name.setText(email)
+        binding.name.setText(name)
+        binding.email.setText(email)
+        binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
+        binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
+    }
+
+    private fun showCityPopupMenu(view: View) {
+        val popup = PopupMenu(this.requireContext(), view)
+        popup.inflate(R.menu.city_menu)
+
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+            when (item!!.itemId) {
+
+                R.id.filter_riyadh -> {
+                    binding.filterCity.text=getString(R.string.riyadh)
+                }
+                R.id.filter_dammam -> {
+                    binding.filterCity.text=getString(R.string.dammam)
+                }
+                R.id.filter_jeddah -> {
+                    binding.filterCity.text=getString(R.string.jeddah)
+                }
+                R.id.show_all -> {
+                    binding.filterCity.text=getString(R.string.city)
+                }
+
+
+
+            }
+
+            true
+        })
+
+        popup.show()
+    }
+
+    private fun showMajorPopupMenu(view: View) {
+        val popup = PopupMenu(this.requireContext(), view)
+        popup.inflate(R.menu.major_menu)
+
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+            when (item!!.itemId) {
+
+                R.id.filter_is -> {
+                    binding.filterMajor.text = getString(R.string.information_systems)
+                }
+                R.id.filter_cs -> {
+                    binding.filterMajor.text = getString(R.string.computer_sciences)
+                }
+                R.id.filter_se -> {
+                    binding.filterMajor.text = getString(R.string.software_engineering)
+                }
+
+                R.id.show_all -> {
+                    binding.filterMajor.text = getString(R.string.major)
+                }
+
+            }
+
+            true
+        })
+
+        popup.show()
     }
 
 
