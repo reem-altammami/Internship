@@ -14,7 +14,7 @@ data class CompanyResponse(
 	val location: Location? = null,
 
 	@Json(name="training")
-	val training: List<TrainingItem?>? = null,
+	val training: List<TrainingItem>? = null,
 
 	@Json(name="id")
 	val id: String? = null,
@@ -51,6 +51,9 @@ data class TrainingItem(
 
 	@Json(name="city")
 	val city: City? = null,
+
+	@Json(name="description")
+	val description: String? = null,
 
 	@Json(name="id")
 	val id: String? = null

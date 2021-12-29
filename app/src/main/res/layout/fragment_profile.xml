@@ -12,24 +12,24 @@
         android:id="@+id/image_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="8dp"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/ind"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"/>
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/profile"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#4E4C4C"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:hint="Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_profile"
-        app:layout_constraintTop_toTopOf="@id/image_profile"
-        app:layout_constraintBottom_toBottomOf="@id/image_profile">
+        app:layout_constraintTop_toBottomOf="@id/image_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/name"
@@ -43,11 +43,11 @@
         android:id="@+id/university_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:hint="University"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_profile">
+        app:layout_constraintTop_toBottomOf="@id/name_label">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/university"
@@ -57,33 +57,65 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/major_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Major"
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/major_label"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:hint="Major"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/university_label">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/major"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:inputType="textAutoComplete|textCapWords"-->
+<!--            android:singleLine="true" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+    <Button
+        android:id="@+id/filter_major"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:maxLines="1"
+        android:text="@string/major"
+        app:icon="@drawable/ic_arrow_drop_down"
+        style="?attr/materialButtonOutlinedStyle"
+        app:iconSize="24dp"
+        android:layout_marginTop="8dp"
+        app:iconTint="@color/black"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/university_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/university_label">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/major"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textAutoComplete|textCapWords"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+       />
+    <Button
+        android:id="@+id/filter_city"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:text="@string/city"
+        android:layout_marginTop="6dp"
+        style="?attr/materialButtonOutlinedStyle"
+        app:icon="@drawable/ic_arrow_drop_down"
+        android:maxLines="1"
+        app:iconSize="24dp"
+        app:iconTint="@color/black"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_major"
+        app:layout_constraintStart_toStartOf="parent"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:hint="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/major_label">
+        app:layout_constraintTop_toBottomOf="@id/filter_city">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
@@ -96,7 +128,7 @@
         android:id="@+id/gpa_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:hint="GPA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,8 +145,8 @@
     <Button
         android:id="@+id/save"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="6dp"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

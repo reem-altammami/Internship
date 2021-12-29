@@ -38,6 +38,6 @@ object CompanyApi {
 
 interface CompanyApiService {
 
-    @GET("com/reem/internship/data/companies.json")
+    @GET("data/companies.json")
     suspend fun getCompanyApi(): List<CompanyResponse>
 }

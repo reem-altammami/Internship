@@ -11,6 +11,7 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+  
         android:layout_above="@+id/bottom_navigation"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -29,8 +30,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:backgroundTint="#463860"
-        app:itemIconTint="#463860"
+        android:backgroundTint="#060B27"
+        app:itemIconTint="#060B27"
         app:menu="@menu/nav_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
