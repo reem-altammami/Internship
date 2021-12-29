@@ -7,9 +7,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.TextView
 import com.reem.internship.databinding.FragmentProfileBinding
-import com.reem.internship.databinding.FragmentSignUpBinding
+import androidx.appcompat.app.AppCompatActivity
+
+
+
 
 
 class ProfileFragment : Fragment() {
@@ -47,29 +49,28 @@ class ProfileFragment : Fragment() {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.city_menu)
 
-        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
 
             when (item!!.itemId) {
 
                 R.id.filter_riyadh -> {
-                    binding.filterCity.text=getString(R.string.riyadh)
+                    binding.filterCity.text = getString(R.string.riyadh)
                 }
                 R.id.filter_dammam -> {
-                    binding.filterCity.text=getString(R.string.dammam)
+                    binding.filterCity.text = getString(R.string.dammam)
                 }
                 R.id.filter_jeddah -> {
-                    binding.filterCity.text=getString(R.string.jeddah)
+                    binding.filterCity.text = getString(R.string.jeddah)
                 }
                 R.id.show_all -> {
-                    binding.filterCity.text=getString(R.string.city)
+                    binding.filterCity.text = getString(R.string.city)
                 }
-
 
 
             }
 
             true
-        })
+        }
 
         popup.show()
     }
@@ -78,7 +79,7 @@ class ProfileFragment : Fragment() {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.major_menu)
 
-        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
 
             when (item!!.itemId) {
 
@@ -99,10 +100,13 @@ class ProfileFragment : Fragment() {
             }
 
             true
-        })
+        }
 
         popup.show()
     }
-
+    override fun onResume() {
+        super.onResume()
+      //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
 
 }

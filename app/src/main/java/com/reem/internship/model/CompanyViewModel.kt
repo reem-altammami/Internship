@@ -1,5 +1,6 @@
 package com.reem.internship.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,33 +27,42 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
     var trainingDetails: MutableLiveData<TrainingItemUiState> = _trainingDetails
 
     init {
-        getCompany()
+        getCompany("")
     }
 
-     fun getCompany() {
+    fun getCompany(filterBy: String) {
         viewModelScope.launch {
             try {
                 val listResult = companiesRepo.getCompanies()
-                var list: MutableList<TrainingItemUiState> = mutableListOf()
+                val list: MutableList<TrainingItemUiState> = mutableListOf()
                 listResult.forEach { company ->
-                  var companyTraning=  company.training?.map { training ->
+                    val companyTraning = company.training?.map { training ->
+
                         training?.let {
 
-                                TrainingItemUiState(
-                                    id = it.id!!,
-                                    image = company.image!!,
-                                    name = company.name!!,
-                                    info = company.info!!,
-                                    location = company.location!!.cityname!!,
-                                    major = it.major!!.majorName!!,
-                                    field = training.field!!,
-                                    city = training.city!!.cityName!!
-                                )
+                            TrainingItemUiState(
+                                id = it.id!!,
+                                image = company.image!!,
+                                name = company.name!!,
+                                info = company.info!!,
+                                location = company.location!!.cityname!!,
+                                major = it.major!!.majorName!!,
+                                field = training.field!!,
+                                city = training.city!!.cityName!!,
+                                description = it.description!!
+                            )
 
                         }
                     }
 
-                    companyTraning?.let { list?.addAll(it) }
+
+                    if (filterBy.isNotEmpty()) {
+                        companyTraning?.filter { it.major == filterBy }?.let {
+                            list?.addAll(it)
+                        }
+                    } else {
+                        companyTraning?.let { list?.addAll(it) }
+                    }
                 }
                 _uiState.update {
                     it.copy(trainingItemList = list.toList())
@@ -78,10 +88,16 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
         _uiState.update { it.copy(trainingItemList = filteredList) }
     }
 
-    fun getTrainingFilteredByCity(filterByCity: String){
+    fun getTrainingFilteredByCity(filterByCity: String) {
         var filteredList = uiState.value.trainingItemList.filter { it.city.equals(filterByCity) }
         _uiState.update { it.copy(trainingItemList = filteredList) }
     }
 
-
+//    fun filter(
+//        list: List<TrainingItemUiState>,
+//        major: String="",
+//        city: String=""
+//    ): List<TrainingItemUiState> {
+//
+//    }
 }

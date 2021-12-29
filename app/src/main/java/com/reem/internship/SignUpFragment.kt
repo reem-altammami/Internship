@@ -68,8 +68,8 @@ private var _binding : FragmentSignUpBinding? = null
 
             var user=FirebaseAuth.getInstance().currentUser
             user?.let{
-                val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(email= it?.email!!, name = it.displayName!!)
-                findNavController().navigate(action)
+//                val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(email= it?.email!!, name = it.displayName!!)
+//                findNavController().navigate(action)
             }
         }
     }
@@ -94,8 +94,8 @@ private var _binding : FragmentSignUpBinding? = null
     }
 
    fun gotoProfileScreen(user: FirebaseUser){
-val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(email= user.email!!, name = user.displayName!!)
-       findNavController().navigate(action)
+//val action = SignUpFragmentDirections.actionSignUpFragmentToProfileFragment(email= user.email!!, name = user.displayName!!)
+//       findNavController().navigate(action)
 
    }
 

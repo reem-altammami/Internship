@@ -52,6 +52,9 @@ data class TrainingItem(
 	@Json(name="city")
 	val city: City? = null,
 
+	@Json(name="description")
+	val description: String? = null,
+
 	@Json(name="id")
 	val id: String? = null
 )

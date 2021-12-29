@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import com.reem.internship.databinding.FragmentProfileBinding
 import com.reem.internship.databinding.FragmentTrainingDetailsBinding
@@ -32,13 +33,26 @@ class TrainingDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentTrainingDetailsBinding.inflate(inflater,container,false)
+
+         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbar)
+
+
         return binding.root     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this@TrainingDetailsFragment
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.companyViewModel = viewModel
         viewModel.getTrainingDetails(trainingId)
+        viewModel.trainingDetails.observe(this.viewLifecycleOwner,{
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
+        })
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+      //  (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
 

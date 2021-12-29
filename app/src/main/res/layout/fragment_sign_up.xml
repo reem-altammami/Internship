@@ -34,9 +34,10 @@
      app:layout_constraintEnd_toEndOf="@id/signup_text"
      app:layout_constraintTop_toBottomOf="@id/signup_text"
      app:icon="@drawable/google"
+     app:iconTint="@null"
      app:iconSize="24dp"
      android:layout_marginTop="16dp"
      android:text="Sign Up With Google"
-     android:backgroundTint="#463860"/>
+     android:backgroundTint="#060B27"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

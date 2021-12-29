@@ -12,6 +12,10 @@ import com.reem.internship.adapter.TrainingAdapter
 import com.reem.internship.databinding.FragmentHomePageBinding
 import com.reem.internship.model.CompanyViewModel
 import com.reem.internship.model.ViewModelFactory
+import androidx.appcompat.app.AppCompatActivity
+
+
+
 
 
 class HomePageFragment : Fragment() {
@@ -60,22 +64,22 @@ binding.lifecycleOwner = this@HomePageFragment
 
                 R.id.filter_is -> {
                     binding.filterMajor.text = getString(R.string.information_systems)
-                    viewModel.getTrainingFilteredByMajor(getString(R.string.information_systems))
+                    viewModel.getCompany(getString(R.string.information_systems))
                 }
                 R.id.filter_cs -> {
                     binding.filterMajor.text = getString(R.string.computer_sciences)
-                    viewModel.getTrainingFilteredByMajor(getString(R.string.computer_sciences))
+                    viewModel.getCompany(getString(R.string.computer_sciences))
 
                 }
                 R.id.filter_se -> {
                     binding.filterMajor.text = getString(R.string.software_engineering)
-                    viewModel.getTrainingFilteredByMajor(getString(R.string.software_engineering))
+                    viewModel.getCompany(getString(R.string.software_engineering))
 
                 }
 
                 R.id.show_all -> {
                     binding.filterMajor.text = getString(R.string.major)
-                    viewModel.getCompany()
+                    viewModel.getCompany("")
                 }
 
             }
@@ -110,7 +114,7 @@ binding.lifecycleOwner = this@HomePageFragment
 
                 R.id.show_all -> {
                     binding.filterCity.text=getString(R.string.city)
-                    viewModel.getCompany()
+                    viewModel.getCompany("")
                 }
 
             }
@@ -121,5 +125,8 @@ binding.lifecycleOwner = this@HomePageFragment
         popup.show()
     }
 
-
+    override fun onResume() {
+        super.onResume()
+      //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
 }
