@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_riyadh"
+        android:title="@string/riyadh"
+        />
+    <item
+        android:id="@+id/filter_dammam"
+        android:title="@string/dammam"
+        />
+    <item
+        android:id="@+id/filter_jeddah"
+        android:title="@string/jeddah"
+        />
+
+</menu>

@@ -10,294 +10,276 @@
             type="com.reem.internship.model.CompanyViewModel" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".TrainingDetailsFragment"
+        android:layout_height="match_parent">
 
-        >
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBar"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="#F4F4F4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/training_info_card"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:elevation="4dp"
-                android:theme="@style/Theme.Internship"
-                app:popupTheme="@style/Theme.Internship.NoActionBar"
-                app:titleTextColor="@color/white" />
+                android:layout_height="250dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/training_info_card"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="3dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBar">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/book_mark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:chipBackgroundColor="#00FFF6F6"
-                    app:chipEndPadding="-6dp"
-                    app:chipIcon="@drawable/ic_bookmark_border"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="book map " />
-
-                <TextView
-                    android:id="@+id/training_field"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_height="match_parent">
 
-                    android:text="@{companyViewModel.trainingDetails.field}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="training filed" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/book_mark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipBackgroundColor="#00FFF6F6"
+                        app:chipEndPadding="-6dp"
+                        app:chipIcon="@drawable/ic_bookmark_border"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="book map " />
 
-                <ImageView
-                    android:id="@+id/company_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    app:imageUrl="@{companyViewModel.trainingDetails.image}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/training_field"
-                    tools:src="@drawable/ic_home" />
+                    <TextView
+                        android:id="@+id/training_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="12dp"
 
-                <TextView
-                    android:id="@+id/city"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                        android:text="@{companyViewModel.trainingDetails.field}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="training filed" />
 
-                    android:text="@{companyViewModel.trainingDetails.city}"
-                    app:layout_constraintBottom_toBottomOf="@id/location_image"
-                    app:layout_constraintStart_toEndOf="@id/location_image"
-                    app:layout_constraintTop_toTopOf="@id/location_image"
-                    tools:text="ksa" />
+                    <ImageView
+                        android:id="@+id/company_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        app:imageUrl="@{companyViewModel.trainingDetails.image}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/training_field"
+                        tools:src="@drawable/ic_home" />
 
-                <ImageView
+                    <TextView
+                        android:id="@+id/city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
 
-                    android:id="@+id/location_image"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="4dp"
+                        android:text="@{companyViewModel.trainingDetails.city}"
+                        app:layout_constraintBottom_toBottomOf="@id/location_image"
+                        app:layout_constraintStart_toEndOf="@id/location_image"
+                        app:layout_constraintTop_toTopOf="@id/location_image"
+                        tools:text="ksa" />
 
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/ic_location"
-                    app:layout_constraintStart_toStartOf="@id/company_name"
-                    app:layout_constraintTop_toBottomOf="@id/company_name" />
+                    <ImageView
 
-                <TextView
-                    android:id="@+id/company_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
+                        android:id="@+id/location_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="4dp"
 
-                    android:text="@{companyViewModel.trainingDetails.name}"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:layout_constraintStart_toEndOf="@id/company_image"
-                    app:layout_constraintTop_toTopOf="@id/company_image"
-                    tools:text="company name" />
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/ic_location"
+                        app:layout_constraintStart_toStartOf="@id/company_name"
+                        app:layout_constraintTop_toBottomOf="@id/company_name" />
 
-                <ImageView
-                    android:id="@+id/major_image"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="8dp"
+                    <TextView
+                        android:id="@+id/company_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
 
-                    android:src="@drawable/ic_business_center"
-                    app:layout_constraintEnd_toStartOf="@id/major"
-                    app:layout_constraintStart_toStartOf="@id/company_name"
-                    app:layout_constraintTop_toBottomOf="@id/city" />
+                        android:text="@{companyViewModel.trainingDetails.name}"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toEndOf="@id/company_image"
+                        app:layout_constraintTop_toTopOf="@id/company_image"
+                        tools:text="company name" />
 
-                <TextView
-                    android:id="@+id/major"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@{companyViewModel.trainingDetails.major}"
+                    <ImageView
+                        android:id="@+id/major_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="8dp"
 
-                    app:layout_constraintBottom_toBottomOf="@id/major_image"
-                    app:layout_constraintStart_toEndOf="@id/major_image"
-                    app:layout_constraintTop_toTopOf="@id/major_image"
-                    tools:text="major" />
+                        android:src="@drawable/ic_business_center"
+                        app:layout_constraintEnd_toStartOf="@id/major"
+                        app:layout_constraintStart_toStartOf="@id/company_name"
+                        app:layout_constraintTop_toBottomOf="@id/city" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/major"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:text="@{companyViewModel.trainingDetails.major}"
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:fillViewport="true"
-            android:scrollbars="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@id/major_image"
+                        app:layout_constraintStart_toEndOf="@id/major_image"
+                        app:layout_constraintTop_toTopOf="@id/major_image"
+                        tools:text="major" />
+                    <Button
+                        android:id="@+id/apply"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Apply"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/training_info_card">
+                        app:layout_constraintTop_toBottomOf="@id/company_image"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toStartOf="@id/share"
+                         />
+                    <Button
+                        android:id="@+id/share"
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:backgroundTint="@color/white"
+                        android:text="Share"
+                        style="?attr/materialButtonOutlinedStyle"
+                        app:layout_constraintStart_toEndOf="@id/apply"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/company_image"
+                         />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/company_info_card"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="2dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/training_info_card">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="16dp"
+                    android:layout_height="match_parent">
 
-                android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/des_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Training description:"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/des_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="24dp"
-                    android:text="Training description:"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="@{companyViewModel.trainingDetails.description}"
+                        android:textSize="15dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/des_label"
+                        app:layout_constraintTop_toBottomOf="@id/des_label" />
 
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="12dp"
-                    android:text="@{companyViewModel.trainingDetails.description}"
-                    android:textSize="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/des_label"
-                    app:layout_constraintTop_toBottomOf="@id/des_label" />
-
-                <View
-                    android:id="@+id/top_divider"
-                    style="@style/Divider"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description" />
-
-
-                <TextView
-                    android:id="@+id/about"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="About us:"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/top_divider" />
-
-                <TextView
-                    android:id="@+id/company_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@{companyViewModel.trainingDetails.info}"
-                    android:textSize="16dp"
-                    app:layout_constraintStart_toStartOf="@id/about"
-                    app:layout_constraintTop_toBottomOf="@id/about" />
-
-                <View
-                    android:id="@+id/middle_divider"
-                    style="@style/Divider"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/company_info" />
-
-                <View
-                    android:id="@+id/bottom_divider"
-                    style="@style/Divider"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/alert_major" />
-
-                <Switch
-                    android:id="@+id/alert"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Set alert for similar Training"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:layout_constraintBottom_toTopOf="@id/bottom_divider"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/middle_divider"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-                <TextView
-                    android:id="@+id/alert_major"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="@{companyViewModel.trainingDetails.major}"
-                    app:layout_constraintStart_toStartOf="@id/alert"
-                    app:layout_constraintTop_toBottomOf="@id/alert" />
-
-                <TextView
-                    android:id="@+id/city_alert"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{@string/div(companyViewModel.trainingDetails.city)}"
-                    app:layout_constraintStart_toEndOf="@id/alert_major"
-                    app:layout_constraintTop_toTopOf="@id/alert_major" />
-
-                <Button
-                    android:id="@+id/apply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Apply"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/city_alert"
-                    app:layout_goneMarginTop="16dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
+                    <View
+                        android:id="@+id/top_divider"
+                        style="@style/Divider"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/description" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/about"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="About us:"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/top_divider" />
+
+                    <TextView
+                        android:id="@+id/company_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@{companyViewModel.trainingDetails.info}"
+                        android:textSize="16dp"
+                        app:layout_constraintStart_toStartOf="@id/about"
+                        app:layout_constraintTop_toBottomOf="@id/about" />
+
+                    <View
+                        android:id="@+id/middle_divider"
+                        style="@style/Divider"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/company_info" />
 
 
+                    <Switch
+                        android:id="@+id/alert"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Set alert for similar Training"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/middle_divider"
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                    <TextView
+                        android:id="@+id/alert_major"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@{companyViewModel.trainingDetails.major}"
+                        app:layout_constraintStart_toStartOf="@id/alert"
+                        app:layout_constraintTop_toBottomOf="@id/alert" />
+
+                    <TextView
+                        android:id="@+id/city_alert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/div(companyViewModel.trainingDetails.city)}"
+                        app:layout_constraintStart_toEndOf="@id/alert_major"
+                        app:layout_constraintTop_toTopOf="@id/alert_major" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

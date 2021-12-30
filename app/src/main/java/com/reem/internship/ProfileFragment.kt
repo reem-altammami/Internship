@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 class ProfileFragment : Fragment() {
-  lateinit var name : String
-  lateinit var email: String
+//  lateinit var name : String
+//  lateinit var email: String
     private var _binding : FragmentProfileBinding? = null
     private val  binding get() = _binding!!
 
@@ -24,8 +24,8 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            name = it.getString("name").toString()
-            email = it.getString("email").toString()
+//            name = it.getString("name").toString()
+//            email = it.getString("email").toString()
         }
     }
 
@@ -39,15 +39,15 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.name.setText(name)
-        binding.email.setText(email)
+//        binding.name.setText(name)
+//        binding.email.setText(email)
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
     }
 
     private fun showCityPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
-        popup.inflate(R.menu.city_menu)
+        popup.inflate(R.menu.city_menu_profile)
 
         popup.setOnMenuItemClickListener { item: MenuItem? ->
 
@@ -77,7 +77,7 @@ class ProfileFragment : Fragment() {
 
     private fun showMajorPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
-        popup.inflate(R.menu.major_menu)
+        popup.inflate(R.menu.major_menu_profile)
 
         popup.setOnMenuItemClickListener { item: MenuItem? ->
 
@@ -93,9 +93,6 @@ class ProfileFragment : Fragment() {
                     binding.filterMajor.text = getString(R.string.software_engineering)
                 }
 
-                R.id.show_all -> {
-                    binding.filterMajor.text = getString(R.string.major)
-                }
 
             }
 

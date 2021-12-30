@@ -34,7 +34,7 @@ class TrainingDetailsFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentTrainingDetailsBinding.inflate(inflater,container,false)
 
-         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbar)
+//         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbar)
 
 
         return binding.root     }

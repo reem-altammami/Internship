@@ -98,6 +98,17 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
 //        major: String="",
 //        city: String=""
 //    ): List<TrainingItemUiState> {
+//        var filterList =listOf<TrainingItemUiState>()
+//        if (major.isNotEmpty()&& city.isNotEmpty()){
+//            filterList = list.filter { it.major ==major && it.city == city }
+//        } else if (major.isNotEmpty() || city.isEmpty()){
+//            filterList = list.filter { it.major==major }
+//        } else if (major.isEmpty() || city.isNotEmpty()){
+//            filterList = list.filter { it.city==city }
 //
+//        }else{
+//            filterList=list
+//        }
+//return filterList
 //    }
 }
