@@ -45,6 +45,17 @@
                 app:chipEndPadding="-6dp"
                 android:layout_marginTop="-8dp"
                 android:layout_marginEnd="-8dp"
+                app:chipIcon="@drawable/ic_bookmark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/unmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="#00FFF6F6"
+                app:chipEndPadding="-6dp"
+                android:layout_marginTop="-8dp"
+                android:layout_marginEnd="-8dp"
                 app:chipIcon="@drawable/ic_bookmark_border"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

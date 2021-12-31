@@ -14,7 +14,7 @@ data class CompanyResponse(
 	val location: Location? = null,
 
 	@Json(name="training")
-	val training: List<TrainingItem>? = null,
+	val training: List<TrainingItem> = listOf(),
 
 	@Json(name="id")
 	val id: String? = null,

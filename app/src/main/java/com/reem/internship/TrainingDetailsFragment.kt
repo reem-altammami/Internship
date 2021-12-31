@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.reem.internship.databinding.FragmentProfileBinding
 import com.reem.internship.databinding.FragmentTrainingDetailsBinding
 import com.reem.internship.model.CompanyViewModel
@@ -14,6 +15,7 @@ import com.reem.internship.model.ViewModelFactory
 
 
 class TrainingDetailsFragment : Fragment() {
+    var isMark = true
     var trainingId = 0
     private var _binding : FragmentTrainingDetailsBinding? = null
     private val  binding get() = _binding!!
@@ -34,8 +36,12 @@ class TrainingDetailsFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentTrainingDetailsBinding.inflate(inflater,container,false)
 
-//         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbar)
+         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbar)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        binding.toolbar.setNavigationOnClickListener() {
+            findNavController().navigate(TrainingDetailsFragmentDirections.actionTrainingDetailsFragmentToHomePageFragment())
+        }
 
         return binding.root     }
 
@@ -47,7 +53,8 @@ class TrainingDetailsFragment : Fragment() {
         viewModel.trainingDetails.observe(this.viewLifecycleOwner,{
             (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
         })
-
+binding.unmark.setOnClickListener{markTraining()}
+        binding.bookmark.setOnClickListener { markTraining() }
     }
 
     override fun onResume() {
@@ -55,6 +62,19 @@ class TrainingDetailsFragment : Fragment() {
       //  (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
+fun markTraining(){
+    if (isMark) {
+        binding.bookmark.visibility = View.VISIBLE
+        isMark = false
+        binding.bookmark.visibility = View.VISIBLE
+        binding.unmark.visibility = View.GONE
 
 
+    } else {
+        isMark = true
+        binding.unmark.visibility = View.VISIBLE
+        binding.bookmark.visibility = View.GONE
+    }
 }
+}
+

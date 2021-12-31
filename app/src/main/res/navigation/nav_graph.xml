@@ -33,10 +33,22 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_trainingDetailsFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment4"
         android:name="com.reem.internship.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.reem.internship.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" >
+        <action
+            android:id="@+id/action_userProfileFragment_to_profileFragment4"
+            app:destination="@id/profileFragment4" />
+    </fragment>
 
 </navigation>
