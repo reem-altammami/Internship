@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.reem.internship.adapter.TrainingAdapter
 import com.reem.internship.data.CompanyResponse
@@ -37,7 +38,7 @@ fun bindImage(imgView:ImageView , imgUrl:String?) {
     }
 }
 
-@BindingAdapter("moviesApiStatus")
+@BindingAdapter("trainingApiStatus")
 
 fun bindStatus(statusImageView: ImageView , status:TrainingApiStatus){
 
@@ -53,13 +54,35 @@ fun bindStatus(statusImageView: ImageView , status:TrainingApiStatus){
         TrainingApiStatus.EMPTY
                 ->{
             statusImageView.visibility= View.VISIBLE
-            statusImageView.setImageResource(R.drawable.ic_location)
+            statusImageView.setImageResource(R.drawable.noresult)
 
         }
         TrainingApiStatus.DONE ->
             statusImageView.visibility= View.GONE
     }
+}
 
+@BindingAdapter("trainingApiStatus")
 
+fun bindStatus(statusAnimationView: LottieAnimationView , status:TrainingApiStatus){
 
+    when(status){
+        TrainingApiStatus.LOADING ->{
+            statusAnimationView.visibility = View.VISIBLE
+            statusAnimationView.setAnimation(R.raw.loading)
+
+        }
+        TrainingApiStatus.ERROR -> {
+            statusAnimationView.visibility = View.VISIBLE
+            statusAnimationView.setAnimation(R.raw.noconnection)
+        }
+        TrainingApiStatus.EMPTY
+        ->{
+            statusAnimationView.visibility = View.VISIBLE
+            statusAnimationView.setAnimation(R.raw.noresults)
+
+        }
+        TrainingApiStatus.DONE ->
+            statusAnimationView.visibility= View.GONE
+    }
 }

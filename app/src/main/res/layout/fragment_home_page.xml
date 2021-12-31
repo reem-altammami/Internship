@@ -23,6 +23,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
            />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/status_animation_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lottie_rawRes="@raw/internship"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
 <Button
     android:id="@+id/filter_major"
     android:layout_width="204dp"
