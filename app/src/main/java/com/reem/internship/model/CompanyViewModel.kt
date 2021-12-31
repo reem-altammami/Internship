@@ -31,10 +31,10 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
     var trainingDetails: MutableLiveData<TrainingItemUiState> = _trainingDetails
 
     init {
-        getCompany()
+        getTrainingList()
     }
 
-    fun getCompany(major: String = "", city: String = "") {
+    fun getTrainingList(major: String = "", city: String = "") {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(status = TrainingApiStatus.LOADING)

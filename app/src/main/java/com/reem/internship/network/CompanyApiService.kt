@@ -47,7 +47,7 @@ interface CompanyApiService {
     suspend fun getCompanyApi(): List<CompanyResponse>
 
     @PUT("data/users/{id}.json")
-    suspend fun pustUserData(@Path("id") id:String,@Body user: User):User
+    suspend fun putUserData(@Path("id") id:String,@Body user: User):User
 
 
 }

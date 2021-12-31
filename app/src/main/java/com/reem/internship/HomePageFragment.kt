@@ -62,7 +62,7 @@ class HomePageFragment : Fragment() {
         var email = FirebaseAuth.getInstance().currentUser?.email
 FirebaseAuth.getInstance().currentUser?.uid
         GlobalScope.launch {
-            var s = CompanyApi.retrofitService.pustUserData(id!!, User("dfe","fergr",id)!!)
+            var s = CompanyApi.retrofitService.putUserData(id!!, User("dfe","fergr",id)!!)
 
                 Log.d("fffff", "onViewCreated: ${s.toString()} ")
 
@@ -112,7 +112,7 @@ FirebaseAuth.getInstance().currentUser?.uid
             } else {
                 binding.filterMajor.text = getString(R.string.major)
             }
-            viewModel.getCompany(major = currentMajor, city = currentCity)
+            viewModel.getTrainingList(major = currentMajor, city = currentCity)
 
             true
         }
@@ -149,7 +149,7 @@ FirebaseAuth.getInstance().currentUser?.uid
             } else {
                 binding.filterCity.text = getString(R.string.city)
             }
-            viewModel.getCompany(major = currentMajor, city = currentCity)
+            viewModel.getTrainingList(major = currentMajor, city = currentCity)
             true
         }
 
