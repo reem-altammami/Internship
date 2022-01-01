@@ -9,9 +9,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import com.reem.internship.databinding.FragmentProfileBinding
 import androidx.appcompat.app.AppCompatActivity
-
-
-
+import androidx.navigation.fragment.findNavController
 
 
 class ProfileFragment : Fragment() {
@@ -41,6 +39,8 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 //        binding.name.setText(name)
 //        binding.email.setText(email)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.profileFragment =this@ProfileFragment
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
     }
@@ -104,6 +104,11 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
       //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
+
+    fun gotToProfilePage(){
+        findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
+
     }
 
 }

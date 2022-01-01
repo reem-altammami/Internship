@@ -39,7 +39,7 @@
         app:iconSize="24dp"
         android:layout_marginTop="16dp"
         android:text="Sign Up With Google"
-        android:backgroundTint="#20263E"/>
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

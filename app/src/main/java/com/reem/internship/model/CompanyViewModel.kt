@@ -45,7 +45,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
 
                 val list: MutableList<TrainingItemUiState> = mutableListOf()
                 listResult.forEach { company ->
-                    val companyTraning = company.training.map { training ->
+                    val companyTraining = company.training.map { training ->
 
                         training.let {
 
@@ -66,7 +66,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
 
 
 
-                    list.addAll(filter(companyTraning, city = city, major = major))
+                    list.addAll(filter(companyTraining, city = city, major = major))
 
                 }
                 if (list.isEmpty()) {

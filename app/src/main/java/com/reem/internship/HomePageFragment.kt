@@ -49,7 +49,7 @@ class HomePageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this@HomePageFragment
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.companyViewModel = viewModel
         binding.trainingRecyclerView.adapter = TrainingAdapter()
         setHasOptionsMenu(true)
