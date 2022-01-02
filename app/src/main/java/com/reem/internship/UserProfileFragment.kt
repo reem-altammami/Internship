@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.reem.internship.databinding.FragmentHomePageBinding
 import com.reem.internship.databinding.FragmentUserProfileBinding
+import com.reem.internship.model.UserViewModel
+import com.reem.internship.model.UserViewModelFactory
 
 class UserProfileFragment : Fragment() {
     private var _binding: FragmentUserProfileBinding? = null
     private val binding get() = _binding!!
+    private val userViewModel : UserViewModel by viewModels{UserViewModelFactory()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +40,9 @@ class UserProfileFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 binding.userProfileFragment =this@UserProfileFragment
+        binding.userViewModel = userViewModel
+        userViewModel.showProfileDetails()
+
 
     }
 

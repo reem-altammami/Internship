@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.reem.internship.databinding.FragmentProfileBinding
+
 import com.reem.internship.databinding.FragmentTrainingDetailsBinding
 import com.reem.internship.model.CompanyViewModel
 import com.reem.internship.model.ViewModelFactory

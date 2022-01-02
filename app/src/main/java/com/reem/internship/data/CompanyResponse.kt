@@ -76,3 +76,38 @@ data class City(
 	@Json(name="cityId")
 	val cityId: String? = null
 )
+
+data class User(
+	@Json(name="userId")
+	val userId: String? = null,
+
+	@Json(name="name")
+	val userName: String? = null,
+
+
+	@Json(name="email")
+	val email: String? = null,
+
+	@Json(name="university")
+	val university: String? = null,
+
+	@Json(name="major")
+	val major: Major? = null,
+
+	@Json(name="city")
+	val city: City? = null,
+
+	@Json(name="gpa")
+	val gpa: String? = null,
+
+	@Json(name="bookMark")
+	val bookMark: BookMark? = null
+)
+
+data class BookMark(
+	@Json(name="bookMarkId")
+	val bookMarkId: String? = null,
+
+	@Json(name="training")
+	val training: List<TrainingItem> = listOf()
+)

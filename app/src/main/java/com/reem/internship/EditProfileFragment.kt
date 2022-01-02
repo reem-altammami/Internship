@@ -7,16 +7,19 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import com.reem.internship.databinding.FragmentProfileBinding
-import androidx.appcompat.app.AppCompatActivity
+import com.reem.internship.databinding.FragmentEditProfileBinding
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 
+import com.reem.internship.model.UserViewModel
 
-class ProfileFragment : Fragment() {
+
+class EditProfileFragment : Fragment() {
 //  lateinit var name : String
 //  lateinit var email: String
-    private var _binding : FragmentProfileBinding? = null
+    private var _binding : FragmentEditProfileBinding? = null
     private val  binding get() = _binding!!
+    private val userViewModel : UserViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +35,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentProfileBinding.inflate(inflater,container,false)
+        _binding = FragmentEditProfileBinding.inflate(inflater,container,false)
         return binding.root    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +43,8 @@ class ProfileFragment : Fragment() {
 //        binding.name.setText(name)
 //        binding.email.setText(email)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.profileFragment =this@ProfileFragment
+        binding.profileFragment =this@EditProfileFragment
+        binding.userViewModel = userViewModel
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
     }
@@ -109,6 +113,13 @@ class ProfileFragment : Fragment() {
     fun gotToProfilePage(){
         findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
 
+    }
+
+    fun getUserLoginInfo(){
+//        userViewModel.userId.value = FirebaseAuth.getInstance().currentUser?.uid
+//        userViewModel.userName.value = FirebaseAuth.getInstance().currentUser?.displayName
+//        userViewModel.email.value= FirebaseAuth.getInstance().currentUser?.email
+//        FirebaseAuth.getInstance().currentUser?.uid
     }
 
 }

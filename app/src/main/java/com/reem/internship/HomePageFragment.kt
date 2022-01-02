@@ -61,12 +61,7 @@ class HomePageFragment : Fragment() {
         var username = FirebaseAuth.getInstance().currentUser?.displayName
         var email = FirebaseAuth.getInstance().currentUser?.email
 FirebaseAuth.getInstance().currentUser?.uid
-        GlobalScope.launch {
-            var s = CompanyApi.retrofitService.putUserData(id!!, User("dfe","fergr",id)!!)
 
-                Log.d("fffff", "onViewCreated: ${s.toString()} ")
-
-        }
 //        viewModel.companies.observe(this.viewLifecycleOwner,{
 //            binding.status.text = it.toString()
 //        })
