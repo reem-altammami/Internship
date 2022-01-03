@@ -1,14 +1,17 @@
 package com.reem.internship
 
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.reem.internship.adapter.TrainingAdapter
 import com.reem.internship.data.CompanyResponse
+import com.reem.internship.model.TrainingApiStatus
 
 
 @BindingAdapter("listData")
@@ -32,5 +35,54 @@ fun bindImage(imgView:ImageView , imgUrl:String?) {
             .error(R.drawable.ic_broken_image)
             .into(imgView)
         Log.e("TAG", "uri:${imgUri}")
+    }
+}
+
+@BindingAdapter("trainingApiStatus")
+
+fun bindStatus(statusImageView: ImageView , status:TrainingApiStatus){
+
+    when(status){
+        TrainingApiStatus.LOADING ->{
+            statusImageView.visibility= View.VISIBLE
+            statusImageView.setImageResource(R.drawable.loading_animation)
+        }
+        TrainingApiStatus.ERROR -> {
+            statusImageView.visibility= View.VISIBLE
+            statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        TrainingApiStatus.EMPTY
+                ->{
+            statusImageView.visibility= View.VISIBLE
+            statusImageView.setImageResource(R.drawable.noresult)
+
+        }
+        TrainingApiStatus.DONE ->
+            statusImageView.visibility= View.GONE
+    }
+}
+
+@BindingAdapter("trainingApiStatus")
+
+fun bindStatus(statusAnimationView: LottieAnimationView , status:TrainingApiStatus){
+
+    when(status){
+        TrainingApiStatus.LOADING ->{
+            statusAnimationView.visibility = View.VISIBLE
+            statusAnimationView.setAnimation(R.raw.loading)
+
+        }
+        TrainingApiStatus.ERROR -> {
+            statusAnimationView.visibility = View.VISIBLE
+            statusAnimationView.setAnimation(R.raw.noconnection)
+        }
+        TrainingApiStatus.EMPTY
+        ->{
+            statusAnimationView.visibility = View.VISIBLE
+            statusAnimationView.setAnimation(R.raw.noresults)
+
+        }
+        TrainingApiStatus.DONE ->
+            statusAnimationView.visibility= View.GONE
     }
 }

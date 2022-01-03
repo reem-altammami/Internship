@@ -14,7 +14,7 @@ data class CompanyResponse(
 	val location: Location? = null,
 
 	@Json(name="training")
-	val training: List<TrainingItem>? = null,
+	val training: List<TrainingItem> = listOf(),
 
 	@Json(name="id")
 	val id: String? = null,
@@ -75,4 +75,39 @@ data class City(
 
 	@Json(name="cityId")
 	val cityId: String? = null
+)
+
+data class User(
+	@Json(name="userId")
+	val userId: String? = null,
+
+	@Json(name="name")
+	val userName: String? = null,
+
+
+	@Json(name="email")
+	val email: String? = null,
+
+	@Json(name="university")
+	val university: String? = null,
+
+	@Json(name="major")
+	val major: Major? = null,
+
+	@Json(name="city")
+	val city: City? = null,
+
+	@Json(name="gpa")
+	val gpa: String? = null,
+
+	@Json(name="bookMark")
+	val bookMark: BookMark? = BookMark()
+)
+
+data class BookMark(
+	@Json(name="bookMarkId")
+	val bookMarkId: String? = "",
+
+	@Json(name="training")
+	val training: List<TrainingItem> = emptyList()
 )

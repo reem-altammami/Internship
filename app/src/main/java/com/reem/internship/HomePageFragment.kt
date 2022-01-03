@@ -1,6 +1,7 @@
 package com.reem.internship
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -13,16 +14,23 @@ import com.reem.internship.databinding.FragmentHomePageBinding
 import com.reem.internship.model.CompanyViewModel
 import com.reem.internship.model.ViewModelFactory
 import androidx.appcompat.app.AppCompatActivity
-
-
-
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.reem.internship.model.User
+import com.reem.internship.network.CompanyApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class HomePageFragment : Fragment() {
-private var  _binding : FragmentHomePageBinding?= null
+    private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding!!
-    private val viewModel :CompanyViewModel by activityViewModels { ViewModelFactory() }
-
+    private val viewModel: CompanyViewModel by activityViewModels { ViewModelFactory() }
+    private var currentCity = ""
+    private var currentMajor = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,22 +43,35 @@ private var  _binding : FragmentHomePageBinding?= null
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentHomePageBinding.inflate(inflater,container,false)
+        _binding = FragmentHomePageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-binding.lifecycleOwner = this@HomePageFragment
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.companyViewModel = viewModel
-        binding.trainingRecyclerView.adapter=TrainingAdapter()
+        binding.trainingRecyclerView.adapter = TrainingAdapter()
         setHasOptionsMenu(true)
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
 
+
+        var id = FirebaseAuth.getInstance().currentUser?.uid
+        var username = FirebaseAuth.getInstance().currentUser?.displayName
+        var email = FirebaseAuth.getInstance().currentUser?.email
+FirebaseAuth.getInstance().currentUser?.uid
+
 //        viewModel.companies.observe(this.viewLifecycleOwner,{
 //            binding.status.text = it.toString()
 //        })
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.uiState.collect {
+                    bindStatus(binding.statusImage, it.status)
+                }
+            }
+        }
     }
 
 
@@ -63,26 +84,30 @@ binding.lifecycleOwner = this@HomePageFragment
             when (item!!.itemId) {
 
                 R.id.filter_is -> {
-                    binding.filterMajor.text = getString(R.string.information_systems)
-                    viewModel.getCompany(getString(R.string.information_systems))
+                    currentMajor = getString(R.string.information_systems)
+
                 }
                 R.id.filter_cs -> {
-                    binding.filterMajor.text = getString(R.string.computer_sciences)
-                    viewModel.getCompany(getString(R.string.computer_sciences))
+                    currentMajor = getString(R.string.computer_sciences)
 
                 }
                 R.id.filter_se -> {
-                    binding.filterMajor.text = getString(R.string.software_engineering)
-                    viewModel.getCompany(getString(R.string.software_engineering))
+                    currentMajor = getString(R.string.software_engineering)
+
 
                 }
 
                 R.id.show_all -> {
-                    binding.filterMajor.text = getString(R.string.major)
-                    viewModel.getCompany("")
+                    currentMajor = ""
                 }
 
             }
+            if (currentMajor.isNotEmpty()) {
+                binding.filterMajor.text = currentMajor
+            } else {
+                binding.filterMajor.text = getString(R.string.major)
+            }
+            viewModel.getTrainingList(major = currentMajor, city = currentCity)
 
             true
         }
@@ -94,31 +119,32 @@ binding.lifecycleOwner = this@HomePageFragment
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.city_menu)
 
-        popup.setOnMenuItemClickListener{ item: MenuItem? ->
+        popup.setOnMenuItemClickListener { item: MenuItem? ->
 
             when (item!!.itemId) {
 
                 R.id.filter_riyadh -> {
-                    binding.filterCity.text=getString(R.string.riyadh)
-                    viewModel.getTrainingFilteredByCity(getString(R.string.riyadh))
+                    currentCity = getString(R.string.riyadh)
                 }
                 R.id.filter_dammam -> {
-                    binding.filterCity.text=getString(R.string.dammam)
-                    viewModel.getTrainingFilteredByCity(getString(R.string.dammam))
+                    currentCity = getString(R.string.dammam)
 
                 }
                 R.id.filter_jeddah -> {
-                    binding.filterCity.text=getString(R.string.jeddah)
-                    viewModel.getTrainingFilteredByCity(getString(R.string.jeddah))
+                    currentCity = getString(R.string.jeddah)
                 }
 
                 R.id.show_all -> {
-                    binding.filterCity.text=getString(R.string.city)
-                    viewModel.getCompany("")
+                    currentCity = ""
                 }
 
             }
-
+            if (currentCity.isNotEmpty()) {
+                binding.filterCity.text = currentCity
+            } else {
+                binding.filterCity.text = getString(R.string.city)
+            }
+            viewModel.getTrainingList(major = currentMajor, city = currentCity)
             true
         }
 
@@ -127,6 +153,6 @@ binding.lifecycleOwner = this@HomePageFragment
 
     override fun onResume() {
         super.onResume()
-      //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
     }
 }

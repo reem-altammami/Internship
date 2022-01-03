@@ -15,11 +15,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+enum class TrainingApiStatus {
+    LOADING, ERROR, DONE, EMPTY
+}
+
 class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
     private val _companies = MutableLiveData<List<CompanyResponse>>()
     var companies: MutableLiveData<List<CompanyResponse>> = _companies
-    private val _status = MutableLiveData<String>()
-    val status: LiveData<String> = _status
+    private val _status = MutableLiveData<TrainingApiStatus>()
+    val status: LiveData<TrainingApiStatus> = _status
 
     private val _uiState = MutableStateFlow(TrainingUiState())
     val uiState: StateFlow<TrainingUiState> = _uiState.asStateFlow()
@@ -27,18 +31,23 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
     var trainingDetails: MutableLiveData<TrainingItemUiState> = _trainingDetails
 
     init {
-        getCompany("")
+        getTrainingList()
     }
 
-    fun getCompany(filterBy: String) {
+    fun getTrainingList(major: String = "", city: String = "") {
         viewModelScope.launch {
+            _uiState.update {
+                it.copy(status = TrainingApiStatus.LOADING)
+            }
             try {
                 val listResult = companiesRepo.getCompanies()
+//                _status.value = TrainingApiStatus.DONE
+
                 val list: MutableList<TrainingItemUiState> = mutableListOf()
                 listResult.forEach { company ->
-                    val companyTraning = company.training?.map { training ->
+                    val companyTraining = company.training.map { training ->
 
-                        training?.let {
+                        training.let {
 
                             TrainingItemUiState(
                                 id = it.id!!,
@@ -56,22 +65,28 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
                     }
 
 
-                    if (filterBy.isNotEmpty()) {
-                        companyTraning?.filter { it.major == filterBy }?.let {
-                            list?.addAll(it)
-                        }
-                    } else {
-                        companyTraning?.let { list?.addAll(it) }
-                    }
+
+                    list.addAll(filter(companyTraining, city = city, major = major))
+
                 }
-                _uiState.update {
-                    it.copy(trainingItemList = list.toList())
+                if (list.isEmpty()) {
+                    _uiState.update {
+                        it.copy(trainingItemList = list.toList(), status = TrainingApiStatus.EMPTY)
+                    }
+               //     _status.value=TrainingApiStatus.EMPTY
+                } else {
+                    _uiState.update {
+                        it.copy(trainingItemList = list.toList(), status = TrainingApiStatus.DONE)
+                    }
+                //    _status.value = TrainingApiStatus.DONE
+
                 }
 //                companies.value = listResult
-                _status.value = "Success: ${listResult} "
             } catch (e: Exception) {
 
-                _status.value = "Failure: ${e.message}"
+                _uiState.update {
+                    it.copy(status= TrainingApiStatus.ERROR)
+                }
             }
         }
     }
@@ -93,11 +108,22 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
         _uiState.update { it.copy(trainingItemList = filteredList) }
     }
 
-//    fun filter(
-//        list: List<TrainingItemUiState>,
-//        major: String="",
-//        city: String=""
-//    ): List<TrainingItemUiState> {
-//
-//    }
+    fun filter(
+        list: List<TrainingItemUiState>,
+        major: String = "",
+        city: String = ""
+    ): List<TrainingItemUiState> {
+        var
+                filterList = if (major.isNotEmpty() && city.isNotEmpty()) {
+            list.filter { it.major == major && it.city == city }
+        } else if (major.isNotEmpty() && city.isEmpty()) {
+            list.filter { it.major == major }
+        } else if (major.isEmpty() && city.isNotEmpty()) {
+            list.filter { it.city == city }
+
+        } else {
+            list
+        }
+        return filterList
+    }
 }

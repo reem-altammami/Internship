@@ -1,7 +1,10 @@
 package com.reem.internship
 
+import com.reem.internship.model.TrainingApiStatus
+
 data class TrainingUiState(
-    val trainingItemList: List<TrainingItemUiState> = listOf()
+    val trainingItemList: List<TrainingItemUiState> = listOf(),
+val status: TrainingApiStatus=TrainingApiStatus.EMPTY
 )
 
 
