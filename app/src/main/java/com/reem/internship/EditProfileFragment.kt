@@ -10,8 +10,11 @@ import android.widget.PopupMenu
 import com.reem.internship.databinding.FragmentEditProfileBinding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.reem.internship.model.User
 
 import com.reem.internship.model.UserViewModel
+import com.reem.internship.model.UserViewModelFactory
 
 
 class EditProfileFragment : Fragment() {
@@ -19,7 +22,7 @@ class EditProfileFragment : Fragment() {
 //  lateinit var email: String
     private var _binding : FragmentEditProfileBinding? = null
     private val  binding get() = _binding!!
-    private val userViewModel : UserViewModel by viewModels()
+    private val userViewModel : UserViewModel by viewModels{ UserViewModelFactory() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,16 +113,36 @@ class EditProfileFragment : Fragment() {
       //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
     }
 
+    fun createNewProfile(){
+        val user = addUserInfo()
+        userViewModel.addUserToDataBase(user)
+        findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
+
+    }
+
     fun gotToProfilePage(){
         findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
 
     }
 
-    fun getUserLoginInfo(){
-//        userViewModel.userId.value = FirebaseAuth.getInstance().currentUser?.uid
-//        userViewModel.userName.value = FirebaseAuth.getInstance().currentUser?.displayName
-//        userViewModel.email.value= FirebaseAuth.getInstance().currentUser?.email
-//        FirebaseAuth.getInstance().currentUser?.uid
+    fun isUserInfoValid():Boolean{
+       return userViewModel.isEntryValid(binding.name.text.toString(),binding.email.toString(),binding.filterMajor.text.toString(),binding.filterCity.text.toString(),binding.university.text.toString(),binding.gpa.toString())
+    }
+
+    fun addUserInfo() : User {
+        var user:User =User()
+        if (isUserInfoValid()) {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            val userName = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+            val email = FirebaseAuth.getInstance().currentUser?.email.toString()
+            val major = binding.filterMajor.text.toString()
+            val city = binding.filterCity.text.toString()
+            val university = binding.university.text.toString()
+            val gpa = binding.gpa.text.toString()
+           user = User(userName, email, userId, university, major, city, gpa)
+
+        }
+        return user
     }
 
 }

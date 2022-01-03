@@ -77,7 +77,7 @@ data class City(
 	val cityId: String? = null
 )
 
-data class User(
+data class UserResponseModel(
 	@Json(name="userId")
 	val userId: String? = null,
 

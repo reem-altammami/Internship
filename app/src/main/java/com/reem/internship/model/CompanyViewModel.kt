@@ -126,4 +126,11 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
         }
         return filterList
     }
+
+    fun addTrainingToMarkBook(){
+        viewModelScope.launch {
+
+        }
+    }
+
 }

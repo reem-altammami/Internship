@@ -4,6 +4,7 @@ import com.reem.internship.data.BookMark
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.reem.internship.data.CompanyResponse
+import com.reem.internship.data.UserResponseModel
 import com.reem.internship.model.User
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Interceptor
@@ -44,26 +45,22 @@ interface CompanyApiService {
     @GET("data/companies.json")
     suspend fun getCompanyApi(): List<CompanyResponse>
 
-  @PUT("data/users.json")
-  suspend fun putUserData (@Path("id")id:String,@Body user:User):User
 
     @GET("data/users/{id}.json")
     suspend fun getUserApi(@Path("id")id:String): User
 
     @PUT("data/users/{id}.json")
-    suspend fun updateUserData (@Path("id")id:String,@Body user:User):User
+    suspend fun putUserData (@Path("id")id:String,@Body user:User):User
 
     @PUT("data/users/{id}/bookMark.json")
-    suspend fun addTraining (@Path("id")id:String,@Body user:User):User
+    suspend fun addTrainingToBookmark (@Path("id")id:String,@Body bookMark: BookMark)
 
     @GET("data/users/{id}/bookMark.json")
-    suspend fun getUserBookMark(@Path("id")bookMark: BookMark):List<BookMark>
+    suspend fun getUserBookMark(@Path("id")id:String):List<BookMark>
 
     @DELETE("data/users/{id}/bookMark/{id}.json")
-    suspend fun deleteTraining (@Path("id")id:String, @Path("id")idBookmark: String, @Body bookMark: BookMark)
+    suspend fun deleteTrainingFromBookmark (@Path("id")id:String, @Path("id")idBookmark: String, @Body bookMark: BookMark)
 
-//    @GET("data/users.json")
-//    suspend fun getUserApi(@Query("users")userId:String): User
 
 
 }
