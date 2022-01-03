@@ -57,6 +57,7 @@ class UserProfileFragment : Fragment() {
                     binding.email.text=it.userItem.email
                     binding.city.text=it.userItem.city
                     binding.gpa.text=it.userItem.gpa
+                    binding.university.text=it.userItem.university
 
                 }
             }

@@ -11,10 +11,7 @@ import com.reem.internship.provideUserRepo
 import com.reem.internship.ui.UserItemUiState
 import com.reem.internship.ui.UserUiState
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -32,22 +29,25 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
 
     fun getUserData() {
         viewModelScope.launch {
-            var user = userRepo.getUserData()
+            var user = userRepo.getUserData().collect { user ->
 
-            _userUiState.update {
-                it.copy(
-                    userItem =
-                    UserItemUiState(
-                        userName = a.await().userName!!,
-                        email = a.await().email!!,
-                        userId = a.await().userId!!,
-                        university = a.await().university!!,
 
-                        gpa = a.await().gpa!!
+                _userUiState.update {
+                    it.copy(
+                        userItem =
+                        UserItemUiState(
+                            userName = user.name!!,
+                            email = user.email!!,
+                            userId = user.id!!,
+                            university = user.university!!,
+                            major = user.major!!,
+                            gpa = user.gpa!!,
+                            city = user.city!!
+                        )
                     )
-                )
+//            }
+                }
             }
-
         }
     }
 //        viewModelScope.launch {
@@ -61,6 +61,16 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     fun showProfileDetails() {
         val useProfile = userUiState.value.userItem
 //        profileDetails.value = useProfile
+    }
+
+    fun addUserToDataBase(user:User){
+        viewModelScope.launch {
+            userRepo.putUserData(user)
+        }
+    }
+
+    fun isEntryValid(  userName :String, email:String,major :String, city :String,university :String, gpa :String):Boolean{
+        return !(userName.isBlank()||email.isBlank()||major.isBlank()||city.isBlank()||university.isBlank()||gpa.isBlank())
     }
 
 }
