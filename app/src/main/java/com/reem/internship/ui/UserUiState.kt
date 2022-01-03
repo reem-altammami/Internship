@@ -14,5 +14,6 @@ data class UserItemUiState(
     val userId: String="",
     val university: String="",
     val major: String="",
-    val city: String=""
+    val city: String="",
+    val gpa: String=""
 )

@@ -201,7 +201,6 @@
                     android:layout_height="65dp"
                     android:layout_marginTop="6dp"
                     android:text="Save"
-                    android:onClick="@{()->userViewModel.createUser()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gpa_label" />

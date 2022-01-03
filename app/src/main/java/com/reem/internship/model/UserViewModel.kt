@@ -10,6 +10,7 @@ import com.reem.internship.provideCompaniesRepo
 import com.reem.internship.provideUserRepo
 import com.reem.internship.ui.UserItemUiState
 import com.reem.internship.ui.UserUiState
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,38 +26,42 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     private val _profileDetails = MutableLiveData<UserItemUiState>()
     var profileDetails: MutableLiveData<UserItemUiState> = _profileDetails
 
+    init {
+        getUserData()
+    }
+
     fun getUserData() {
         viewModelScope.launch {
-            val user = userRepo.getUserData()
-            _profileDetails.value = UserItemUiState(
-                user.userName!!,
-                user.email!!,
-                user.userId!!,
-                user.university!!,
-                user.major?.majorName!!,
-                user.city?.cityName!!
-            )
+            var user = userRepo.getUserData()
+
+            _userUiState.update {
+                it.copy(
+                    userItem =
+                    UserItemUiState(
+                        userName = a.await().userName!!,
+                        email = a.await().email!!,
+                        userId = a.await().userId!!,
+                        university = a.await().university!!,
+
+                        gpa = a.await().gpa!!
+                    )
+                )
+            }
+
         }
+    }
 //        viewModelScope.launch {
 //            val user = CompanyApi.retrofitService.putUserData(userId.value!!,user = _user.value!!)
 //        }
-        var s = UserItemUiState("ddd", "dddd@fdfr.efe", "rgfef", "efe")
-        _userUiState.update { it.copy(userItem = s) }
-    }
+
+//        var s = UserItemUiState("ddd", "dddd@fdfr.efe", "rgfef", "efe")
+//        _userUiState.update { it.copy(userItem = s) }
+//    }
 
     fun showProfileDetails() {
         val useProfile = userUiState.value.userItem
-        profileDetails.value = useProfile
+//        profileDetails.value = useProfile
     }
 
 }
 
-class UserViewModelFactory() : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CompanyViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return UserViewModel(provideUserRepo()) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}

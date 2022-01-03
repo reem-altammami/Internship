@@ -101,13 +101,13 @@ data class User(
 	val gpa: String? = null,
 
 	@Json(name="bookMark")
-	val bookMark: BookMark? = null
+	val bookMark: BookMark? = BookMark()
 )
 
 data class BookMark(
 	@Json(name="bookMarkId")
-	val bookMarkId: String? = null,
+	val bookMarkId: String? = "",
 
 	@Json(name="training")
-	val training: List<TrainingItem> = listOf()
+	val training: List<TrainingItem> = emptyList()
 )
