@@ -9,3 +9,15 @@ data class User(
     val city: String="",
     val gpa: String=""
 )
+
+data class BookMark(
+    val id : String,
+    val image: String,
+    val name: String,
+    val info : String,
+    val location : String,
+    val major: String,
+    val field: String,
+    val city: String,
+    val description :String
+)

@@ -55,8 +55,8 @@ class TrainingDetailsFragment : Fragment() {
         viewModel.trainingDetails.observe(this.viewLifecycleOwner, {
             (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
         })
-        binding.unmark.setOnClickListener { markTraining() }
-        binding.bookmark.setOnClickListener { markTraining() }
+        binding.unmark.setOnClickListener {viewModel.addBooKmark() }
+//        binding.bookmark.setOnClickListener { viewModel.addBooKmark() }
     }
 
     override fun onResume() {
@@ -80,11 +80,7 @@ class TrainingDetailsFragment : Fragment() {
     }
 
     fun markTraining() {
-        if (binding.bookmark.isVisible) {
-//TODO add to dataBase
-        } else {
-            //TODO delete from database
-        }
+
     }
 }
 

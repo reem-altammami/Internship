@@ -8,6 +8,7 @@ import com.reem.internship.dataLayer.UserRepository
 import com.reem.internship.network.CompanyApi
 import com.reem.internship.provideCompaniesRepo
 import com.reem.internship.provideUserRepo
+import com.reem.internship.ui.BookmarkUiState
 import com.reem.internship.ui.UserItemUiState
 import com.reem.internship.ui.UserUiState
 import kotlinx.coroutines.async
@@ -19,6 +20,8 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
 
     private val _userUiState = MutableStateFlow(UserUiState())
     val userUiState: StateFlow<UserUiState> = _userUiState.asStateFlow()
+
+
 
     private val _profileDetails = MutableLiveData<UserItemUiState>()
     var profileDetails: MutableLiveData<UserItemUiState> = _profileDetails

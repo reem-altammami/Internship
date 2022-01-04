@@ -8,7 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.reem.internship.TrainingItemUiState
 import com.reem.internship.TrainingUiState
 import com.reem.internship.data.CompanyResponse
+import com.reem.internship.data.TrainingItem
 import com.reem.internship.dataLayer.CompaniesRepo
+import com.reem.internship.dataLayer.UserRepository
+import com.reem.internship.ui.BookmarkUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +22,7 @@ enum class TrainingApiStatus {
     LOADING, ERROR, DONE, EMPTY
 }
 
-class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
+class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: UserRepository) : ViewModel() {
     private val _companies = MutableLiveData<List<CompanyResponse>>()
     var companies: MutableLiveData<List<CompanyResponse>> = _companies
     private val _status = MutableLiveData<TrainingApiStatus>()
@@ -29,6 +32,11 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
     val uiState: StateFlow<TrainingUiState> = _uiState.asStateFlow()
     private val _trainingDetails = MutableLiveData<TrainingItemUiState>()
     var trainingDetails: MutableLiveData<TrainingItemUiState> = _trainingDetails
+
+    private val _bookMarkUiState = MutableStateFlow(BookmarkUiState())
+    val bookMarkUiState :StateFlow<BookmarkUiState> = _bookMarkUiState
+    private val bookmarkList = mutableListOf<BookMark>()
+
 
     init {
         getTrainingList()
@@ -127,8 +135,18 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
         return filterList
     }
 
-    fun addTrainingToMarkBook(){
+    fun addBooKmark(){
+        val bookmark = BookMark(trainingDetails.value?.id!!,trainingDetails.value?.image!!,trainingDetails.value?.name!!,trainingDetails.value?.info!!,trainingDetails.value?.location!!,trainingDetails.value?.major!!,trainingDetails.value?.field!!,trainingDetails.value?.city!!,trainingDetails.value?.description!!)
         viewModelScope.launch {
+            userRepo.addTrainingToBookmark(bookmark)
+        }
+    }
+
+
+    fun getMarkBook(){
+        viewModelScope.launch {
+            userRepo.getBookmark()
+
 
         }
     }

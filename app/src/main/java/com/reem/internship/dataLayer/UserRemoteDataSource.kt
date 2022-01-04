@@ -1,8 +1,8 @@
 package com.reem.internship.dataLayer
 
 import android.util.Log
-import com.reem.internship.data.BookMark
 import com.reem.internship.data.UserResponseModel
+import com.reem.internship.model.BookMark
 import com.reem.internship.model.User
 
 import com.reem.internship.network.CompanyApi
@@ -20,16 +20,20 @@ class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: Corouti
 
     }
 
-    override suspend fun addTrainingToBookmark(userId:String,training:BookMark) {
-        CompanyApi.retrofitService.addTrainingToBookmark(userId,training)
-    }
+
 
     override suspend fun getUserData(id:String) = flow {
 
         emit(CompanyApi.retrofitService.getUserApi(id))
     }
 
+    override suspend fun addTrainingToBookmark(userId:String,training: BookMark) {
+        CompanyApi.retrofitService.addTrainingToBookmark(userId,training)
+    }
 
+    override suspend fun getBooKmark(userId: String) = flow {
+        emit(CompanyApi.retrofitService.getBookMark(userId))
+    }
 
 
 }
