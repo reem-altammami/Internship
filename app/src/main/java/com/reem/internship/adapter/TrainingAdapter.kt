@@ -55,7 +55,7 @@ return TrainingViewHolder(TrainingItemBinding.inflate(LayoutInflater.from(parent
         holder.bind(training)
         holder.card.setOnClickListener {
             val action =
-                HomePageFragmentDirections.actionHomePageFragmentToTrainingDetailsFragment(position)
+                HomePageFragmentDirections.actionHomePageFragmentToTrainingDetailsFragment(position, 1)
             holder.card.findNavController().navigate(action)
         }
 

@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.reem.internship.adapter.BookmarkAdapter
 import com.reem.internship.adapter.TrainingAdapter
 import com.reem.internship.data.CompanyResponse
 import com.reem.internship.model.TrainingApiStatus
+import com.reem.internship.ui.BookmarkItemUiState
 
 
 @BindingAdapter("listData")
@@ -19,6 +21,13 @@ fun bindRecyclerView(recyclerView: RecyclerView,data:List<TrainingItemUiState>?)
     val adapter =recyclerView.adapter as TrainingAdapter
     adapter.submitList(data)
 }
+
+@BindingAdapter("data")
+fun bindBookmarkRecyclerView(recyclerView: RecyclerView,data:List<BookmarkItemUiState>?){
+    val adapter =recyclerView.adapter as BookmarkAdapter
+    adapter.submitList(data)
+}
+
 @BindingAdapter("imageUrl")
 fun bindImage(imgView:ImageView , imgUrl:String?) {
 

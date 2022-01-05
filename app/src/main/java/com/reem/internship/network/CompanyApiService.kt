@@ -1,5 +1,6 @@
 package com.reem.internship.network
 
+import com.reem.internship.data.BookMarkResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.reem.internship.data.CompanyResponse
@@ -53,10 +54,10 @@ interface CompanyApiService {
     suspend fun putUserData (@Path("id")id:String,@Body user:User):User
 
     @PUT("data/users/{id}/bookMark.json")
-    suspend fun addTrainingToBookmark (@Path("id")id:String,@Body bookMark: BookMark)
+    suspend fun addTrainingToBookmark (@Path("id")id:String,@Body bookMark: List<BookMark>)
 
     @GET("data/users/{id}/bookMark.json")
-    suspend fun getBookMark(@Path("id")id:String):List<BookMark>
+    suspend fun getBookMark(@Path("id")id:String):List<BookMarkResponse>
 
     @DELETE("data/users/{id}/bookMark/{id}.json")
     suspend fun deleteTrainingFromBookmark (@Path("id")id:String, @Path("id")idBookmark: String, @Body bookMark: BookMark)

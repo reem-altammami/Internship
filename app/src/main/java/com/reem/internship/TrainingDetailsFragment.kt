@@ -18,6 +18,7 @@ import com.reem.internship.model.ViewModelFactory
 class TrainingDetailsFragment : Fragment() {
     var isMark = true
     var trainingId = 0
+    var bookmarkId = 0
     private var _binding: FragmentTrainingDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CompanyViewModel by activityViewModels { ViewModelFactory() }
@@ -27,6 +28,7 @@ class TrainingDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             trainingId = it.getInt("id")
+            bookmarkId = it.getInt("index")
         }
     }
 
@@ -51,7 +53,10 @@ class TrainingDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.companyViewModel = viewModel
-        viewModel.getTrainingDetails(trainingId)
+
+
+
+        getDetails(trainingId,bookmarkId)
         viewModel.trainingDetails.observe(this.viewLifecycleOwner, {
             (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
         })
@@ -81,6 +86,28 @@ class TrainingDetailsFragment : Fragment() {
 
     fun markTraining() {
 
+    }
+
+    fun getDetails(id: Int ,index:Int){
+        if (index==1){
+            viewModel.getTrainingDetails(id)
+            bindTrainingDetails()
+        } else if (index== 0){
+            viewModel.getBookmarkDetails(id)
+            bindBookmarkDetails()
+        }
+    }
+    fun bindTrainingDetails(){
+        bindImage(binding.companyImage,viewModel.trainingDetails.value?.image)
+        binding.apply{
+
+        }
+    }
+
+    fun bindBookmarkDetails(){
+        binding.apply {
+
+        }
     }
 }
 

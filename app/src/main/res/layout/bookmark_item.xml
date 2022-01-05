@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="bookmark"
+            type="com.reem.internship.ui.BookmarkItemUiState" />
+
+
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/training_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:padding="6dp"
+            android:layout_height="100dp"
+            android:layout_margin="8dp">
+
+            <ImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/image_profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="8dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:civ_border_width="1dp"
+                app:imageUrl="@{bookmark.image}"
+                app:civ_border_color="#716F6F" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/book_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="#00FFF6F6"
+                app:chipEndPadding="-6dp"
+                android:layout_marginTop="-8dp"
+                android:layout_marginEnd="-8dp"
+                app:chipIcon="@drawable/ic_bookmark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/unmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="#00FFF6F6"
+                app:chipEndPadding="-6dp"
+                android:layout_marginTop="-8dp"
+                android:layout_marginEnd="-8dp"
+                app:chipIcon="@drawable/ic_bookmark_border"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/field"
+                android:text="@{bookmark.field}"
+                app:layout_constraintStart_toEndOf="@id/image_profile"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_marginStart="8dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/company_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bookmark.name}"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/field"
+                app:layout_constraintTop_toBottomOf="@id/field"/>
+            <TextView
+                android:id="@+id/city"
+                android:text="@{@string/div(bookmark.city)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@id/company_name"
+                app:layout_constraintTop_toTopOf="@id/company_name" />
+            <TextView
+                android:id="@+id/major"
+                android:text="@{bookmark.major}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/company_name"
+                app:layout_constraintTop_toBottomOf="@id/company_name" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

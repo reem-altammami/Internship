@@ -102,7 +102,7 @@ data class UserResponseModel(
 	val gpa: String? = null,
 
 	@Json(name="bookMark")
-	val bookMark: BookMarkResponse? = BookMarkResponse()
+	val bookMark: List<BookMarkResponse> = listOf()
 )
 
 data class BookMarkResponse(
