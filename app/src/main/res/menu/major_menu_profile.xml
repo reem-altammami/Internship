@@ -13,9 +13,4 @@
         android:title="@string/software_engineering"
         />
 
-    <item
-        android:id="@+id/show_all"
-        android:title="@string/show_all"
-
-        />
 </menu>

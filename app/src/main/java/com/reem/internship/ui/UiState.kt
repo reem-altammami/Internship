@@ -18,5 +18,5 @@ data class TrainingItemUiState(
     val field: String,
     val city: String,
     val description :String,
-    val mail : String
+    val email : String
 )

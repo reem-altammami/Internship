@@ -33,7 +33,7 @@ class UserRepository(private val userDataSource: UserDataSource) {
             training.location,
             training.id,
             training.info,
-            training.mail
+            training.email
         )
 
         if (!bookmarkList.contains(newBookmark)) {

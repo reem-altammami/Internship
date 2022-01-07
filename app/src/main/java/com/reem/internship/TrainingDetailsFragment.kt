@@ -16,9 +16,9 @@ import com.reem.internship.databinding.FragmentTrainingDetailsBinding
 import com.reem.internship.model.CompanyViewModel
 import com.reem.internship.model.ViewModelFactory
 import android.content.pm.PackageManager
-
-
-
+import android.widget.ImageView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 
 class TrainingDetailsFragment : Fragment() {
@@ -69,7 +69,7 @@ class TrainingDetailsFragment : Fragment() {
         binding.share.setOnClickListener {
             shareTrainingDetails()
         }
-        binding.apply.setOnClickListener { applyOnTraining() }
+        binding.apply.setOnClickListener { showApplyDialog() }
     }
 
     override fun onResume() {
@@ -96,12 +96,17 @@ class TrainingDetailsFragment : Fragment() {
         binding.bookmark.visibility = View.VISIBLE
         binding.unmark.visibility = View.GONE
         viewModel.addBooKmark()
+        val contextView = binding.bookmark
+        Snackbar.make(contextView, "Add intern to Bookmark", Snackbar.LENGTH_SHORT).show()
+
     }
 
     fun unMarkTraining(){
         binding.unmark.visibility = View.VISIBLE
         binding.bookmark.visibility = View.GONE
         viewModel.unBookMarkTraining()
+        val contextView = binding.unmark
+        Snackbar.make(contextView, "Remove intern from Bookmark", Snackbar.LENGTH_SHORT).show()
     }
 
     fun getDetails(id: Int, source: Int) {
@@ -163,7 +168,7 @@ class TrainingDetailsFragment : Fragment() {
     }
 
 fun applyOnTraining(){
- val email = viewModel.trainingDetails.value?.mail.toString()
+ val email = viewModel.trainingDetails.value?.email.toString()
     val subject = viewModel.trainingDetails.value?.field
     val message = "${viewModel.trainingDetails.value?.name}\n${viewModel.trainingDetails.value?.description}"
 val addresses = email.split(",".toRegex()).toTypedArray()
@@ -181,6 +186,19 @@ val addresses = email.split(",".toRegex()).toTypedArray()
     }
 
 }
+
+    fun showApplyDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Apply To ${viewModel.trainingDetails.value?.field}")
+            .setMessage("You will apply to this intern \n we recommend you to share your CV on email ")
+            .setCancelable(false)
+            .setNegativeButton("Cancel"){_,_ ->
+            }
+            .setPositiveButton("Continue"){_,_->
+                applyOnTraining()
+            }
+            .show()
+    }
 
 }
 
