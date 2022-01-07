@@ -1,5 +1,6 @@
 package com.reem.internship
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -60,6 +61,17 @@ class TrainingDetailsFragment : Fragment() {
 
         binding.unmark.setOnClickListener { markTraining() }
         binding.bookmark.setOnClickListener { unMarkTraining() }
+        binding.share.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+                .putExtra(
+                    Intent.EXTRA_TEXT,
+                    " ${viewModel.trainingDetails.value?.field}\n ${viewModel.trainingDetails.value?.name}\n ${viewModel.trainingDetails.value?.description}"
+                )
+                .setType("text/plain")
+            if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
+                startActivity(intent)
+            }
+        }
     }
 
     override fun onResume() {
