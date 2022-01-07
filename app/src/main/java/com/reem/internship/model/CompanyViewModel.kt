@@ -70,7 +70,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                                 field = training.field!!,
                                 city = training.city!!.cityName!!,
                                 description = it.description!!,
-                                mail = company.email!!
+                                email = company.email!!
                             )
 
                         }
@@ -159,7 +159,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
             trainingDetails.value?.field!!,
             trainingDetails.value?.city!!,
             trainingDetails.value?.description!!,
-            trainingDetails.value?.mail!!
+            trainingDetails.value?.email!!
         )
         viewModelScope.launch {
             userRepo.addTrainingToBookmark(bookmark)
@@ -189,7 +189,8 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                                     major = it.major!!,
                                     field = it.field!!,
                                     city = it.city!!,
-                                    description = it.description!!
+                                    description = it.description!!,
+                                    email = it.email!!
                                 )
 
                             }
