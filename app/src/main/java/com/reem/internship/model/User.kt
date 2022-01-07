@@ -8,7 +8,7 @@ data class User(
     val major: String="",
     val city: String="",
     val gpa: String="",
-    val bookMark: List<BookMark> = listOf(BookMark("","","","","","","","",""))
+    val bookMark: List<BookMark> = listOf(BookMark("","","","","","","","","",""))
 
 )
 
@@ -21,5 +21,6 @@ data class BookMark(
     val major: String,
     val field: String,
     val city: String,
-    val description :String
+    val description :String,
+    val mail: String
 )
