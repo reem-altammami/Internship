@@ -7,14 +7,19 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.TextView
 import com.reem.internship.databinding.FragmentEditProfileBinding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.reem.internship.model.User
 
 import com.reem.internship.model.UserViewModel
 import com.reem.internship.model.UserViewModelFactory
+import kotlinx.coroutines.launch
 
 
 class EditProfileFragment : Fragment() {
@@ -50,6 +55,22 @@ class EditProfileFragment : Fragment() {
         binding.userViewModel = userViewModel
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                userViewModel.userUiState.collect {
+                    binding.apply {
+                        name.setText(it.userItem.userName, TextView.BufferType.SPANNABLE)
+                        filterMajor.setText(it.userItem.major,TextView.BufferType.SPANNABLE)
+                        email.setText(it.userItem.email,TextView.BufferType.SPANNABLE)
+                        filterCity.setText(it.userItem.city,TextView.BufferType.SPANNABLE)
+                        gpa.setText(it.userItem.gpa,TextView.BufferType.SPANNABLE)
+                        university.setText(it.userItem.university,TextView.BufferType.SPANNABLE)
+                    }
+                }
+            }
+        }
+
     }
 
     private fun showCityPopupMenu(view: View) {
@@ -126,15 +147,15 @@ class EditProfileFragment : Fragment() {
     }
 
     fun isUserInfoValid():Boolean{
-       return userViewModel.isEntryValid(binding.name.text.toString(),binding.email.toString(),binding.filterMajor.text.toString(),binding.filterCity.text.toString(),binding.university.text.toString(),binding.gpa.toString())
+       return userViewModel.isEntryValid(binding.name.text.toString(),binding.email.text.toString(),binding.filterMajor.text.toString(),binding.filterCity.text.toString(),binding.university.text.toString(),binding.gpa.text.toString())
     }
 
     fun addUserInfo() : User {
         var user:User =User()
         if (isUserInfoValid()) {
             val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
-            val userName = FirebaseAuth.getInstance().currentUser?.displayName.toString()
-            val email = FirebaseAuth.getInstance().currentUser?.email.toString()
+            val userName = binding.name.text.toString()
+            val email = binding.email.text.toString()
             val major = binding.filterMajor.text.toString()
             val city = binding.filterCity.text.toString()
             val university = binding.university.text.toString()

@@ -14,7 +14,12 @@
         android:id="@+id/bookMarkFragment"
         android:name="com.reem.internship.BookMarkFragment"
         android:label="fragment_book_mark"
-        tools:layout="@layout/fragment_book_mark" />
+        tools:layout="@layout/fragment_book_mark" >
+        <action
+            android:id="@+id/action_bookMarkFragment_to_trainingDetailsFragment"
+            app:destination="@id/trainingDetailsFragment"
+            app:popUpTo="@id/homePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homePageFragment"
         android:name="com.reem.internship.HomePageFragment"
@@ -36,6 +41,9 @@
         <action
             android:id="@+id/action_trainingDetailsFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

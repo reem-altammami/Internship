@@ -8,18 +8,20 @@ import androidx.lifecycle.viewModelScope
 import com.reem.internship.TrainingItemUiState
 import com.reem.internship.TrainingUiState
 import com.reem.internship.data.CompanyResponse
+import com.reem.internship.data.TrainingItem
 import com.reem.internship.dataLayer.CompaniesRepo
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.reem.internship.dataLayer.UserRepository
+import com.reem.internship.ui.BookmarkItemUiState
+import com.reem.internship.ui.BookmarkUiState
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 enum class TrainingApiStatus {
     LOADING, ERROR, DONE, EMPTY
 }
 
-class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
+class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: UserRepository) :
+    ViewModel() {
     private val _companies = MutableLiveData<List<CompanyResponse>>()
     var companies: MutableLiveData<List<CompanyResponse>> = _companies
     private val _status = MutableLiveData<TrainingApiStatus>()
@@ -30,8 +32,17 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
     private val _trainingDetails = MutableLiveData<TrainingItemUiState>()
     var trainingDetails: MutableLiveData<TrainingItemUiState> = _trainingDetails
 
+    private val _bookmarkDetails = MutableLiveData<BookmarkItemUiState>()
+    var bookmarkDetails: MutableLiveData<BookmarkItemUiState> = _bookmarkDetails
+
+    private val _bookMarkUiState = MutableStateFlow(BookmarkUiState())
+    val bookMarkUiState: StateFlow<BookmarkUiState> = _bookMarkUiState.asStateFlow()
+    private var bookmarkList = mutableListOf<BookMark>()
+    private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
+
     init {
         getTrainingList()
+        getMarkBook()
     }
 
     fun getTrainingList(major: String = "", city: String = "") {
@@ -73,28 +84,37 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
                     _uiState.update {
                         it.copy(trainingItemList = list.toList(), status = TrainingApiStatus.EMPTY)
                     }
-               //     _status.value=TrainingApiStatus.EMPTY
+                    //     _status.value=TrainingApiStatus.EMPTY
                 } else {
                     _uiState.update {
                         it.copy(trainingItemList = list.toList(), status = TrainingApiStatus.DONE)
                     }
-                //    _status.value = TrainingApiStatus.DONE
+                    //    _status.value = TrainingApiStatus.DONE
 
                 }
 //                companies.value = listResult
             } catch (e: Exception) {
 
                 _uiState.update {
-                    it.copy(status= TrainingApiStatus.ERROR)
+                    it.copy(status = TrainingApiStatus.ERROR)
                 }
             }
         }
     }
 
+
     fun getTrainingDetails(id: Int) {
 
         val itemDetails = uiState.value.trainingItemList[id]
         trainingDetails.value = itemDetails
+
+
+    }
+
+    fun getBookmarkDetails(id: Int) {
+
+        val itemDetails = bookMarkUiState.value.bookmarkItemList[id]
+        bookmarkDetails.value = itemDetails
 
     }
 
@@ -127,10 +147,79 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo) : ViewModel() {
         return filterList
     }
 
-    fun addTrainingToMarkBook(){
+    fun addBooKmark() {
+        val bookmark = BookMark(
+            trainingDetails.value?.id!!,
+            trainingDetails.value?.image!!,
+            trainingDetails.value?.name!!,
+            trainingDetails.value?.info!!,
+            trainingDetails.value?.location!!,
+            trainingDetails.value?.major!!,
+            trainingDetails.value?.field!!,
+            trainingDetails.value?.city!!,
+            trainingDetails.value?.description!!
+        )
         viewModelScope.launch {
-
+            userRepo.addTrainingToBookmark(bookmark)
         }
     }
 
+
+    fun getMarkBook() {
+        viewModelScope.launch {
+            _bookMarkUiState.update {
+                it.copy(status = TrainingApiStatus.LOADING)
+            }
+            try {
+                val listResult = userRepo.getBookmark() ?: emptyList()
+                val list: MutableList<BookmarkItemUiState> = mutableListOf()
+                listResult.forEach { it ->
+                    if (!it.id.isNullOrEmpty()) {
+                        val bookmark =
+                            it.let {
+
+                                BookmarkItemUiState(
+                                    id = it.id!!,
+                                    image = it.image!!,
+                                    name = it.name!!,
+                                    info = it.info!!,
+                                    location = it.location!!,
+                                    major = it.major!!,
+                                    field = it.field!!,
+                                    city = it.city!!,
+                                    description = it.description!!
+                                )
+
+                            }
+                        list.add(bookmark)
+                    }
+                }
+                if (list.isEmpty()) {
+                    _bookMarkUiState.update {
+                        it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.EMPTY)
+                    }
+                } else {
+                    _bookMarkUiState.update {
+                        it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.DONE)
+                    }
+                }
+
+            } catch (e: java.lang.Exception) {
+                Log.d("ffff", "getMarkBook: ${e.toString()}")
+                _bookMarkUiState.update {
+                    it.copy(status = TrainingApiStatus.ERROR)
+                }
+
+
+            }
+        }
+
+    }
+
+    fun unBookMarkTraining(){
+        val trainingId = trainingDetails.value?.id!!
+        viewModelScope.launch {
+            userRepo.deleteBookmark(trainingId)
+        }
+    }
 }

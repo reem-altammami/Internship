@@ -1,5 +1,6 @@
 package com.reem.internship.data
 
+import com.reem.internship.model.BookMark
 import com.squareup.moshi.Json
 
 data class CompanyResponse(
@@ -101,13 +102,34 @@ data class UserResponseModel(
 	val gpa: String? = null,
 
 	@Json(name="bookMark")
-	val bookMark: BookMark? = BookMark()
+	val bookMark: List<BookMarkResponse> = listOf()
 )
 
-data class BookMark(
-	@Json(name="bookMarkId")
-	val bookMarkId: String? = "",
+data class BookMarkResponse(
+	@Json(name="image")
+	val image: String? = null,
 
-	@Json(name="training")
-	val training: List<TrainingItem> = emptyList()
+	@Json(name="field")
+	val field: String? = null,
+
+	@Json(name="major")
+	val major: String? = null,
+
+	@Json(name="city")
+	val city: String? = null,
+
+	@Json(name="name")
+	val name: String? = null,
+
+	@Json(name="description")
+	val description: String? = null,
+
+	@Json(name="location")
+	val location: String? = null,
+
+	@Json(name="id")
+	val id: String? = null,
+
+	@Json(name="info")
+	val info: String? = null
 )

@@ -1,6 +1,7 @@
 package com.reem.internship.dataLayer
 
 import com.reem.internship.data.CompanyResponse
+import com.reem.internship.network.CompanyApi
 import com.reem.internship.network.CompanyApiService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -10,5 +11,7 @@ class CompaniesRemoteDataSource (var api:CompanyApiService, var ioDispatcher: Co
       withContext(ioDispatcher) {
           api.getCompanyApi()
       }
+
+
 
 }

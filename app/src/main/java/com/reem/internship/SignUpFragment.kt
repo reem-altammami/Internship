@@ -35,6 +35,8 @@ private var _binding : FragmentSignUpBinding? = null
     // Create and launch sign-in intent
     val signInIntent = AuthUI.getInstance()
         .createSignInIntentBuilder()
+        .setIsSmartLockEnabled(false)
+
         .setAvailableProviders(providers)
         .build()
     override fun onCreate(savedInstanceState: Bundle?) {

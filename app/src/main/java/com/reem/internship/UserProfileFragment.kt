@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.reem.internship.databinding.FragmentHomePageBinding
 import com.reem.internship.databinding.FragmentUserProfileBinding
 import com.reem.internship.model.UserViewModel
@@ -45,8 +46,10 @@ class UserProfileFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.userProfileFragment =this@UserProfileFragment
         binding.userViewModel = userViewModel
-        userViewModel.showProfileDetails()
-
+//        userViewModel.showProfileDetails()
+binding.logOut.setOnClickListener {
+    FirebaseAuth.getInstance().signOut()
+}
 
 
         lifecycleScope.launch {

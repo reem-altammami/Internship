@@ -1,10 +1,11 @@
 package com.reem.internship.network
 
-import com.reem.internship.data.BookMark
+import com.reem.internship.data.BookMarkResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.reem.internship.data.CompanyResponse
 import com.reem.internship.data.UserResponseModel
+import com.reem.internship.model.BookMark
 import com.reem.internship.model.User
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Interceptor
@@ -53,13 +54,13 @@ interface CompanyApiService {
     suspend fun putUserData (@Path("id")id:String,@Body user:User):User
 
     @PUT("data/users/{id}/bookMark.json")
-    suspend fun addTrainingToBookmark (@Path("id")id:String,@Body bookMark: BookMark)
+    suspend fun updateBookmark (@Path("id")id:String,@Body bookMark: List<BookMarkResponse>)
 
     @GET("data/users/{id}/bookMark.json")
-    suspend fun getUserBookMark(@Path("id")id:String):List<BookMark>
+    suspend fun getBookMark(@Path("id")id:String):List<BookMarkResponse>
 
     @DELETE("data/users/{id}/bookMark/{id}.json")
-    suspend fun deleteTrainingFromBookmark (@Path("id")id:String, @Path("id")idBookmark: String, @Body bookMark: BookMark)
+    suspend fun deleteTrainingFromBookmark (@Path("id")id:String,@Body bookMark: List<BookMarkResponse>)
 
 
 
