@@ -18,7 +18,7 @@ import com.reem.internship.model.ViewModelFactory
 class TrainingDetailsFragment : Fragment() {
     var isMark = true
     var trainingId = 0
-    var bookmarkId = 0
+    var source = 0
     private var _binding: FragmentTrainingDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CompanyViewModel by activityViewModels { ViewModelFactory() }
@@ -28,7 +28,7 @@ class TrainingDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             trainingId = it.getInt("id")
-            bookmarkId = it.getInt("index")
+            source = it.getInt("index")
         }
     }
 
@@ -56,12 +56,10 @@ class TrainingDetailsFragment : Fragment() {
 
 
 
-        getDetails(trainingId,bookmarkId)
-        viewModel.trainingDetails.observe(this.viewLifecycleOwner, {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
-        })
-        binding.unmark.setOnClickListener {viewModel.addBooKmark() }
-//        binding.bookmark.setOnClickListener { viewModel.addBooKmark() }
+        getDetails(trainingId, source)
+
+        binding.unmark.setOnClickListener { markTraining() }
+        binding.bookmark.setOnClickListener { unMarkTraining() }
     }
 
     override fun onResume() {
@@ -85,28 +83,59 @@ class TrainingDetailsFragment : Fragment() {
     }
 
     fun markTraining() {
-
+        binding.bookmark.visibility = View.VISIBLE
+        binding.unmark.visibility = View.GONE
+        viewModel.addBooKmark()
     }
 
-    fun getDetails(id: Int ,index:Int){
-        if (index==1){
+    fun unMarkTraining(){
+        binding.unmark.visibility = View.VISIBLE
+        binding.bookmark.visibility = View.GONE
+        viewModel.unBookMarkTraining()
+    }
+
+    fun getDetails(id: Int, source: Int) {
+        if (source == 0) {
+
             viewModel.getTrainingDetails(id)
             bindTrainingDetails()
-        } else if (index== 0){
+
+        } else if (source==1) {
+
             viewModel.getBookmarkDetails(id)
             bindBookmarkDetails()
         }
     }
-    fun bindTrainingDetails(){
-        bindImage(binding.companyImage,viewModel.trainingDetails.value?.image)
-        binding.apply{
 
+    fun bindTrainingDetails() {
+        viewModel.trainingDetails.observe(this.viewLifecycleOwner, {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
+        })
+        bindImage(binding.companyImage, viewModel.trainingDetails.value?.image)
+        binding.apply {
+            city.text = viewModel.trainingDetails.value?.city
+            companyName.text = viewModel.trainingDetails.value?.name
+            major.text = viewModel.trainingDetails.value?.major
+            description.text = viewModel.trainingDetails.value?.description
+            companyInfo.text = viewModel.trainingDetails.value?.info
+            alertMajor.text = viewModel.trainingDetails.value?.major
+            cityAlert.text = viewModel.trainingDetails.value?.city
         }
     }
 
-    fun bindBookmarkDetails(){
+    fun bindBookmarkDetails() {
+        viewModel.bookmarkDetails.observe(this.viewLifecycleOwner, {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
+        })
+        bindImage(binding.companyImage, viewModel.bookmarkDetails.value?.image)
         binding.apply {
-
+            city.text = viewModel.bookmarkDetails.value?.city
+            companyName.text = viewModel.bookmarkDetails.value?.name
+            major.text = viewModel.bookmarkDetails.value?.major
+            description.text = viewModel.bookmarkDetails.value?.description
+            companyInfo.text = viewModel.bookmarkDetails.value?.info
+            alertMajor.text = viewModel.bookmarkDetails.value?.major
+            cityAlert.text = viewModel.bookmarkDetails.value?.city
         }
     }
 }

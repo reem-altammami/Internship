@@ -2,8 +2,9 @@ package com.reem.internship.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ListAdapter
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.reem.internship.BookMarkFragmentDirections
@@ -44,7 +45,7 @@ class BookmarkAdapter : ListAdapter<BookmarkItemUiState,BookmarkAdapter.Bookmark
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkAdapter.BookmarkViewHolder {
-        return BookmarkAdapter.BookmarkViewHolder(
+        return BookmarkViewHolder(
             BookmarkItemBinding.inflate(
                 LayoutInflater.from(
                     parent.context
@@ -58,9 +59,13 @@ class BookmarkAdapter : ListAdapter<BookmarkItemUiState,BookmarkAdapter.Bookmark
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
 val bookmark = getItem(position)
     holder.bind(bookmark)
-//        val action =
-//            BookMarkFragmentDirections.actionBookMarkFragmentToTrainingDetailsFragment( position,0)
-//        holder.card.findNavController().navigate(action)
+        holder.card.setOnClickListener {
+
+            val action =
+                BookMarkFragmentDirections.actionBookMarkFragmentToTrainingDetailsFragment( position,1)
+           holder.card.findNavController().navigate(action)
+
+        }
     }
 
 }

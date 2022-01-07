@@ -22,7 +22,6 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
     val userUiState: StateFlow<UserUiState> = _userUiState.asStateFlow()
 
 
-
     private val _profileDetails = MutableLiveData<UserItemUiState>()
     var profileDetails: MutableLiveData<UserItemUiState> = _profileDetails
 
@@ -66,14 +65,23 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
 //        profileDetails.value = useProfile
     }
 
-    fun addUserToDataBase(user:User){
+    fun addUserToDataBase(user: User) {
         viewModelScope.launch {
             userRepo.putUserData(user)
         }
     }
 
-    fun isEntryValid(  userName :String, email:String,major :String, city :String,university :String, gpa :String):Boolean{
-        return !(userName.isBlank()||email.isBlank()||major.isBlank()||city.isBlank()||university.isBlank()||gpa.isBlank())
+    fun isEntryValid(
+        userName: String,
+        email: String,
+        major: String,
+        city: String,
+        university: String,
+        gpa: String
+    ): Boolean {
+        return (userName.trim().isNotEmpty() && email.trim().isNotEmpty() && major.trim()
+            .isNotEmpty() && city.trim().isNotEmpty() && university.trim()
+            .isNotEmpty()&& gpa.trim().isNotEmpty())
     }
 
 }

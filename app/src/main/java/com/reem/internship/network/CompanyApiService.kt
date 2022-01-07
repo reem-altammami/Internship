@@ -54,13 +54,13 @@ interface CompanyApiService {
     suspend fun putUserData (@Path("id")id:String,@Body user:User):User
 
     @PUT("data/users/{id}/bookMark.json")
-    suspend fun addTrainingToBookmark (@Path("id")id:String,@Body bookMark: List<BookMark>)
+    suspend fun updateBookmark (@Path("id")id:String,@Body bookMark: List<BookMarkResponse>)
 
     @GET("data/users/{id}/bookMark.json")
     suspend fun getBookMark(@Path("id")id:String):List<BookMarkResponse>
 
     @DELETE("data/users/{id}/bookMark/{id}.json")
-    suspend fun deleteTrainingFromBookmark (@Path("id")id:String, @Path("id")idBookmark: String, @Body bookMark: BookMark)
+    suspend fun deleteTrainingFromBookmark (@Path("id")id:String,@Body bookMark: List<BookMarkResponse>)
 
 
 

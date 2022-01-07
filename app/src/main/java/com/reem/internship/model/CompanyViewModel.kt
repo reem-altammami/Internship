@@ -20,7 +20,8 @@ enum class TrainingApiStatus {
     LOADING, ERROR, DONE, EMPTY
 }
 
-class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: UserRepository) : ViewModel() {
+class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: UserRepository) :
+    ViewModel() {
     private val _companies = MutableLiveData<List<CompanyResponse>>()
     var companies: MutableLiveData<List<CompanyResponse>> = _companies
     private val _status = MutableLiveData<TrainingApiStatus>()
@@ -37,7 +38,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
     private val _bookMarkUiState = MutableStateFlow(BookmarkUiState())
     val bookMarkUiState: StateFlow<BookmarkUiState> = _bookMarkUiState.asStateFlow()
     private var bookmarkList = mutableListOf<BookMark>()
-private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
+    private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
 
     init {
         getTrainingList()
@@ -104,9 +105,8 @@ private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
 
     fun getTrainingDetails(id: Int) {
 
-    val itemDetails = uiState.value.trainingItemList[id]
-    trainingDetails.value = itemDetails
-
+        val itemDetails = uiState.value.trainingItemList[id]
+        trainingDetails.value = itemDetails
 
 
     }
@@ -159,9 +159,8 @@ private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
             trainingDetails.value?.city!!,
             trainingDetails.value?.description!!
         )
-        bookmarkList.add(bookmark)
         viewModelScope.launch {
-            userRepo.addTrainingToBookmark(bookmarkList)
+            userRepo.addTrainingToBookmark(bookmark)
         }
     }
 
@@ -172,36 +171,41 @@ private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
                 it.copy(status = TrainingApiStatus.LOADING)
             }
             try {
-                val listResult = userRepo.getBookmark()
+                val listResult = userRepo.getBookmark() ?: emptyList()
                 val list: MutableList<BookmarkItemUiState> = mutableListOf()
-listResult.forEach { it ->
-    val bookmark =
-        it.let {
-            BookmarkItemUiState(
-                id = it.id!!,
-                image = it.image!!,
-                name = it.name!!,
-                info = it.info!!,
-                location = it.location!!,
-                major = it.major!!,
-                field = it.field!!,
-                city = it.city!!,
-                description = it.description!!
-            )
-        }
-list.add(bookmark)
-    }
-if (list.isEmpty()){
-    _bookMarkUiState.update {
-        it.copy(list.toList(),TrainingApiStatus.EMPTY)
-    }
-}else{
-    _bookMarkUiState.update {
-        it.copy(list.toList(),TrainingApiStatus.DONE)
-    }
-}
+                listResult.forEach { it ->
+                    if (!it.id.isNullOrEmpty()) {
+                        val bookmark =
+                            it.let {
+
+                                BookmarkItemUiState(
+                                    id = it.id!!,
+                                    image = it.image!!,
+                                    name = it.name!!,
+                                    info = it.info!!,
+                                    location = it.location!!,
+                                    major = it.major!!,
+                                    field = it.field!!,
+                                    city = it.city!!,
+                                    description = it.description!!
+                                )
+
+                            }
+                        list.add(bookmark)
+                    }
+                }
+                if (list.isEmpty()) {
+                    _bookMarkUiState.update {
+                        it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.EMPTY)
+                    }
+                } else {
+                    _bookMarkUiState.update {
+                        it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.DONE)
+                    }
+                }
 
             } catch (e: java.lang.Exception) {
+                Log.d("ffff", "getMarkBook: ${e.toString()}")
                 _bookMarkUiState.update {
                     it.copy(status = TrainingApiStatus.ERROR)
                 }
@@ -210,5 +214,12 @@ if (list.isEmpty()){
             }
         }
 
+    }
+
+    fun unBookMarkTraining(){
+        val trainingId = trainingDetails.value?.id!!
+        viewModelScope.launch {
+            userRepo.deleteBookmark(trainingId)
+        }
     }
 }

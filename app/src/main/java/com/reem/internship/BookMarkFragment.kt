@@ -20,8 +20,8 @@ import kotlinx.coroutines.launch
 
 
 class BookMarkFragment : Fragment() {
-    private var _binding : FragmentBookMarkBinding? = null
-    private val  binding get() = _binding!!
+    private var _binding: FragmentBookMarkBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: CompanyViewModel by activityViewModels { ViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +36,9 @@ class BookMarkFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentBookMarkBinding.inflate(inflater,container,false)
-        return binding.root     }
+        _binding = FragmentBookMarkBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,9 +48,14 @@ class BookMarkFragment : Fragment() {
         setHasOptionsMenu(true)
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED){
-                viewModel.bookMarkUiState.collect{
-                    bindStatus(binding.statusImage,it.status)
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.getMarkBook()
+                viewModel.bookMarkUiState.collect {
+                    it?.let {
+                        bindStatus(binding.statusImage, it.status)
+
+
+                    }
                 }
             }
         }
@@ -57,6 +63,6 @@ class BookMarkFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-     //   (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        //   (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
     }
 }

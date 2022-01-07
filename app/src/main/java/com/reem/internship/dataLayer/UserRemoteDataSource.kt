@@ -28,14 +28,19 @@ class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: Corouti
         emit(CompanyApi.retrofitService.getUserApi(id))
     }
 
-    override suspend fun addTrainingToBookmark(userId: String, training: List<BookMark>) {
-        CompanyApi.retrofitService.addTrainingToBookmark(userId, training)
+    override suspend fun updateBookmark(userId: String, training: List<BookMarkResponse>) {
+
+        CompanyApi.retrofitService.updateBookmark(userId, training)
     }
 
     override suspend fun getBooKmark(userId: String): List<BookMarkResponse> =
         withContext(ioDispatcher) {
             api.getBookMark(userId)
         }
+
+    override suspend fun deleteBookmark(userId: String, training: List<BookMarkResponse>) {
+        CompanyApi.retrofitService.deleteTrainingFromBookmark(userId,training)
+    }
 }
 
 

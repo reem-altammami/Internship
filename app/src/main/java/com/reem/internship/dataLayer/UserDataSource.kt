@@ -12,6 +12,7 @@ interface UserDataSource {
 
     suspend fun getUserData(id:String): Flow<User>
     suspend fun putUserData(user: User)
-    suspend fun addTrainingToBookmark(userId:String,training: List<BookMark>)
+    suspend fun updateBookmark(userId:String,training: List<BookMarkResponse>)
 suspend fun getBooKmark(userId: String) :List<BookMarkResponse>
+suspend fun deleteBookmark(userId:String,training: List<BookMarkResponse>)
 }
