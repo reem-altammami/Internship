@@ -1,6 +1,7 @@
 package com.reem.internship
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,10 @@ import androidx.navigation.fragment.findNavController
 import com.reem.internship.databinding.FragmentTrainingDetailsBinding
 import com.reem.internship.model.CompanyViewModel
 import com.reem.internship.model.ViewModelFactory
+import android.content.pm.PackageManager
+
+
+
 
 
 class TrainingDetailsFragment : Fragment() {
@@ -62,16 +67,9 @@ class TrainingDetailsFragment : Fragment() {
         binding.unmark.setOnClickListener { markTraining() }
         binding.bookmark.setOnClickListener { unMarkTraining() }
         binding.share.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-                .putExtra(
-                    Intent.EXTRA_TEXT,
-                    " ${viewModel.trainingDetails.value?.field}\n ${viewModel.trainingDetails.value?.name}\n ${viewModel.trainingDetails.value?.description}"
-                )
-                .setType("text/plain")
-            if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
-                startActivity(intent)
-            }
+            shareTrainingDetails()
         }
+        binding.apply.setOnClickListener { applyOnTraining() }
     }
 
     override fun onResume() {
@@ -150,5 +148,39 @@ class TrainingDetailsFragment : Fragment() {
             cityAlert.text = viewModel.bookmarkDetails.value?.city
         }
     }
+
+    fun shareTrainingDetails(){
+        val intent = Intent(Intent.ACTION_SEND)
+            .putExtra(
+                Intent.EXTRA_TEXT,
+                " ${viewModel.trainingDetails.value?.field}\n ${viewModel.trainingDetails.value?.name}\n ${viewModel.trainingDetails.value?.description}"
+            )
+            .setType("text/plain")
+        if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
+            startActivity(intent)
+        }
+
+    }
+
+fun applyOnTraining(){
+ val email = viewModel.trainingDetails.value?.mail.toString()
+    val subject = viewModel.trainingDetails.value?.field
+    val message = "${viewModel.trainingDetails.value?.name}\n${viewModel.trainingDetails.value?.description}"
+val addresses = email.split(",".toRegex()).toTypedArray()
+
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:") // only email apps should handle this
+        putExtra(Intent.EXTRA_EMAIL, addresses)
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_TEXT, message)
+    }
+    val packageManager = requireActivity().packageManager
+
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    }
+
+}
+
 }
 
