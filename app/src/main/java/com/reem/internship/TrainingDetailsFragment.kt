@@ -16,13 +16,13 @@ import com.reem.internship.databinding.FragmentTrainingDetailsBinding
 import com.reem.internship.model.CompanyViewModel
 import com.reem.internship.model.ViewModelFactory
 import android.content.pm.PackageManager
+import android.util.Log
 import android.widget.ImageView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 
 
 class TrainingDetailsFragment : Fragment() {
-    var isMark = true
     var trainingId = 0
     var source = 0
     private var _binding: FragmentTrainingDetailsBinding? = null
@@ -35,6 +35,7 @@ class TrainingDetailsFragment : Fragment() {
         arguments?.let {
             trainingId = it.getInt("id")
             source = it.getInt("index")
+
         }
     }
 
@@ -70,6 +71,13 @@ class TrainingDetailsFragment : Fragment() {
             shareTrainingDetails()
         }
         binding.apply.setOnClickListener { showApplyDialog() }
+        viewModel.isMarked.observe(viewLifecycleOwner,{ if (it){
+            binding.bookmark.visibility = View.VISIBLE
+            binding.unmark.visibility = View.GONE
+        } else {
+            binding.unmark.visibility = View.VISIBLE
+            binding.bookmark.visibility = View.GONE
+        }})
     }
 
     override fun onResume() {
@@ -77,20 +85,7 @@ class TrainingDetailsFragment : Fragment() {
         //  (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
-    fun bookMarkTraining() {
-        if (isMark) {
-            binding.bookmark.visibility = View.VISIBLE
-            isMark = false
-            binding.bookmark.visibility = View.VISIBLE
-            binding.unmark.visibility = View.GONE
 
-
-        } else {
-            isMark = true
-            binding.unmark.visibility = View.VISIBLE
-            binding.bookmark.visibility = View.GONE
-        }
-    }
 
     fun markTraining() {
         binding.bookmark.visibility = View.VISIBLE
@@ -109,23 +104,33 @@ class TrainingDetailsFragment : Fragment() {
         Snackbar.make(contextView, "Remove intern from Bookmark", Snackbar.LENGTH_SHORT).show()
     }
 
-    fun getDetails(id: Int, source: Int) {
-        if (source == 0) {
+    fun getDetails(id: Int, source: Int){
+        Log.d("trainingId", "trainingId: ${id}${source}")
 
-            viewModel.getTrainingDetails(id)
-            bindTrainingDetails()
+        viewModel.getTrainingDetails(id,source)
+        bindBookmark()
 
-        } else if (source==1) {
-
-            viewModel.getBookmarkDetails(id)
-            bindBookmarkDetails()
-        }
+//        bindTrainingDetails()
     }
+
+//    fun getDetails(id: Int, source: Int) {
+//        if (source == 0) {
+//
+//            viewModel.getTrainingDetails(id)
+//            bindTrainingDetails()
+//
+//        } else if (source==1) {
+//            Log.e("TAG", "getDetails: ${id}", )
+//            viewModel.getBookmarkDetails(id)
+//            bindBookmarkDetails()
+//        }
+//    }
 
     fun bindTrainingDetails() {
         viewModel.trainingDetails.observe(this.viewLifecycleOwner, {
             (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
         })
+//bindBookmark(viewModel.trainingDetails.value?.id!!)
         bindImage(binding.companyImage, viewModel.trainingDetails.value?.image)
         binding.apply {
             city.text = viewModel.trainingDetails.value?.city
@@ -151,6 +156,8 @@ class TrainingDetailsFragment : Fragment() {
             companyInfo.text = viewModel.bookmarkDetails.value?.info
             alertMajor.text = viewModel.bookmarkDetails.value?.major
             cityAlert.text = viewModel.bookmarkDetails.value?.city
+            bookmark.visibility = View.VISIBLE
+            unmark.visibility = View.GONE
         }
     }
 
@@ -170,8 +177,10 @@ class TrainingDetailsFragment : Fragment() {
 fun applyOnTraining(){
  val email = viewModel.trainingDetails.value?.email.toString()
     val subject = viewModel.trainingDetails.value?.field
-    val message = "${viewModel.trainingDetails.value?.name}\n${viewModel.trainingDetails.value?.description}"
-val addresses = email.split(",".toRegex()).toTypedArray()
+    val message = "${viewModel.profileDetails.value?.name}\n ${viewModel.profileDetails.value?.university}\n${viewModel.profileDetails.value?.gpa}\n${viewModel.profileDetails.value?.major}"
+    Log.d("message", "message: ${message}")
+
+    val addresses = email.split(",".toRegex()).toTypedArray()
 
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         data = Uri.parse("mailto:") // only email apps should handle this
@@ -199,6 +208,14 @@ val addresses = email.split(",".toRegex()).toTypedArray()
             }
             .show()
     }
+
+
+fun bindBookmark(){
+    val id = viewModel.trainingDetails.value?.id!!
+    viewModel.isTrainingBookmarked(id)
+    Log.d("trainingId", "training id: ${id}")
+
+}
 
 }
 

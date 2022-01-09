@@ -14,7 +14,6 @@ import com.reem.internship.databinding.FragmentHomePageBinding
 import com.reem.internship.databinding.TrainingItemBinding
 
 class TrainingAdapter : ListAdapter <TrainingItemUiState,TrainingAdapter.TrainingViewHolder> (DiffCallback){
-    var isMark = true
 
     class TrainingViewHolder( private  var binding: TrainingItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind (training : TrainingItemUiState) {
@@ -58,33 +57,15 @@ return TrainingViewHolder(TrainingItemBinding.inflate(LayoutInflater.from(parent
                 HomePageFragmentDirections.actionHomePageFragmentToTrainingDetailsFragment(position, 0)
             holder.card.findNavController().navigate(action)
         }
-
-        holder.mark.setOnClickListener {   if (isMark) {
-            holder.mark.visibility = View.VISIBLE
-            isMark = false
+        if (training.isMark){
             holder.mark.visibility = View.VISIBLE
             holder.unmark.visibility = View.GONE
-
-
         } else {
-            isMark = true
             holder.unmark.visibility = View.VISIBLE
             holder.mark.visibility = View.GONE
-        } }
-        holder.unmark.setOnClickListener {
-            if (isMark) {
-                holder.mark.visibility = View.VISIBLE
-                isMark = false
-                holder.mark.visibility = View.VISIBLE
-                holder.unmark.visibility = View.GONE
-
-
-            } else {
-                isMark = true
-                holder.unmark.visibility = View.VISIBLE
-                holder.mark.visibility = View.GONE
-            }
         }
+
+
     }
 
 

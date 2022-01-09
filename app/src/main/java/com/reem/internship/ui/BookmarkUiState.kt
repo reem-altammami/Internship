@@ -20,3 +20,5 @@ data class BookmarkItemUiState(
     val description :String,
     val email:String
 )
+
+

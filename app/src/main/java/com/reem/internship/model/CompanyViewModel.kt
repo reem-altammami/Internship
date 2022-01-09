@@ -13,8 +13,10 @@ import com.reem.internship.dataLayer.CompaniesRepo
 import com.reem.internship.dataLayer.UserRepository
 import com.reem.internship.ui.BookmarkItemUiState
 import com.reem.internship.ui.BookmarkUiState
+import com.reem.internship.ui.UserItemUiState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 enum class TrainingApiStatus {
     LOADING, ERROR, DONE, EMPTY
@@ -40,9 +42,17 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
     private var bookmarkList = mutableListOf<BookMark>()
     private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
 
+    private val _profileDetails = MutableLiveData<User>()
+    var profileDetails: MutableLiveData<User> = _profileDetails
+
+    private val _isMarked = MutableLiveData<Boolean>()
+     var  isMarked : LiveData<Boolean> =_isMarked
+//var isMarked by Delegates.notNull<Boolean>()
+
     init {
         getTrainingList()
         getMarkBook()
+        getProfileDetails()
     }
 
     fun getTrainingList(major: String = "", city: String = "") {
@@ -58,6 +68,8 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                 listResult.forEach { company ->
                     val companyTraining = company.training.map { training ->
 
+                        // fun
+
                         training.let {
 
                             TrainingItemUiState(
@@ -70,7 +82,9 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                                 field = training.field!!,
                                 city = training.city!!.cityName!!,
                                 description = it.description!!,
-                                email = company.email!!
+                                email = company.email!!,
+                                isMark = true
+
                             )
 
                         }
@@ -116,6 +130,26 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
 
         val itemDetails = bookMarkUiState.value.bookmarkItemList[id]
         bookmarkDetails.value = itemDetails
+
+        Log.e("TAG", "getBookmarkDetails: ${bookmarkDetails.value} ", )
+
+    }
+
+    fun getTrainingDetails(id: Int, source: Int){
+        val trainingList = uiState.value.trainingItemList
+
+    if(source == 0) {
+
+        trainingDetails.value = trainingList[id]
+
+    } else if (source == 1) {
+        val itemBookmarkDetails = bookMarkUiState.value.bookmarkItemList[id]
+        for (item in trainingList){
+             if (item.id == itemBookmarkDetails.id)
+               trainingDetails.value = item
+        }
+
+    }
 
     }
 
@@ -168,6 +202,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
 
 
     fun getMarkBook() {
+
         viewModelScope.launch {
             _bookMarkUiState.update {
                 it.copy(status = TrainingApiStatus.LOADING)
@@ -199,12 +234,16 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                 }
                 if (list.isEmpty()) {
                     _bookMarkUiState.update {
+                        Log.e("TAG", "getMarkBook: empty", )
                         it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.EMPTY)
                     }
                 } else {
                     _bookMarkUiState.update {
+                        Log.e("TAG", "getMarkBook: Done", )
                         it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.DONE)
+
                     }
+                        Log.d("size", "size: ${bookMarkUiState.value.bookmarkItemList.size}")
                 }
 
             } catch (e: java.lang.Exception) {
@@ -220,9 +259,59 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
     }
 
     fun unBookMarkTraining(){
-        val trainingId = trainingDetails.value?.id!!
+        Log.e("TAG", "unBookMarkTraining: id  ${trainingDetails.value?.id}", )
+        Log.e("TAG", "unBookMarkTraining: name ${trainingDetails.value?.name}", )
+
+        bookmarkDetails
+        val trainingId = trainingDetails.value?.id
         viewModelScope.launch {
-            userRepo.deleteBookmark(trainingId)
+            userRepo.deleteBookmark(trainingId!!)
         }
     }
+
+    fun isTrainingBookmarked(id: String)  {
+            viewModelScope.launch {
+               val result = userRepo.isTrainingBookmarked(id)
+                _isMarked.value = result
+                Log.d("ismark", "is marked or not: ${isMarked}")
+
+            }
+
+
+
+    }
+
+    fun getProfileDetails() {
+
+        viewModelScope.launch {
+
+
+            var user = userRepo.getUserData().collect {
+
+                val useProfile = it.let{
+
+
+                        User(
+                            it.name,
+                            it.email,
+                            it.id,
+                            it.university,
+                            it.major,
+                            it.city,
+                            it.gpa,
+                            it.bookMark
+
+                        )
+                }
+                Log.d("profile", "profile: ${useProfile}")
+
+                profileDetails.value = useProfile
+            }
+
+        }
+
+    }
 }
+
+
+

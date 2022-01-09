@@ -60,9 +60,9 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
 //        _userUiState.update { it.copy(userItem = s) }
 //    }
 
-    fun showProfileDetails() {
+    fun getProfileDetails() {
         val useProfile = userUiState.value.userItem
-//        profileDetails.value = useProfile
+        profileDetails.value = useProfile
     }
 
     fun addUserToDataBase(user: User) {

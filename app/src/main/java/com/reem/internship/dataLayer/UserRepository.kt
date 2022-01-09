@@ -1,5 +1,6 @@
 package com.reem.internship.dataLayer
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.reem.internship.data.BookMarkResponse
@@ -45,7 +46,11 @@ class UserRepository(private val userDataSource: UserDataSource) {
     suspend fun deleteBookmark(trainingId: String) {
         withContext(Dispatchers.IO) {
             val bookmarkList = getBookmark().toMutableList()
+            Log.e("TAG", "deleteBookmark: ${bookmarkList.size}")
+           // var a = bookmarkList.iterator()
+           //
             for (item in bookmarkList) {
+                Log.e("TAG", "deleteBookmark: in for loop")
                 if (item.id == trainingId) {
                     bookmarkList.remove(item)
                     userDataSource.updateBookmark(getCurrentUserID(), bookmarkList)
@@ -53,4 +58,29 @@ class UserRepository(private val userDataSource: UserDataSource) {
             }
         }
     }
+
+    suspend fun isTrainingBookmarked(id: String): Boolean {
+        var isMark = false
+        return withContext(Dispatchers.IO) {
+            var a = getBookmark()
+
+            a.find { it.id == id }?.let {
+                return@withContext true
+            }
+            return@withContext false
+        }
+    }
 }
+
+
+//       bookmarkedList.find { it.id ==id }.let {
+//           return true
+//       }
+//       return false
+
+//       for (item in bookmarkedList){
+//           isMark = item.id == id
+//       }
+//           return isMark
+
+
