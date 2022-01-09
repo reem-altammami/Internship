@@ -134,6 +134,6 @@ data class BookMarkResponse(
 	val info: String? = null,
 
 	@Json(name="email")
-val email: String? = null,
+val email: String? = null
 
 )

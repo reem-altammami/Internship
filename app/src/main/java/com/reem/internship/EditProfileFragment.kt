@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.reem.internship.model.User
 
@@ -70,6 +71,7 @@ class EditProfileFragment : Fragment() {
                 }
             }
         }
+        getProfileImage()
 
     }
 
@@ -164,6 +166,15 @@ class EditProfileFragment : Fragment() {
 
         }
         return user
+    }
+
+    fun getProfileImage(){
+        val image = FirebaseAuth.getInstance().currentUser?.photoUrl
+        Glide.with(this)
+            .load(image)
+            .fitCenter()
+            .placeholder(R.drawable.img)
+            .into(binding.imageProfile)
     }
 
 }

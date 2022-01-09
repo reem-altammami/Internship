@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.reem.internship.databinding.FragmentHomePageBinding
 import com.reem.internship.databinding.FragmentUserProfileBinding
@@ -65,11 +66,22 @@ binding.logOut.setOnClickListener {
                 }
             }
         }
+
+        getProfileImage()
     }
 
     fun goToEditProfile(){
         findNavController().navigate(R.id.action_userProfileFragment_to_profileFragment)
 
+    }
+
+    fun getProfileImage(){
+        val image = FirebaseAuth.getInstance().currentUser?.photoUrl
+        Glide.with(this)
+            .load(image)
+            .fitCenter()
+            .placeholder(R.drawable.img)
+            .into(binding.imageProfile)
     }
 
 }
