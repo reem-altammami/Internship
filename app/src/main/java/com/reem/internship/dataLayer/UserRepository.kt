@@ -47,15 +47,16 @@ class UserRepository(private val userDataSource: UserDataSource) {
         withContext(Dispatchers.IO) {
             val bookmarkList = getBookmark().toMutableList()
             Log.e("TAG", "deleteBookmark: ${bookmarkList.size}")
-           // var a = bookmarkList.iterator()
-           //
-            for (item in bookmarkList) {
-                Log.e("TAG", "deleteBookmark: in for loop")
-                if (item.id == trainingId) {
-                    bookmarkList.remove(item)
-                    userDataSource.updateBookmark(getCurrentUserID(), bookmarkList)
+
+            var itrator=bookmarkList.iterator()
+            while (itrator.hasNext()){
+                var item =itrator.next()
+                if (item.id==trainingId){
+                    itrator.remove()
                 }
             }
+                    userDataSource.updateBookmark(getCurrentUserID(), bookmarkList)
+
         }
     }
 

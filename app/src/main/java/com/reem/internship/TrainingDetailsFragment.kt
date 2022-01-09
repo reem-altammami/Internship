@@ -113,53 +113,7 @@ class TrainingDetailsFragment : Fragment() {
 //        bindTrainingDetails()
     }
 
-//    fun getDetails(id: Int, source: Int) {
-//        if (source == 0) {
-//
-//            viewModel.getTrainingDetails(id)
-//            bindTrainingDetails()
-//
-//        } else if (source==1) {
-//            Log.e("TAG", "getDetails: ${id}", )
-//            viewModel.getBookmarkDetails(id)
-//            bindBookmarkDetails()
-//        }
-//    }
 
-    fun bindTrainingDetails() {
-        viewModel.trainingDetails.observe(this.viewLifecycleOwner, {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
-        })
-//bindBookmark(viewModel.trainingDetails.value?.id!!)
-        bindImage(binding.companyImage, viewModel.trainingDetails.value?.image)
-        binding.apply {
-            city.text = viewModel.trainingDetails.value?.city
-            companyName.text = viewModel.trainingDetails.value?.name
-            major.text = viewModel.trainingDetails.value?.major
-            description.text = viewModel.trainingDetails.value?.description
-            companyInfo.text = viewModel.trainingDetails.value?.info
-            alertMajor.text = viewModel.trainingDetails.value?.major
-            cityAlert.text = viewModel.trainingDetails.value?.city
-        }
-    }
-
-    fun bindBookmarkDetails() {
-        viewModel.bookmarkDetails.observe(this.viewLifecycleOwner, {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = it.field
-        })
-        bindImage(binding.companyImage, viewModel.bookmarkDetails.value?.image)
-        binding.apply {
-            city.text = viewModel.bookmarkDetails.value?.city
-            companyName.text = viewModel.bookmarkDetails.value?.name
-            major.text = viewModel.bookmarkDetails.value?.major
-            description.text = viewModel.bookmarkDetails.value?.description
-            companyInfo.text = viewModel.bookmarkDetails.value?.info
-            alertMajor.text = viewModel.bookmarkDetails.value?.major
-            cityAlert.text = viewModel.bookmarkDetails.value?.city
-            bookmark.visibility = View.VISIBLE
-            unmark.visibility = View.GONE
-        }
-    }
 
     fun shareTrainingDetails(){
         val intent = Intent(Intent.ACTION_SEND)
