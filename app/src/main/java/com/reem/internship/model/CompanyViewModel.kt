@@ -68,7 +68,7 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                 listResult.forEach { company ->
                     val companyTraining = company.training.map { training ->
 
-                        // fun
+
 
                         training.let {
 

@@ -84,4 +84,10 @@ binding.logOut.setOnClickListener {
             .into(binding.imageProfile)
     }
 
+    override fun onResume() {
+        super.onResume()
+        //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        (requireActivity() as MainActivity).bottomNavigation.visibility = View.VISIBLE
+    }
+
 }

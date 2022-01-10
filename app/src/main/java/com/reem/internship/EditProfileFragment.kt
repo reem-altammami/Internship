@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.reem.internship.model.User
 
@@ -46,6 +47,9 @@ class EditProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentEditProfileBinding.inflate(inflater,container,false)
         return binding.root    }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -136,6 +140,7 @@ class EditProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
       //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        (requireActivity() as MainActivity).bottomNavigation.visibility = View.GONE
     }
 
     fun createNewProfile(){

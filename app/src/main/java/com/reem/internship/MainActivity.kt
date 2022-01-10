@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
-
+    lateinit var bottomNavigation : BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity() {
 //
 //        h[null]=1
 //        Log.d("TAG", "map: ${h.toString()} ")
+
+        // Bottom Navigation
+        bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        bottomNavigation.setupWithNavController(navController)
 
     }
     override fun onSupportNavigateUp(): Boolean {
