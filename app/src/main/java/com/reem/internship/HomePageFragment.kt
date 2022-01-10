@@ -74,19 +74,13 @@ class HomePageFragment : Fragment() {
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
 
-
-        var id = FirebaseAuth.getInstance().currentUser?.uid
-        var username = FirebaseAuth.getInstance().currentUser?.displayName
-        var email = FirebaseAuth.getInstance().currentUser?.email
         FirebaseAuth.getInstance().currentUser?.uid
 
-//        viewModel.companies.observe(this.viewLifecycleOwner,{
-//            binding.status.text = it.toString()
-//        })
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collect {
                     bindStatus(binding.statusImage, it.status)
+                    bindRecyclerView(binding.trainingRecyclerView, it.trainingItemList)
                 }
             }
         }
@@ -96,37 +90,28 @@ class HomePageFragment : Fragment() {
     private fun showMajorPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.major_menu)
-
         popup.setOnMenuItemClickListener { item: MenuItem? ->
-
             when (item!!.itemId) {
-
                 R.id.filter_is -> {
                     currentMajor = getString(R.string.information_systems)
-
                 }
                 R.id.filter_cs -> {
                     currentMajor = getString(R.string.computer_sciences)
-
                 }
                 R.id.filter_se -> {
                     currentMajor = getString(R.string.software_engineering)
-
-
                 }
 
                 R.id.show_all -> {
                     currentMajor = ""
                 }
-
             }
             if (currentMajor.isNotEmpty()) {
                 binding.filterMajor.text = currentMajor
             } else {
                 binding.filterMajor.text = getString(R.string.major)
             }
-            viewModel.getTrainingList(major = currentMajor, city = currentCity)
-
+            viewModel.getItemTraingListWithBookMArks(major = currentMajor, city = currentCity)
             true
         }
 
@@ -162,7 +147,7 @@ class HomePageFragment : Fragment() {
             } else {
                 binding.filterCity.text = getString(R.string.city)
             }
-            viewModel.getTrainingList(major = currentMajor, city = currentCity)
+            viewModel.getItemTraingListWithBookMArks(major = currentMajor, city = currentCity)
             true
         }
 
@@ -171,6 +156,7 @@ class HomePageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        viewModel.getItemTraingListWithBookMArks(currentMajor, currentCity)
+
     }
 }

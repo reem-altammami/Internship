@@ -59,7 +59,7 @@ class UserRepository(private val userDataSource: UserDataSource) {
     }
 
     suspend fun isTrainingBookmarked(id: String): Boolean {
-        var isMark = false
+
         return withContext(Dispatchers.IO) {
             var a = getBookmark()
 

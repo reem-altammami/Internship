@@ -10,8 +10,11 @@ import com.reem.internship.TrainingUiState
 import com.reem.internship.data.CompanyResponse
 import com.reem.internship.dataLayer.CompaniesRepo
 import com.reem.internship.dataLayer.UserRepository
+
+import com.reem.internship.domainLayer.GetTrainingListWithBookMarksUseCase
 import com.reem.internship.ui.BookmarkItemUiState
 import com.reem.internship.ui.BookmarkUiState
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +25,7 @@ enum class TrainingApiStatus {
     LOADING, ERROR, DONE, EMPTY
 }
 
-class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: UserRepository) :
+class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: UserRepository,private val getTrainingListWithBookMarks: GetTrainingListWithBookMarksUseCase) :
     ViewModel() {
     private val _companies = MutableLiveData<List<CompanyResponse>>()
     var companies: MutableLiveData<List<CompanyResponse>> = _companies
@@ -47,69 +50,25 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
     var isMarked: LiveData<Boolean> = _isMarked
 
     init {
-        getTrainingList()
-        getMarkBook()
+        getItemTraingListWithBookMArks()
         getProfileDetails()
     }
+fun getItemTraingListWithBookMArks(major: String = "", city: String = ""){
+    _uiState.update {
+        it.copy(trainingItemList = emptyList(), status = TrainingApiStatus.LOADING)
+    }
+    viewModelScope.launch {
 
-    fun getTrainingList(major: String = "", city: String = "") {
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(status = TrainingApiStatus.LOADING)
-            }
-            try {
-                val listResult = companiesRepo.getCompanies()
+       val s= async {  getTrainingListWithBookMarks(city, major)}.await()
+        if(s.isEmpty()) {
+            _uiState.update { it.copy(trainingItemList = emptyList(), status = TrainingApiStatus.EMPTY) }
 
-                val list: MutableList<TrainingItemUiState> = mutableListOf()
-                listResult.forEach { company ->
-                    val companyTraining = company.training.map { training ->
+        }else{
+            _uiState.update { it.copy(trainingItemList = s, status = TrainingApiStatus.DONE) }
 
-
-                        training.let {
-
-                            TrainingItemUiState(
-                                id = it.id!!,
-                                image = company.image!!,
-                                name = company.name!!,
-                                info = company.info!!,
-                                location = company.location!!.cityname!!,
-                                major = it.major!!.majorName!!,
-                                field = training.field!!,
-                                city = training.city!!.cityName!!,
-                                description = it.description!!,
-                                email = company.email!!,
-                                isMark = true
-
-                            )
-
-                        }
-                    }
-
-
-
-                    list.addAll(filter(companyTraining, city = city, major = major))
-
-                }
-                if (list.isEmpty()) {
-                    _uiState.update {
-                        it.copy(trainingItemList = list.toList(), status = TrainingApiStatus.EMPTY)
-                    }
-                    //     _status.value=TrainingApiStatus.EMPTY
-                } else {
-                    _uiState.update {
-                        it.copy(trainingItemList = list.toList(), status = TrainingApiStatus.DONE)
-                    }
-
-                }
-
-            } catch (e: Exception) {
-
-                _uiState.update {
-                    it.copy(status = TrainingApiStatus.ERROR)
-                }
-            }
         }
     }
+}
 
 
     fun getTrainingDetails(id: Int, source: Int) {
@@ -123,25 +82,6 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                     trainingDetails.value = item
             }
         }
-    }
-
-    fun filter(
-        list: List<TrainingItemUiState>,
-        major: String = "",
-        city: String = ""
-    ): List<TrainingItemUiState> {
-        var
-                filterList = if (major.isNotEmpty() && city.isNotEmpty()) {
-            list.filter { it.major == major && it.city == city }
-        } else if (major.isNotEmpty() && city.isEmpty()) {
-            list.filter { it.major == major }
-        } else if (major.isEmpty() && city.isNotEmpty()) {
-            list.filter { it.city == city }
-
-        } else {
-            list
-        }
-        return filterList
     }
 
     fun addBooKmark(bookmark: BookMark) {
