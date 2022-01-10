@@ -73,6 +73,8 @@ class EditProfileFragment : Fragment() {
         }
         getProfileImage()
 
+        
+
     }
 
     private fun showCityPopupMenu(view: View) {
