@@ -1,5 +1,7 @@
 package com.reem.internship.ui
 
+import com.reem.internship.TrainingItemUiState
+import com.reem.internship.model.BookMark
 import com.reem.internship.model.TrainingApiStatus
 
 data class BookmarkUiState(
@@ -22,3 +24,9 @@ data class BookmarkItemUiState(
 )
 
 
+fun TrainingItemUiState.toBookMark():BookMark{
+
+    return  BookMark(this.id,this.image,this.name,this.info,
+        this.location,this.major,this.field,this.city,
+        this.description,this.email)
+}

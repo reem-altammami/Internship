@@ -17,10 +17,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
+import com.reem.internship.model.BookMark
 import com.reem.internship.model.User
 import com.reem.internship.network.CompanyApi
+import com.reem.internship.ui.toBookMark
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -51,7 +55,21 @@ class HomePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.companyViewModel = viewModel
-        binding.trainingRecyclerView.adapter = TrainingAdapter()
+        binding.trainingRecyclerView.adapter = TrainingAdapter({ item, postion ->
+            val action =
+                HomePageFragmentDirections.actionHomePageFragmentToTrainingDetailsFragment(
+                    postion,
+                    0
+                )
+            findNavController().navigate(action)
+        }, { item, isFav ->
+            if (isFav) {
+                viewModel.unBookMarkTraining(item.id)
+            } else {
+                viewModel.addBooKmark(item.toBookMark())
+
+            }
+        })
         setHasOptionsMenu(true)
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
@@ -60,7 +78,7 @@ class HomePageFragment : Fragment() {
         var id = FirebaseAuth.getInstance().currentUser?.uid
         var username = FirebaseAuth.getInstance().currentUser?.displayName
         var email = FirebaseAuth.getInstance().currentUser?.email
-FirebaseAuth.getInstance().currentUser?.uid
+        FirebaseAuth.getInstance().currentUser?.uid
 
 //        viewModel.companies.observe(this.viewLifecycleOwner,{
 //            binding.status.text = it.toString()

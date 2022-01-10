@@ -8,15 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.reem.internship.TrainingItemUiState
 import com.reem.internship.TrainingUiState
 import com.reem.internship.data.CompanyResponse
-import com.reem.internship.data.TrainingItem
 import com.reem.internship.dataLayer.CompaniesRepo
 import com.reem.internship.dataLayer.UserRepository
 import com.reem.internship.ui.BookmarkItemUiState
 import com.reem.internship.ui.BookmarkUiState
-import com.reem.internship.ui.UserItemUiState
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.properties.Delegates
 
 enum class TrainingApiStatus {
     LOADING, ERROR, DONE, EMPTY
@@ -39,15 +39,12 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
 
     private val _bookMarkUiState = MutableStateFlow(BookmarkUiState())
     val bookMarkUiState: StateFlow<BookmarkUiState> = _bookMarkUiState.asStateFlow()
-    private var bookmarkList = mutableListOf<BookMark>()
-    private var userBookmarkList = mutableListOf<BookmarkItemUiState>()
 
     private val _profileDetails = MutableLiveData<User>()
     var profileDetails: MutableLiveData<User> = _profileDetails
 
     private val _isMarked = MutableLiveData<Boolean>()
-     var  isMarked : LiveData<Boolean> =_isMarked
-//var isMarked by Delegates.notNull<Boolean>()
+    var isMarked: LiveData<Boolean> = _isMarked
 
     init {
         getTrainingList()
@@ -62,12 +59,10 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
             }
             try {
                 val listResult = companiesRepo.getCompanies()
-//                _status.value = TrainingApiStatus.DONE
 
                 val list: MutableList<TrainingItemUiState> = mutableListOf()
                 listResult.forEach { company ->
                     val companyTraining = company.training.map { training ->
-
 
 
                         training.let {
@@ -104,10 +99,9 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                     _uiState.update {
                         it.copy(trainingItemList = list.toList(), status = TrainingApiStatus.DONE)
                     }
-                    //    _status.value = TrainingApiStatus.DONE
 
                 }
-//                companies.value = listResult
+
             } catch (e: Exception) {
 
                 _uiState.update {
@@ -118,49 +112,17 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
     }
 
 
-    fun getTrainingDetails(id: Int) {
-
-        val itemDetails = uiState.value.trainingItemList[id]
-        trainingDetails.value = itemDetails
-
-
-    }
-
-    fun getBookmarkDetails(id: Int) {
-
-        val itemDetails = bookMarkUiState.value.bookmarkItemList[id]
-        bookmarkDetails.value = itemDetails
-
-        Log.e("TAG", "getBookmarkDetails: ${bookmarkDetails.value} ", )
-
-    }
-
-    fun getTrainingDetails(id: Int, source: Int){
+    fun getTrainingDetails(id: Int, source: Int) {
         val trainingList = uiState.value.trainingItemList
-
-    if(source == 0) {
-
-        trainingDetails.value = trainingList[id]
-
-    } else if (source == 1) {
-        val itemBookmarkDetails = bookMarkUiState.value.bookmarkItemList[id]
-        for (item in trainingList){
-             if (item.id == itemBookmarkDetails.id)
-               trainingDetails.value = item
+        if (source == 0) {
+            trainingDetails.value = trainingList[id]
+        } else if (source == 1) {
+            val itemBookmarkDetails = bookMarkUiState.value.bookmarkItemList[id]
+            for (item in trainingList) {
+                if (item.id == itemBookmarkDetails.id)
+                    trainingDetails.value = item
+            }
         }
-
-    }
-
-    }
-
-    fun getTrainingFilteredByMajor(filterByMajor: String) {
-        var filteredList = uiState.value.trainingItemList.filter { it.major.equals(filterByMajor) }
-        _uiState.update { it.copy(trainingItemList = filteredList) }
-    }
-
-    fun getTrainingFilteredByCity(filterByCity: String) {
-        var filteredList = uiState.value.trainingItemList.filter { it.city.equals(filterByCity) }
-        _uiState.update { it.copy(trainingItemList = filteredList) }
     }
 
     fun filter(
@@ -182,24 +144,12 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
         return filterList
     }
 
-    fun addBooKmark() {
-        val bookmark = BookMark(
-            trainingDetails.value?.id!!,
-            trainingDetails.value?.image!!,
-            trainingDetails.value?.name!!,
-            trainingDetails.value?.info!!,
-            trainingDetails.value?.location!!,
-            trainingDetails.value?.major!!,
-            trainingDetails.value?.field!!,
-            trainingDetails.value?.city!!,
-            trainingDetails.value?.description!!,
-            trainingDetails.value?.email!!
-        )
+    fun addBooKmark(bookmark: BookMark) {
+
         viewModelScope.launch {
             userRepo.addTrainingToBookmark(bookmark)
         }
     }
-
 
     fun getMarkBook() {
 
@@ -234,16 +184,16 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
                 }
                 if (list.isEmpty()) {
                     _bookMarkUiState.update {
-                        Log.e("TAG", "getMarkBook: empty", )
+                        Log.e("TAG", "getMarkBook: empty")
                         it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.EMPTY)
                     }
                 } else {
                     _bookMarkUiState.update {
-                        Log.e("TAG", "getMarkBook: Done", )
+                        Log.e("TAG", "getMarkBook: Done")
                         it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.DONE)
 
                     }
-                        Log.d("size", "size: ${bookMarkUiState.value.bookmarkItemList.size}")
+                    Log.d("size", "size: ${bookMarkUiState.value.bookmarkItemList.size}")
                 }
 
             } catch (e: java.lang.Exception) {
@@ -257,26 +207,20 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
         }
 
     }
+    fun unBookMarkTraining(trainingId: String) {
 
-    fun unBookMarkTraining(){
-        Log.e("TAG", "unBookMarkTraining: id  ${trainingDetails.value?.id}", )
-        Log.e("TAG", "unBookMarkTraining: name ${trainingDetails.value?.name}", )
 
-        bookmarkDetails
-        val trainingId = trainingDetails.value?.id
         viewModelScope.launch {
-            userRepo.deleteBookmark(trainingId!!)
+            userRepo.deleteBookmark(trainingId)
         }
     }
+    fun isTrainingBookmarked(id: String) {
+        viewModelScope.launch {
+            val result = userRepo.isTrainingBookmarked(id)
+            _isMarked.value = result
+            Log.d("ismark", "is marked or not: ${isMarked}")
 
-    fun isTrainingBookmarked(id: String)  {
-            viewModelScope.launch {
-               val result = userRepo.isTrainingBookmarked(id)
-                _isMarked.value = result
-                Log.d("ismark", "is marked or not: ${isMarked}")
-
-            }
-
+        }
 
 
     }
@@ -286,22 +230,22 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
         viewModelScope.launch {
 
 
-            var user = userRepo.getUserData().collect {
+          userRepo.getUserData().collect {
 
-                val useProfile = it.let{
+                val useProfile = it.let {
 
 
-                        User(
-                            it.name,
-                            it.email,
-                            it.id,
-                            it.university,
-                            it.major,
-                            it.city,
-                            it.gpa,
-                            it.bookMark
+                    User(
+                        it.name,
+                        it.email,
+                        it.id,
+                        it.university,
+                        it.major,
+                        it.city,
+                        it.gpa,
+                        it.bookMark
 
-                        )
+                    )
                 }
                 Log.d("profile", "profile: ${useProfile}")
 
