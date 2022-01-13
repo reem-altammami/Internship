@@ -10,7 +10,7 @@ data class User(
     val major: String="",
     val city: String="",
     val gpa: String="",
-    val bookMark: List<BookMark> = listOf(BookMark("","","","","","","","","",""))
+    val bookMark: List<BookMark> = emptyList()
 
 )
 
