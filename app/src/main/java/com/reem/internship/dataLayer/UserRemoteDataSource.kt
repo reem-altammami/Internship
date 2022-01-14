@@ -9,6 +9,7 @@ import com.reem.internship.model.User
 import com.reem.internship.network.CompanyApi
 import com.reem.internship.network.CompanyApiService
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -20,7 +21,7 @@ import retrofit2.Response
 import java.util.concurrent.Flow
 import kotlin.io.path.Path
 
-class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: CoroutineDispatcher) :
+class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: CoroutineDispatcher=Dispatchers.IO) :
     UserDataSource {
     override suspend fun putUserData(user: User) {
         Log.d("TAG", "putUserData: ${user.toString()}")

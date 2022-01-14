@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         bottomNavigation.setupWithNavController(navController)
+        val isUser =intent.getBooleanExtra("isUser",false)
+        if(!isUser){
+
+          navController.navigate(R.id.action_homePageFragment_to_profileFragment)
+        }
 
     }
     override fun onSupportNavigateUp(): Boolean {
