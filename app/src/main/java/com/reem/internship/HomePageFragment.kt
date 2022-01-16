@@ -17,10 +17,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
+import com.reem.internship.model.BookMark
 import com.reem.internship.model.User
 import com.reem.internship.network.CompanyApi
+import com.reem.internship.ui.toBookMark
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -51,24 +55,32 @@ class HomePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.companyViewModel = viewModel
-        binding.trainingRecyclerView.adapter = TrainingAdapter()
+        binding.trainingRecyclerView.adapter = TrainingAdapter({ item, postion ->
+            val action =
+                HomePageFragmentDirections.actionHomePageFragmentToTrainingDetailsFragment(
+                    postion,
+                    0
+                )
+            findNavController().navigate(action)
+        }, { item, isFav ->
+            if (isFav) {
+                viewModel.unBookMarkTraining(item.id)
+            } else {
+                viewModel.addBooKmark(item.toBookMark())
+
+            }
+        })
         setHasOptionsMenu(true)
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
 
+        FirebaseAuth.getInstance().currentUser?.uid
 
-        var id = FirebaseAuth.getInstance().currentUser?.uid
-        var username = FirebaseAuth.getInstance().currentUser?.displayName
-        var email = FirebaseAuth.getInstance().currentUser?.email
-FirebaseAuth.getInstance().currentUser?.uid
-
-//        viewModel.companies.observe(this.viewLifecycleOwner,{
-//            binding.status.text = it.toString()
-//        })
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collect {
                     bindStatus(binding.statusImage, it.status)
+                    bindRecyclerView(binding.trainingRecyclerView, it.trainingItemList)
                 }
             }
         }
@@ -78,37 +90,28 @@ FirebaseAuth.getInstance().currentUser?.uid
     private fun showMajorPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.major_menu)
-
         popup.setOnMenuItemClickListener { item: MenuItem? ->
-
             when (item!!.itemId) {
-
                 R.id.filter_is -> {
                     currentMajor = getString(R.string.information_systems)
-
                 }
                 R.id.filter_cs -> {
                     currentMajor = getString(R.string.computer_sciences)
-
                 }
                 R.id.filter_se -> {
                     currentMajor = getString(R.string.software_engineering)
-
-
                 }
 
                 R.id.show_all -> {
                     currentMajor = ""
                 }
-
             }
             if (currentMajor.isNotEmpty()) {
                 binding.filterMajor.text = currentMajor
             } else {
                 binding.filterMajor.text = getString(R.string.major)
             }
-            viewModel.getTrainingList(major = currentMajor, city = currentCity)
-
+            viewModel.getItemTraingListWithBookMArks(major = currentMajor, city = currentCity)
             true
         }
 
@@ -144,7 +147,7 @@ FirebaseAuth.getInstance().currentUser?.uid
             } else {
                 binding.filterCity.text = getString(R.string.city)
             }
-            viewModel.getTrainingList(major = currentMajor, city = currentCity)
+            viewModel.getItemTraingListWithBookMArks(major = currentMajor, city = currentCity)
             true
         }
 
@@ -153,6 +156,7 @@ FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onResume() {
         super.onResume()
-        //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        viewModel.getItemTraingListWithBookMArks(currentMajor, currentCity)
+
     }
 }

@@ -20,11 +20,14 @@ import android.util.Log
 import android.widget.ImageView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.reem.internship.model.BookMark
+import com.reem.internship.ui.toBookMark
 
 
 class TrainingDetailsFragment : Fragment() {
     var trainingId = 0
     var source = 0
+
     private var _binding: FragmentTrainingDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CompanyViewModel by activityViewModels { ViewModelFactory() }
@@ -65,19 +68,20 @@ class TrainingDetailsFragment : Fragment() {
 
         getDetails(trainingId, source)
 
-        binding.unmark.setOnClickListener { markTraining() }
-        binding.bookmark.setOnClickListener { unMarkTraining() }
+
         binding.share.setOnClickListener {
             shareTrainingDetails()
         }
         binding.apply.setOnClickListener { showApplyDialog() }
-        viewModel.isMarked.observe(viewLifecycleOwner,{ if (it){
-            binding.bookmark.visibility = View.VISIBLE
-            binding.unmark.visibility = View.GONE
-        } else {
-            binding.unmark.visibility = View.VISIBLE
-            binding.bookmark.visibility = View.GONE
-        }})
+        viewModel.isMarked.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.bookmark.visibility = View.VISIBLE
+                binding.unmark.visibility = View.GONE
+            } else {
+                binding.unmark.visibility = View.VISIBLE
+                binding.bookmark.visibility = View.GONE
+            }
+        })
     }
 
     override fun onResume() {
@@ -86,36 +90,37 @@ class TrainingDetailsFragment : Fragment() {
     }
 
 
-
-    fun markTraining() {
+    fun markTraining(bookMark: BookMark) {
         binding.bookmark.visibility = View.VISIBLE
         binding.unmark.visibility = View.GONE
-        viewModel.addBooKmark()
+        viewModel.addBooKmark(bookMark)
         val contextView = binding.bookmark
         Snackbar.make(contextView, "Add intern to Bookmark", Snackbar.LENGTH_SHORT).show()
 
     }
 
-    fun unMarkTraining(){
+    fun unMarkTraining(trainingId: String) {
         binding.unmark.visibility = View.VISIBLE
         binding.bookmark.visibility = View.GONE
-        viewModel.unBookMarkTraining()
+        viewModel.unBookMarkTraining(trainingId)
         val contextView = binding.unmark
         Snackbar.make(contextView, "Remove intern from Bookmark", Snackbar.LENGTH_SHORT).show()
     }
 
-    fun getDetails(id: Int, source: Int){
+    fun getDetails(id: Int, source: Int) {
         Log.d("trainingId", "trainingId: ${id}${source}")
 
-        viewModel.getTrainingDetails(id,source)
+        viewModel.getTrainingDetails(id, source)
         bindBookmark()
+        viewModel.trainingDetails.observe(viewLifecycleOwner, { item ->
+            binding.unmark.setOnClickListener { markTraining(item.toBookMark()) }
+            binding.bookmark.setOnClickListener { unMarkTraining(item.id) }
+        })
 
-//        bindTrainingDetails()
     }
 
 
-
-    fun shareTrainingDetails(){
+    fun shareTrainingDetails() {
         val intent = Intent(Intent.ACTION_SEND)
             .putExtra(
                 Intent.EXTRA_TEXT,
@@ -128,48 +133,50 @@ class TrainingDetailsFragment : Fragment() {
 
     }
 
-fun applyOnTraining(){
- val email = viewModel.trainingDetails.value?.email.toString()
-    val subject = viewModel.trainingDetails.value?.field
-    val message = "${viewModel.profileDetails.value?.name}\n ${viewModel.profileDetails.value?.university}\n${viewModel.profileDetails.value?.gpa}\n${viewModel.profileDetails.value?.major}"
-    Log.d("message", "message: ${message}")
+    fun applyOnTraining() {
+        val email = viewModel.trainingDetails.value?.email.toString()
+        val subject = viewModel.trainingDetails.value?.field
+        val message =
+            "${viewModel.profileDetails.value?.name}\n ${viewModel.profileDetails.value?.university}\n${viewModel.profileDetails.value?.gpa}\n${viewModel.profileDetails.value?.major}"
+        Log.d("message", "message: ${message}")
 
-    val addresses = email.split(",".toRegex()).toTypedArray()
+        val addresses = email.split(",".toRegex()).toTypedArray()
 
-    val intent = Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.parse("mailto:") // only email apps should handle this
-        putExtra(Intent.EXTRA_EMAIL, addresses)
-        putExtra(Intent.EXTRA_SUBJECT, subject)
-        putExtra(Intent.EXTRA_TEXT, message)
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:") // only email apps should handle this
+            putExtra(Intent.EXTRA_EMAIL, addresses)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, message)
+        }
+        val packageManager = requireActivity().packageManager
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+
     }
-    val packageManager = requireActivity().packageManager
 
-    if (intent.resolveActivity(packageManager) != null) {
-        startActivity(intent)
-    }
-
-}
-
-    fun showApplyDialog(){
+    fun showApplyDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Apply To ${viewModel.trainingDetails.value?.field}")
             .setMessage("You will apply to this intern \n we recommend you to share your CV on email ")
             .setCancelable(false)
-            .setNegativeButton("Cancel"){_,_ ->
+            .setNegativeButton("Cancel") { _, _ ->
             }
-            .setPositiveButton("Continue"){_,_->
+            .setPositiveButton("Continue") { _, _ ->
                 applyOnTraining()
             }
             .show()
     }
 
 
-fun bindBookmark(){
-    val id = viewModel.trainingDetails.value?.id!!
-    viewModel.isTrainingBookmarked(id)
-    Log.d("trainingId", "training id: ${id}")
+    fun bindBookmark() {
 
-}
+        val id = viewModel.trainingDetails.value?.id!!
+        viewModel.isTrainingBookmarked(id)
+        Log.d("trainingId", "training id: ${id}")
+
+    }
 
 }
 

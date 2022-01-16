@@ -1,6 +1,7 @@
 package com.reem.internship.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
@@ -15,7 +16,10 @@ import com.reem.internship.databinding.TrainingItemBinding
 import com.reem.internship.ui.BookmarkItemUiState
 
 
-class BookmarkAdapter : ListAdapter<BookmarkItemUiState,BookmarkAdapter.BookmarkViewHolder>(DiffCallback){
+class BookmarkAdapter (
+    private val onClickListener: (BookmarkItemUiState, Int) -> Unit,
+    private val onFavClickListener: (BookmarkItemUiState, Boolean) -> Unit
+)  : ListAdapter<BookmarkItemUiState,BookmarkAdapter.BookmarkViewHolder>(DiffCallback){
 
     class BookmarkViewHolder( private  var binding: BookmarkItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind (bookmark : BookmarkItemUiState) {
@@ -59,14 +63,29 @@ class BookmarkAdapter : ListAdapter<BookmarkItemUiState,BookmarkAdapter.Bookmark
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
 val bookmark = getItem(position)
     holder.bind(bookmark)
+        holder.mark.visibility = View.VISIBLE
+        holder.unmark.visibility = View.GONE
         holder.card.setOnClickListener {
 
-            val action =
-                BookMarkFragmentDirections.actionBookMarkFragmentToTrainingDetailsFragment( position,1)
-           holder.card.findNavController().navigate(action)
+
+            onClickListener(bookmark, holder.adapterPosition)
+        }
+
+        holder.unmark.setOnClickListener {
+            onFavClickListener(getItem(holder.adapterPosition), false)
+
+            holder.mark.visibility = View.VISIBLE
+            holder.unmark.visibility = View.GONE
+        }
+        holder.mark.setOnClickListener {
+            onFavClickListener(getItem(holder.adapterPosition), true)
+            holder.unmark.visibility = View.VISIBLE
+            holder.mark.visibility = View.GONE
 
         }
     }
+
+
 
 }
 

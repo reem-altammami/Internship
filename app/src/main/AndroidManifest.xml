@@ -10,31 +10,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Internship.NoActionBar">
         <activity
+            android:name=".auth.SignUpActivity"
+
+            android:exported="false"
+
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/Theme.Internship.NoActionBar.NoActionBar" />
+        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".auth.SignUpActivity"
+            android:name=".SplashScreen"
             android:exported="true"
-            android:label="@string/title_activity_sign_up"
-            android:theme="@style/Theme.Internship.NoActionBar" >
+            android:label="@string/title_activity_splash_screen"
+            android:theme="@style/Theme.Internship.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        android:name=".MainActivity"
-        android:exported="false"/>
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.intent.action.MAIN" />-->
-
-        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-        <!--            </intent-filter>-->
-        <!--        </activity>-->
     </application>
 
 </manifest>

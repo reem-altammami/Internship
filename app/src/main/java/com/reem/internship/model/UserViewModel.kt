@@ -80,7 +80,7 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
         gpa: String
     ): Boolean {
         return (userName.trim().isNotEmpty() && email.trim().isNotEmpty() && major.trim()
-            .isNotEmpty() && city.trim().isNotEmpty() && university.trim()
+            .isNotEmpty() && city.trim().isNotEmpty()&& !city.trim().equals("City") && !major.trim().equals("Major") && university.trim()
             .isNotEmpty()&& gpa.trim().isNotEmpty())
     }
 

@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.reem.internship.model.User
 
@@ -47,6 +48,9 @@ class EditProfileFragment : Fragment() {
         _binding = FragmentEditProfileBinding.inflate(inflater,container,false)
         return binding.root    }
 
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        binding.name.setText(name)
@@ -60,18 +64,28 @@ class EditProfileFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 userViewModel.userUiState.collect {
-                    binding.apply {
-                        name.setText(it.userItem.userName, TextView.BufferType.SPANNABLE)
-                        filterMajor.setText(it.userItem.major,TextView.BufferType.SPANNABLE)
-                        email.setText(it.userItem.email,TextView.BufferType.SPANNABLE)
-                        filterCity.setText(it.userItem.city,TextView.BufferType.SPANNABLE)
-                        gpa.setText(it.userItem.gpa,TextView.BufferType.SPANNABLE)
-                        university.setText(it.userItem.university,TextView.BufferType.SPANNABLE)
+                    if (it.userItem.userId.isEmpty()) {
+                        binding.cancel.visibility = View.GONE
+                    } else {
+                        binding.apply {
+
+                            name.setText(it.userItem.userName, TextView.BufferType.SPANNABLE)
+                            filterMajor.setText(it.userItem.major, TextView.BufferType.SPANNABLE)
+                            email.setText(it.userItem.email, TextView.BufferType.SPANNABLE)
+                            filterCity.setText(it.userItem.city, TextView.BufferType.SPANNABLE)
+                            gpa.setText(it.userItem.gpa, TextView.BufferType.SPANNABLE)
+                            university.setText(
+                                it.userItem.university,
+                                TextView.BufferType.SPANNABLE
+                            )
+                        }
                     }
                 }
             }
         }
         getProfileImage()
+
+
 
     }
 
@@ -134,12 +148,17 @@ class EditProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
       //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        (requireActivity() as MainActivity).bottomNavigation.visibility = View.GONE
     }
 
     fun createNewProfile(){
         val user = addUserInfo()
-        userViewModel.addUserToDataBase(user)
-        findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
+        if(user.id.isNotEmpty()) {
+            userViewModel.addUserToDataBase(user)
+            findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
+
+        }
+
 
     }
 
@@ -149,6 +168,7 @@ class EditProfileFragment : Fragment() {
     }
 
     fun isUserInfoValid():Boolean{
+
        return userViewModel.isEntryValid(binding.name.text.toString(),binding.email.text.toString(),binding.filterMajor.text.toString(),binding.filterCity.text.toString(),binding.university.text.toString(),binding.gpa.text.toString())
     }
 

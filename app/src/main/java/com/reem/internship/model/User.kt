@@ -1,5 +1,7 @@
 package com.reem.internship.model
 
+import com.reem.internship.ui.BookmarkItemUiState
+
 data class User(
     val name: String="",
     val email: String="",
@@ -8,7 +10,7 @@ data class User(
     val major: String="",
     val city: String="",
     val gpa: String="",
-    val bookMark: List<BookMark> = listOf(BookMark("","","","","","","","","",""))
+    val bookMark: List<BookMark> = emptyList()
 
 )
 
@@ -24,3 +26,8 @@ data class BookMark(
     val description :String,
     val email: String
 )
+
+
+fun BookMark.toBookMarkItemUiState(): BookmarkItemUiState {
+    return BookmarkItemUiState(this.id,this.image,this.name,this.info,this.location,this.major,this.field,this.city,this.description,this.email)
+}

@@ -9,12 +9,19 @@ import com.reem.internship.model.User
 import com.reem.internship.network.CompanyApi
 import com.reem.internship.network.CompanyApiService
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.concurrent.Flow
 import kotlin.io.path.Path
 
-class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: CoroutineDispatcher) :
+class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: CoroutineDispatcher=Dispatchers.IO) :
     UserDataSource {
     override suspend fun putUserData(user: User) {
         Log.d("TAG", "putUserData: ${user.toString()}")
@@ -25,7 +32,8 @@ class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: Corouti
 
     override suspend fun getUserData(id: String) = flow {
 
-        emit(CompanyApi.retrofitService.getUserApi(id))
+      emit(CompanyApi.retrofitService.getUserApi(id).body()?:User())
+
     }
 
     override suspend fun updateBookmark(userId: String, training: List<BookMarkResponse>) {
@@ -35,7 +43,7 @@ class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: Corouti
 
     override suspend fun getBooKmark(userId: String): List<BookMarkResponse> =
         withContext(ioDispatcher) {
-            api.getBookMark(userId)
+            api.getBookMark(userId).body()?: emptyList()
         }
 
     override suspend fun deleteBookmark(userId: String, training: List<BookMarkResponse>) {

@@ -2,9 +2,7 @@ package com.reem.internship.dataLayer
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.reem.internship.data.BookMarkResponse
-import com.reem.internship.data.UserResponseModel
 import com.reem.internship.model.BookMark
 import com.reem.internship.model.User
 import kotlinx.coroutines.Dispatchers
@@ -48,20 +46,20 @@ class UserRepository(private val userDataSource: UserDataSource) {
             val bookmarkList = getBookmark().toMutableList()
             Log.e("TAG", "deleteBookmark: ${bookmarkList.size}")
 
-            var itrator=bookmarkList.iterator()
-            while (itrator.hasNext()){
-                var item =itrator.next()
-                if (item.id==trainingId){
-                    itrator.remove()
+            val iterator = bookmarkList.iterator()
+            while (iterator.hasNext()) {
+                val item = iterator.next()
+                if (item.id == trainingId) {
+                    iterator.remove()
                 }
             }
-                    userDataSource.updateBookmark(getCurrentUserID(), bookmarkList)
+            userDataSource.updateBookmark(getCurrentUserID(), bookmarkList)
 
         }
     }
 
     suspend fun isTrainingBookmarked(id: String): Boolean {
-        var isMark = false
+
         return withContext(Dispatchers.IO) {
             var a = getBookmark()
 
