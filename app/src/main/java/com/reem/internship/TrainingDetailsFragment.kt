@@ -158,12 +158,12 @@ class TrainingDetailsFragment : Fragment() {
 
     fun showApplyDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Apply To ${viewModel.trainingDetails.value?.field}")
-            .setMessage("You will apply to this intern \n we recommend you to share your CV on email ")
+            .setTitle("${getString(R.string.apply_to)}${viewModel.trainingDetails.value?.field}")
+            .setMessage(getString(R.string.cv))
             .setCancelable(false)
-            .setNegativeButton("Cancel") { _, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
             }
-            .setPositiveButton("Continue") { _, _ ->
+            .setPositiveButton(getString(R.string.continu)) { _, _ ->
                 applyOnTraining()
             }
             .show()

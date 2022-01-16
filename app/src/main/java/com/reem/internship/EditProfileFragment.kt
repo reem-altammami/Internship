@@ -204,30 +204,30 @@ class EditProfileFragment : Fragment() {
 
     fun setEditTextError(){
         if (binding.name.text!!.isEmpty()){
-            binding.nameLabel.error="Enter your name"
+            binding.nameLabel.error=getString(R.string.required_field)
         } else {
             binding.nameLabel.error = null
         }
         if (binding.university.text!!.isEmpty()){
-            binding.universityLabel.error = "Enter your email"
+            binding.universityLabel.error = getString(R.string.required_field)
         } else {
             binding.universityLabel.error = null
         }
         if (binding.email.text!!.isEmpty()){
-            binding.emailLabel.error = "Enter your email"
+            binding.emailLabel.error = getString(R.string.required_field)
         } else {
             binding.emailLabel.error = null
         }
         if (binding.gpa.text!!.isEmpty()){
-            binding.gpaLabel.error = "Enter yor GPA"
+            binding.gpaLabel.error = getString(R.string.required_field)
         } else {
             binding.gpaLabel.error = null
         }
         if (binding.filterCity.text == "Major") {
-            Toast.makeText(requireContext(),"Select your major",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),getString(R.string.select_major),Toast.LENGTH_SHORT).show()
         }
         if (binding.filterCity.text == "City") {
-            Toast.makeText(requireContext(),"Select your city",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),getString(R.string.select_city),Toast.LENGTH_SHORT).show()
         }
 
     }

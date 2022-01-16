@@ -26,8 +26,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:onClick="@{()->profileFragment.gotToProfilePage()}"
-            android:text="Cancel"
-            app:icon="@drawable/ic_close"
+            android:text="@string/cancel"
             app:iconSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +76,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -95,7 +94,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="University"
+                    android:hint="@string/university"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/name_label">
@@ -164,7 +163,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/filter_city">
@@ -182,7 +181,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="GPA"
+                    android:hint="@string/gpa"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/email_label">
@@ -200,7 +199,7 @@
                     android:layout_width="0dp"
                     android:layout_height="65dp"
                     android:layout_marginTop="6dp"
-                    android:text="Save"
+                    android:text="@string/save"
                     android:onClick="@{()-> profileFragment.createNewProfile()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

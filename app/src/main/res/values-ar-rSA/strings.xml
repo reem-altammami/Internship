@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">التدريب الجامعي</string>
+    <string name="about_company">نبذة عنا:</string>
+    <string name="information_systems">نظم معلومات</string>
+    <string name="computer_sciences">علوم الحاسب</string>
+    <string name="software_engineering">هندسة البرمجيات</string>
+    <string name="show_all">عرض الكل</string>
+    <string name="jeddah">جدة</string>
+    <string name="dammam">الدمام</string>
+    <string name="riyadh">الرياض</string>
+    <string name="city">المدينة</string>
+    <string name="major">التخصص</string>
+    <string name="title_activity_splash_screen">التدريب الجامعي</string>
+    <string name="required_field">الحقل مطلوب</string>
+    <string name="apply_to">التقديم على</string>
+    <string name="select_major">الرجاء اختيار التخصص</string>
+    <string name="select_city">الرجاء اختيار المدينة</string>
+    <string name="cv">ستقوم بالتقديم على هذا التدريب,
+        نحن نوصيك بمشاركة سيرتك الذاتية من خلال البريد الإلكتروني</string>
+    <string name="cancel">إلغاء</string>
+    <string name="continu">متابعة</string>
+    <string name="training_description">وصف التدريب:</string>
+    <string name="set_alert_for_similar_training">تحديد التنبيه لنتائج تدريب مشابهة</string>
+    <string name="about_us">نبذة عنا:</string>
+    <string name="share">مشاركة</string>
+    <string name="apply">تقديم</string>
+    <string name="log_out">تسجيل الخروج</string>
+    <string name="edit">تعديل</string>
+    <string name="university">الجامعة</string>
+    <string name="name">الاسم</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="gpa">المعدل التراكمي</string>
+    <string name="save">حفظ</string>
+    <string name="sign_up">التسجيل</string>
+    <string name="sign_up_with_google">التسجيل باستخدام google</string>
+    <string name="home">الرئيسية</string>
+    <string name="bookmark">المحفوظة</string>
+    <string name="profile">الملف الشخصي</string>
+</resources>
