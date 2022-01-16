@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Internship</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Internship</string>
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="about_company">About us: %s</string>
     <string name="information_systems">Information Systems</string>
     <string name="computer_sciences">Computer Sciences</string>
@@ -12,15 +13,40 @@
     <string name="riyadh">Riyadh</string>
     <string name="city">City</string>
     <string name="major">Major</string>
-    <string name="div">, %s</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="div" translatable="false">, %s</string>
+    <string name="title_activity_sign_up" translatable="false">SignUpActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_splash_screen">Internship</string>
+    <string name="required_field">Required field</string>
+    <string name="select_major">Select your major</string>
+    <string name="select_city">Select your city</string>
+    <string name="apply_to">Apply To</string>
+    <string name="cv">You will apply to this intern,
+        we recommend you to share your CV on email</string>
+    <string name="cancel">Cancel</string>
+    <string name="continu">Continue</string>
+    <string name="training_description">Training description:</string>
+    <string name="set_alert_for_similar_training">Set alert for similar Training</string>
+    <string name="about_us">About us:</string>
+    <string name="share">Share</string>
+    <string name="apply">Apply</string>
+    <string name="log_out">Log Out</string>
+    <string name="edit">Edit</string>
+    <string name="university">University</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="gpa">GPA</string>
+    <string name="save">Save</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_with_google">Sign Up With Google</string>
+    <string name="home">Home</string>
+    <string name="bookmark">BookMark</string>
+    <string name="profile">Profile</string>
 </resources>
