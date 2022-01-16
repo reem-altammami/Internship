@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import com.reem.internship.databinding.FragmentEditProfileBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -67,6 +68,8 @@ class EditProfileFragment : Fragment() {
                     if (it.userItem.userId.isEmpty()) {
                         binding.cancel.visibility = View.GONE
                     } else {
+                        binding.cancel.visibility = View.VISIBLE
+
                         binding.apply {
 
                             name.setText(it.userItem.userName, TextView.BufferType.SPANNABLE)
@@ -184,6 +187,8 @@ class EditProfileFragment : Fragment() {
             val gpa = binding.gpa.text.toString()
            user = User(userName, email, userId, university, major, city, gpa)
 
+        }else{
+            setEditTextError()
         }
         return user
     }
@@ -195,6 +200,36 @@ class EditProfileFragment : Fragment() {
             .fitCenter()
             .placeholder(R.drawable.img)
             .into(binding.imageProfile)
+    }
+
+    fun setEditTextError(){
+        if (binding.name.text!!.isEmpty()){
+            binding.nameLabel.error="Enter your name"
+        } else {
+            binding.nameLabel.error = null
+        }
+        if (binding.university.text!!.isEmpty()){
+            binding.universityLabel.error = "Enter your email"
+        } else {
+            binding.universityLabel.error = null
+        }
+        if (binding.email.text!!.isEmpty()){
+            binding.emailLabel.error = "Enter your email"
+        } else {
+            binding.emailLabel.error = null
+        }
+        if (binding.gpa.text!!.isEmpty()){
+            binding.gpaLabel.error = "Enter yor GPA"
+        } else {
+            binding.gpaLabel.error = null
+        }
+        if (binding.filterCity.text == "Major") {
+            Toast.makeText(requireContext(),"Select your major",Toast.LENGTH_SHORT).show()
+        }
+        if (binding.filterCity.text == "City") {
+            Toast.makeText(requireContext(),"Select your city",Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 }
