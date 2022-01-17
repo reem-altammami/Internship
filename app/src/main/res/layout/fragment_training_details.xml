@@ -12,8 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="#F4F4F4"
-        android:layout_height="wrap_content"
+style="@style/home_background"        android:layout_height="wrap_content"
         >
 
         <androidx.appcompat.widget.Toolbar
@@ -34,8 +33,7 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="#F4F4F4"
-                android:layout_width="match_parent"
+style="@style/home_background"                android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <androidx.cardview.widget.CardView
                     android:id="@+id/training_info_card"
@@ -45,6 +43,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="5dp"
+                    style="@style/card"
                     app:cardElevation="3dp"
                     app:cardUseCompatPadding="true"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -199,6 +198,7 @@ android:text="@{companyViewModel.trainingDetails.major}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
+                    style="@style/card"
                     android:layout_marginEnd="8dp"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"

@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="#A9ADBF">
+        style="@style/profile_background"
+        >
 
         <Button
             android:id="@+id/cancel"
@@ -54,6 +55,7 @@
             android:layout_marginTop="45dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
+            style="@style/card"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +132,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/white"
                     android:maxLines="1"
                     android:text="@string/major"
                     android:textColor="@color/black"
@@ -147,7 +148,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:layout_marginTop="6dp"
-                    android:backgroundTint="@color/white"
                     android:maxLines="1"
                     android:text="@string/city"
                     android:textColor="@color/black"

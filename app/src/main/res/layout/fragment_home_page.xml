@@ -10,8 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="#F4F4F4"
-        android:layout_width="match_parent"
+style="@style/home_background"        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomePageFragment">
         <ImageView
@@ -39,12 +38,11 @@
     android:layout_height="wrap_content"
     android:maxLines="1"
     android:text="@string/major"
+
+style="@style/button"
     android:layout_marginTop="8dp"
     app:icon="@drawable/ic_arrow_drop_down"
     app:iconSize="24dp"
-    app:iconTint="@color/black"
-    android:textColor="@color/black"
-    android:backgroundTint="@color/white"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toStartOf="@id/filter_city"/>
@@ -53,13 +51,11 @@
             android:layout_width="204dp"
             android:layout_height="wrap_content"
             android:text="@string/city"
+style="@style/button"
             app:icon="@drawable/ic_arrow_drop_down"
             android:maxLines="1"
             app:iconSize="24dp"
             android:layout_marginTop="8dp"
-            app:iconTint="@color/black"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/filter_major"
             app:layout_constraintEnd_toEndOf="parent"/>
