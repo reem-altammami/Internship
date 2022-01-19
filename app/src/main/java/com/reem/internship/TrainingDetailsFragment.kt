@@ -1,5 +1,7 @@
 package com.reem.internship
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,10 +20,15 @@ import com.reem.internship.model.ViewModelFactory
 import android.content.pm.PackageManager
 import android.util.Log
 import android.widget.ImageView
+import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.reem.internship.model.BookMark
 import com.reem.internship.ui.toBookMark
+import kotlinx.coroutines.flow.collect
+import java.util.ArrayList
 
 
 class TrainingDetailsFragment : Fragment() {
@@ -82,6 +89,9 @@ class TrainingDetailsFragment : Fragment() {
                 binding.bookmark.visibility = View.GONE
             }
         })
+
+//        addAlert()
+//        getUserAlertList()
     }
 
     override fun onResume() {
@@ -178,5 +188,10 @@ class TrainingDetailsFragment : Fragment() {
 
     }
 
+
+
 }
+
+
+
 
