@@ -16,7 +16,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#A9ADBF">
+        style="@style/profile_background"
+        >
 
         <Button
             android:id="@+id/textButton"
@@ -45,6 +46,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+<!--        <ImageView-->
+<!--            android:id="@+id/dark"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="invisible"-->
+<!--            android:src="@drawable/ic_dark_mode"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"/>-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/light"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_light_mode"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"/>-->
 
         <TextView
             android:id="@+id/user_name"
@@ -75,6 +92,7 @@
             android:layout_margin="4dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
+            style="@style/card"
             app:cardUseCompatPadding="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -167,6 +185,16 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <Switch
+                    android:id="@+id/switchtheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/logOut"
+                android:layout_marginBottom="80dp"
+                android:text="Switch Theme"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,12 @@
 package com.reem.internship
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -27,11 +29,11 @@ class UserProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
-
-
         }
+
+
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,13 +45,34 @@ class UserProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.switchtheme.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
 
+        }
+//        binding.light.setOnClickListener {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//            binding.dark.visibility = View.VISIBLE
+//            binding.light.visibility = View.GONE
+//        }
+//
+//        binding.dark.setOnClickListener {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            binding.light.visibility = View.VISIBLE
+//            binding.dark.visibility = View.GONE
+//
+//        }
         binding.lifecycleOwner = viewLifecycleOwner
         binding.userProfileFragment =this@UserProfileFragment
         binding.userViewModel = userViewModel
 //        userViewModel.showProfileDetails()
 binding.logOut.setOnClickListener {
     FirebaseAuth.getInstance().signOut()
+    val intent = Intent(this@UserProfileFragment.requireContext(), SignUpActivity::class.java)
+    startActivity(intent)
 }
 
 
@@ -89,5 +112,8 @@ binding.logOut.setOnClickListener {
         //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         (requireActivity() as MainActivity).bottomNavigation.visibility = View.VISIBLE
     }
+
+
+
 
 }

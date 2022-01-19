@@ -34,4 +34,20 @@
     <style name="Theme.Internship.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Internship.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="home_background">
+        <item name="android:background">#F4F4F4</item>
+    </style>
+    <style name="card">
+        <item name="android:background">#FFFFFF</item>
+    </style>
+
+    <style name="button">
+        <item name="android:backgroundTint">#FFFFFF</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="profile_background">
+        <item name="android:background">#A9ADBF</item>
+    </style>
+
 </resources>
