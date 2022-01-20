@@ -16,6 +16,7 @@
 * #### Firebase components (Authentication – Realtime database).
 * #### Third party libraries (Retrofit - Glide). 
 * #### Android Jetpack(Activity - Constraintlayout - Databinding - Navigation - Material Design Components).
+* #### Lottie Animations.
 
 # Internship UI
 * splash Screen.
