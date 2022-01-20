@@ -34,7 +34,8 @@ class GetTrainingListWithBookMarksUseCase(
                             city = training.city!!.cityName!!,
                             description = it.description!!,
                             email = company.email!!,
-                            isMark = false
+                            isMark = false,
+                            publishDate = it.date!!
 
                         )
 

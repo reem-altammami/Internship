@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.reem.internship.auth.SignUpActivity
 import com.reem.internship.databinding.FragmentHomePageBinding
 import com.reem.internship.databinding.FragmentUserProfileBinding
 import com.reem.internship.model.UserViewModel
@@ -53,18 +54,7 @@ class UserProfileFragment : Fragment() {
             }
 
         }
-//        binding.light.setOnClickListener {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//            binding.dark.visibility = View.VISIBLE
-//            binding.light.visibility = View.GONE
-//        }
-//
-//        binding.dark.setOnClickListener {
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//            binding.light.visibility = View.VISIBLE
-//            binding.dark.visibility = View.GONE
-//
-//        }
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.userProfileFragment =this@UserProfileFragment
         binding.userViewModel = userViewModel
@@ -97,7 +87,7 @@ binding.logOut.setOnClickListener {
         findNavController().navigate(R.id.action_userProfileFragment_to_profileFragment)
 
     }
-
+//Load image profile from google
     fun getProfileImage(){
         val image = FirebaseAuth.getInstance().currentUser?.photoUrl
         Glide.with(this)

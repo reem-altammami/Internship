@@ -26,11 +26,11 @@ import kotlinx.coroutines.launch
 
 
 class EditProfileFragment : Fragment() {
-//  lateinit var name : String
+    //  lateinit var name : String
 //  lateinit var email: String
-    private var _binding : FragmentEditProfileBinding? = null
-    private val  binding get() = _binding!!
-    private val userViewModel : UserViewModel by viewModels{ UserViewModelFactory() }
+    private var _binding: FragmentEditProfileBinding? = null
+    private val binding get() = _binding!!
+    private val userViewModel: UserViewModel by viewModels { UserViewModelFactory() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +46,9 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentEditProfileBinding.inflate(inflater,container,false)
-        return binding.root    }
-
-
+        _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +56,7 @@ class EditProfileFragment : Fragment() {
 //        binding.name.setText(name)
 //        binding.email.setText(email)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.profileFragment =this@EditProfileFragment
+        binding.profileFragment = this@EditProfileFragment
         binding.userViewModel = userViewModel
         binding.filterCity.setOnClickListener { showCityPopupMenu(binding.filterCity) }
         binding.filterMajor.setOnClickListener { showMajorPopupMenu(binding.filterMajor) }
@@ -89,9 +88,9 @@ class EditProfileFragment : Fragment() {
         getProfileImage()
 
 
-
     }
 
+    // City menu
     private fun showCityPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.city_menu_profile)
@@ -122,6 +121,7 @@ class EditProfileFragment : Fragment() {
         popup.show()
     }
 
+    // Major menu
     private fun showMajorPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.major_menu_profile)
@@ -148,15 +148,16 @@ class EditProfileFragment : Fragment() {
 
         popup.show()
     }
+
     override fun onResume() {
         super.onResume()
-      //  (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         (requireActivity() as MainActivity).bottomNavigation.visibility = View.GONE
     }
 
-    fun createNewProfile(){
+    //Check if user already sign up
+    fun createNewProfile() {
         val user = addUserInfo()
-        if(user.id.isNotEmpty()) {
+        if (user.id.isNotEmpty()) {
             userViewModel.addUserToDataBase(user)
             findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
 
@@ -165,18 +166,28 @@ class EditProfileFragment : Fragment() {
 
     }
 
-    fun gotToProfilePage(){
+    // Navigate to user profile
+    fun gotToProfilePage() {
         findNavController().navigate(R.id.action_profileFragment_to_userProfileFragment)
 
     }
 
-    fun isUserInfoValid():Boolean{
+    // Check information is not empty
+    fun isUserInfoValid(): Boolean {
 
-       return userViewModel.isEntryValid(binding.name.text.toString(),binding.email.text.toString(),binding.filterMajor.text.toString(),binding.filterCity.text.toString(),binding.university.text.toString(),binding.gpa.text.toString())
+        return userViewModel.isEntryValid(
+            binding.name.text.toString(),
+            binding.email.text.toString(),
+            binding.filterMajor.text.toString(),
+            binding.filterCity.text.toString(),
+            binding.university.text.toString(),
+            binding.gpa.text.toString()
+        )
     }
 
-    fun addUserInfo() : User {
-        var user:User =User()
+    // Save user information as object
+    fun addUserInfo(): User {
+        var user: User = User()
         if (isUserInfoValid()) {
             val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
             val userName = binding.name.text.toString()
@@ -185,15 +196,16 @@ class EditProfileFragment : Fragment() {
             val city = binding.filterCity.text.toString()
             val university = binding.university.text.toString()
             val gpa = binding.gpa.text.toString()
-           user = User(userName, email, userId, university, major, city, gpa)
+            user = User(userName, email, userId, university, major, city, gpa)
 
-        }else{
+        } else {
             setEditTextError()
         }
         return user
     }
 
-    fun getProfileImage(){
+    // Load image profile from google
+    fun getProfileImage() {
         val image = FirebaseAuth.getInstance().currentUser?.photoUrl
         Glide.with(this)
             .load(image)
@@ -202,32 +214,35 @@ class EditProfileFragment : Fragment() {
             .into(binding.imageProfile)
     }
 
-    fun setEditTextError(){
-        if (binding.name.text!!.isEmpty()){
-            binding.nameLabel.error=getString(R.string.required_field)
+    //display error messages when user enter empty fields
+    fun setEditTextError() {
+        if (binding.name.text!!.isEmpty()) {
+            binding.nameLabel.error = getString(R.string.required_field)
         } else {
             binding.nameLabel.error = null
         }
-        if (binding.university.text!!.isEmpty()){
+        if (binding.university.text!!.isEmpty()) {
             binding.universityLabel.error = getString(R.string.required_field)
         } else {
             binding.universityLabel.error = null
         }
-        if (binding.email.text!!.isEmpty()){
+        if (binding.email.text!!.isEmpty()) {
             binding.emailLabel.error = getString(R.string.required_field)
         } else {
             binding.emailLabel.error = null
         }
-        if (binding.gpa.text!!.isEmpty()){
+        if (binding.gpa.text!!.isEmpty()) {
             binding.gpaLabel.error = getString(R.string.required_field)
         } else {
             binding.gpaLabel.error = null
         }
         if (binding.filterCity.text == "Major") {
-            Toast.makeText(requireContext(),getString(R.string.select_major),Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.select_major), Toast.LENGTH_SHORT)
+                .show()
         }
         if (binding.filterCity.text == "City") {
-            Toast.makeText(requireContext(),getString(R.string.select_city),Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.select_city), Toast.LENGTH_SHORT)
+                .show()
         }
 
     }

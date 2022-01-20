@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
-    lateinit var bottomNavigation : BottomNavigationView
+    lateinit var bottomNavigation: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,25 +20,18 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
 
         bottomNavigationView.setupWithNavController(navController)
-    //   setupActionBarWithNavController(navController)
-//        var h= map(null, 1)
-//        h[null]=2
-//        Log.d("TAG", "map: ${h.toString()} ")
-//
-//        h[null]=1
-//        Log.d("TAG", "map: ${h.toString()} ")
 
-        // Bottom Navigation
         bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         bottomNavigation.setupWithNavController(navController)
-        val isUser =intent.getBooleanExtra("isUser",false)
-        if(!isUser){
+        val isUser = intent.getBooleanExtra("isUser", false)
+        if (!isUser) {
 
-          navController.navigate(R.id.action_homePageFragment_to_profileFragment)
+            navController.navigate(R.id.action_homePageFragment_to_profileFragment)
         }
 
     }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }

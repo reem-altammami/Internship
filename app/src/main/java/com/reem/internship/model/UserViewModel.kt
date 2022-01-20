@@ -29,6 +29,7 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
         getUserData()
     }
 
+    //Get user information from repository
     fun getUserData() {
         viewModelScope.launch {
             var user = userRepo.getUserData().collect { user ->
@@ -47,30 +48,23 @@ class UserViewModel(private val userRepo: UserRepository) : ViewModel() {
                             city = user.city!!
                         )
                     )
-//            }
                 }
             }
         }
     }
-//        viewModelScope.launch {
-//            val user = CompanyApi.retrofitService.putUserData(userId.value!!,user = _user.value!!)
-//        }
 
-//        var s = UserItemUiState("ddd", "dddd@fdfr.efe", "rgfef", "efe")
-//        _userUiState.update { it.copy(userItem = s) }
-//    }
 
     fun getProfileDetails() {
         val useProfile = userUiState.value.userItem
         profileDetails.value = useProfile
     }
-
+//add user information to database
     fun addUserToDataBase(user: User) {
         viewModelScope.launch {
             userRepo.putUserData(user)
         }
     }
-
+//Check if all fields are not empty
     fun isEntryValid(
         userName: String,
         email: String,

@@ -49,4 +49,6 @@
     <string name="home">Home</string>
     <string name="bookmark">BookMark</string>
     <string name="profile">Profile</string>
+
+    <string name="notiName" translatable="false">Hay</string>
 </resources>

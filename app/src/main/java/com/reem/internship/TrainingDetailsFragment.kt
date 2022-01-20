@@ -18,18 +18,30 @@ import com.reem.internship.databinding.FragmentTrainingDetailsBinding
 import com.reem.internship.model.CompanyViewModel
 import com.reem.internship.model.ViewModelFactory
 import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.reem.internship.model.BookMark
+//import com.reem.internship.notification.AlertWorker
+//import com.reem.internship.notification.sheardPrefrenceList
 import com.reem.internship.ui.toBookMark
 import kotlinx.coroutines.flow.collect
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
+const val SITTING_PREF: String = "shared preferences"
+const val ALERTS_NAME = "alert"
 
 class TrainingDetailsFragment : Fragment() {
     var trainingId = 0
@@ -47,6 +59,7 @@ class TrainingDetailsFragment : Fragment() {
             source = it.getInt("index")
 
         }
+
     }
 
     override fun onCreateView(
@@ -90,8 +103,23 @@ class TrainingDetailsFragment : Fragment() {
             }
         })
 
-//        addAlert()
-//        getUserAlertList()
+
+        getUserAlertList()
+
+        viewModel.getItemTraingListWithBookMArks()
+
+//        if (sheardPrefrenceList.isNotEmpty()) {
+//            scheduleNotification()
+//        }
+
+        binding.alert.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                addAlert(binding.cityAlert.text.toString(), binding.alertField.text.toString())
+            } else {
+                deleteAlert(binding.cityAlert.text.toString(), binding.alertField.text.toString())
+            }
+
+        }
     }
 
     override fun onResume() {
@@ -99,7 +127,7 @@ class TrainingDetailsFragment : Fragment() {
         //  (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
-
+// Add training to bookmark list
     fun markTraining(bookMark: BookMark) {
         binding.bookmark.visibility = View.VISIBLE
         binding.unmark.visibility = View.GONE
@@ -108,7 +136,7 @@ class TrainingDetailsFragment : Fragment() {
         Snackbar.make(contextView, "Add intern to Bookmark", Snackbar.LENGTH_SHORT).show()
 
     }
-
+// Delete training from bookmark list
     fun unMarkTraining(trainingId: String) {
         binding.unmark.visibility = View.VISIBLE
         binding.bookmark.visibility = View.GONE
@@ -116,7 +144,7 @@ class TrainingDetailsFragment : Fragment() {
         val contextView = binding.unmark
         Snackbar.make(contextView, "Remove intern from Bookmark", Snackbar.LENGTH_SHORT).show()
     }
-
+// Get training details
     fun getDetails(id: Int, source: Int) {
         Log.d("trainingId", "trainingId: ${id}${source}")
 
@@ -129,7 +157,7 @@ class TrainingDetailsFragment : Fragment() {
 
     }
 
-
+// Share training details
     fun shareTrainingDetails() {
         val intent = Intent(Intent.ACTION_SEND)
             .putExtra(
@@ -142,7 +170,7 @@ class TrainingDetailsFragment : Fragment() {
         }
 
     }
-
+// Apply on training by email
     fun applyOnTraining() {
         val email = viewModel.trainingDetails.value?.email.toString()
         val subject = viewModel.trainingDetails.value?.field
@@ -165,7 +193,7 @@ class TrainingDetailsFragment : Fragment() {
         }
 
     }
-
+// Dialog notify user will apply on training
     fun showApplyDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("${getString(R.string.apply_to)}${viewModel.trainingDetails.value?.field}")
@@ -179,19 +207,114 @@ class TrainingDetailsFragment : Fragment() {
             .show()
     }
 
-
+// Check if training is mark
     fun bindBookmark() {
-
         val id = viewModel.trainingDetails.value?.id!!
         viewModel.isTrainingBookmarked(id)
         Log.d("trainingId", "training id: ${id}")
+    }
+
+    fun resetPerf() {
+        val sharedPreferences = requireActivity().getSharedPreferences(SITTING_PREF, MODE_PRIVATE)
+        val editor =sharedPreferences.edit()
+        editor.putString(ALERTS_NAME,null)
+        editor.apply()
+    }
+
+    //Add user alert to sharedPreferences
+    fun addAlert(city: String, major: String) {
+        val userAlertList = getAlertListFromSharedPreference()
+        userAlertList.find { it.field == major && it.city == city } ?: userAlertList.add(
+            Alerts(
+                major,
+                city
+            )
+        )
+        val sharedPreferences = requireActivity().getSharedPreferences(SITTING_PREF, MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
+        val json = Gson().toJson(userAlertList)
+        editor?.putString(ALERTS_NAME, json)
+        editor?.apply()
+        Log.e("pref", "${userAlertList}")
 
     }
 
+// Delete user alert from sharedPreferences
+    fun deleteAlert(city: String, major: String) {
+        val userAlertList = getAlertListFromSharedPreference()
+        userAlertList.removeAll { it.field == major && it.city == city }
+
+        val sharedPreferences = requireActivity().getSharedPreferences(SITTING_PREF, MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
+        val json = Gson().toJson(userAlertList)
+        editor?.putString(ALERTS_NAME, json)
+        editor?.apply()
+        Log.e("pref", "${userAlertList}")
+
+    }
+
+    // Get user alerts from sharedPreferences
+    private fun getAlertListFromSharedPreference(): MutableList<Alerts> {
+        val sharedPreferences =
+            requireActivity().getSharedPreferences(SITTING_PREF, MODE_PRIVATE)
+        val json = sharedPreferences?.getString(ALERTS_NAME, null)
+        val type = object : TypeToken<ArrayList<Alerts>>() {}.type
+        json?.let {
+            val alertList: ArrayList<Alerts> = Gson().fromJson(it, type)
+
+              return alertList
+             }
+
+        return arrayListOf()
+    }
+
+    //get newest training match with user alert
+    fun getUserAlertList() {
+        val userList = viewModel.uiState.value.trainingItemList
+        val prefList = getAlertListFromSharedPreference()
+        val newestTrainingList = mutableListOf<Alerts>()
+        for (item in userList){
+            if (isNewTraining(item.publishDate)){
+                newestTrainingList.add(Alerts(item.field,item.city))
+            }
+        }
+        for (newest in newestTrainingList){
+            for (prefItem in prefList)
+            if (newest.field == prefItem.field && newest.city == prefItem.city){}
+        }
+
+//        sheardPrefrenceList.add(prefList)
+//        Log.e("pref1", "${sheardPrefrenceList}")
+//        return prefList
+    }
+//Check if training is new
+    fun isNewTraining (publishDate:String):Boolean{
+        val date = SimpleDateFormat("yyyy-MM-dd").parse(publishDate)
+        return date.before(Date())
+    }
+
+
+//    fun scheduleNotification() {
+//        val notificationWork = PeriodicWorkRequest.Builder(
+//            AlertWorker::class.java,
+//            16, TimeUnit.MINUTES
+//        )
+//            .setInitialDelay(3000, TimeUnit.MILLISECONDS)
+//            .build()
+//
+//        WorkManager.getInstance(requireContext())
+//            .enqueueUniquePeriodicWork(
+//                "myNotifi",
+//                ExistingPeriodicWorkPolicy.REPLACE, notificationWork
+//            )
+//    }
 
 
 }
 
+data class Alerts(val field: String, val city: String)
+
+var alertList = mutableListOf<Alerts>()
 
 
 

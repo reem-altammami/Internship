@@ -86,7 +86,7 @@ class HomePageFragment : Fragment() {
         }
     }
 
-
+    // Major menu
     private fun showMajorPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.major_menu)
@@ -118,6 +118,7 @@ class HomePageFragment : Fragment() {
         popup.show()
     }
 
+    //City menu
     private fun showCityPopupMenu(view: View) {
         val popup = PopupMenu(this.requireContext(), view)
         popup.inflate(R.menu.city_menu)

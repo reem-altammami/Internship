@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.reem.internship.Alerts
 import com.reem.internship.TrainingItemUiState
 import com.reem.internship.TrainingUiState
 import com.reem.internship.data.CompanyResponse
@@ -53,6 +54,8 @@ class CompanyViewModel(var companiesRepo: CompaniesRepo, private val userRepo: U
         getItemTraingListWithBookMArks()
         getProfileDetails()
     }
+
+    // Get list of training and determine marked training
 fun getItemTraingListWithBookMArks(major: String = "", city: String = ""){
     _uiState.update {
         it.copy(trainingItemList = emptyList(), status = TrainingApiStatus.LOADING)
@@ -70,7 +73,7 @@ fun getItemTraingListWithBookMArks(major: String = "", city: String = ""){
     }
 }
 
-
+//Get training details by position
     fun getTrainingDetails(id: Int, source: Int) {
         val trainingList = uiState.value.trainingItemList
         if (source == 0) {
@@ -83,16 +86,14 @@ fun getItemTraingListWithBookMArks(major: String = "", city: String = ""){
             }
         }
     }
-
+//Add training to bookmark list
     fun addBooKmark(bookmark: BookMark) {
-
         viewModelScope.launch {
             userRepo.addTrainingToBookmark(bookmark)
         }
     }
-
+//Get list of bookmark trainings
     fun getMarkBook() {
-
         viewModelScope.launch {
             _bookMarkUiState.update {
                 it.copy(status = TrainingApiStatus.LOADING)
@@ -124,36 +125,31 @@ fun getItemTraingListWithBookMArks(major: String = "", city: String = ""){
                 }
                 if (list.isEmpty()) {
                     _bookMarkUiState.update {
-                        Log.e("TAG", "getMarkBook: empty")
                         it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.EMPTY)
                     }
                 } else {
                     _bookMarkUiState.update {
-                        Log.e("TAG", "getMarkBook: Done")
                         it.copy(bookmarkItemList = list.toList(), status = TrainingApiStatus.DONE)
 
                     }
-                    Log.d("size", "size: ${bookMarkUiState.value.bookmarkItemList.size}")
                 }
 
             } catch (e: java.lang.Exception) {
-                Log.d("ffff", "getMarkBook: ${e.toString()}")
                 _bookMarkUiState.update {
                     it.copy(status = TrainingApiStatus.ERROR)
                 }
-
-
             }
         }
 
     }
+
+    //Delete training from bookmark
     fun unBookMarkTraining(trainingId: String) {
-
-
         viewModelScope.launch {
             userRepo.deleteBookmark(trainingId)
         }
     }
+    //Check if training is marked
     fun isTrainingBookmarked(id: String) {
         viewModelScope.launch {
             val result = userRepo.isTrainingBookmarked(id)
@@ -165,16 +161,11 @@ fun getItemTraingListWithBookMArks(major: String = "", city: String = ""){
 
     }
 
+//Get user profile details
     fun getProfileDetails() {
-
         viewModelScope.launch {
-
-
           userRepo.getUserData().collect {
-
                 val useProfile = it.let {
-
-
                     User(
                         it.name,
                         it.email,
@@ -184,11 +175,8 @@ fun getItemTraingListWithBookMArks(major: String = "", city: String = ""){
                         it.city,
                         it.gpa,
                         it.bookMark
-
                     )
                 }
-                Log.d("profile", "profile: ${useProfile}")
-
                 profileDetails.value = useProfile
             }
 

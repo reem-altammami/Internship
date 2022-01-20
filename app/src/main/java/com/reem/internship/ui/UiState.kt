@@ -19,5 +19,6 @@ data class TrainingItemUiState(
     val city: String,
     val description :String,
     val email : String,
-    val isMark : Boolean
+    val isMark : Boolean,
+    val publishDate : String
 )

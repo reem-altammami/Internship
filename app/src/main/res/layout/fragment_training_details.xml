@@ -295,11 +295,11 @@ android:text="@{companyViewModel.trainingDetails.major}"
                             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                         <TextView
-                            android:id="@+id/alert_major"
+                            android:id="@+id/alert_field"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="@{companyViewModel.trainingDetails.major}"
+                            android:text="@{companyViewModel.trainingDetails.field}"
                             app:layout_constraintStart_toStartOf="@id/alert"
                             app:layout_constraintTop_toBottomOf="@id/alert" />
 
@@ -308,8 +308,8 @@ android:text="@{companyViewModel.trainingDetails.major}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{companyViewModel.trainingDetails.city}"
-                            app:layout_constraintStart_toEndOf="@id/alert_major"
-                            app:layout_constraintTop_toTopOf="@id/alert_major" />
+                            app:layout_constraintStart_toEndOf="@id/alert_field"
+                            app:layout_constraintTop_toTopOf="@id/alert_field" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>

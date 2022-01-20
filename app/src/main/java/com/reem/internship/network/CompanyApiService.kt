@@ -51,28 +51,24 @@ object CompanyApi {
 }
 
 interface CompanyApiService {
-
+    //Get all training
     @GET("data/companies.json")
     suspend fun getCompanyApi(): List<CompanyResponse>
 
-
+    //Get User Information by user id
     @GET("data/users/{id}.json")
     suspend fun getUserApi(@Path("id") id: String): Response<User?>
 
+    //Add user to database
     @PUT("data/users/{id}.json")
     suspend fun putUserData(@Path("id") id: String, @Body user: User): User
 
+    //Update on bookmark list
     @PUT("data/users/{id}/bookMark.json")
     suspend fun updateBookmark(@Path("id") id: String, @Body bookMark: List<BookMarkResponse>)
 
+    //Get list of bookmark Training
     @GET("data/users/{id}/bookMark.json")
     suspend fun getBookMark(@Path("id") id: String): Response<List<BookMarkResponse>?>
-
-    @DELETE("data/users/{id}/bookMark/{id}.json")
-    suspend fun deleteTrainingFromBookmark(
-        @Path("id") id: String,
-        @Body bookMark: List<BookMarkResponse>
-    )
-
 
 }

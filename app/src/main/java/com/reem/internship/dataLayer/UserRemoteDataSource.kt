@@ -46,9 +46,6 @@ class UserRemoteDataSource(var api: CompanyApiService, var ioDispatcher: Corouti
             api.getBookMark(userId).body()?: emptyList()
         }
 
-    override suspend fun deleteBookmark(userId: String, training: List<BookMarkResponse>) {
-        CompanyApi.retrofitService.deleteTrainingFromBookmark(userId,training)
-    }
 }
 
 
