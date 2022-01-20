@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/92260450/150405951-32aa0b57-caac-4c71-85c4-135ed0f083e6.PNG" width="400" height="400">
+<img src="https://user-images.githubusercontent.com/92260450/150405951-32aa0b57-caac-4c71-85c4-135ed0f083e6.PNG" width="300" height="300">
 # Internship
 > ##### Application helps students university to find entities that provide internship opportunities. 
 
